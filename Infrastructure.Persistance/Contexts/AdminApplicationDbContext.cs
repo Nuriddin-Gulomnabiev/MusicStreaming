@@ -3,11 +3,6 @@ using Domain.Entities.Albums;
 using Domain.Entities.Artists;
 using Domain.Entities.Genres;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistance.Contexts
 {
@@ -20,14 +15,14 @@ namespace Infrastructure.Persistance.Contexts
         public DbSet<ArtistTrack> ArtistTracks { get; set; }
         public DbSet<Genre> Genres { get; set; }
 
-        public AdminApplicationDbContext()
+        public AdminApplicationDbContext(DbContextOptions<AdminApplicationDbContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=musics;Username=postgres;Password=P!kn!k12");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=musics;Username=postgres;Password=P!kn!k12");
         }
     }
 }

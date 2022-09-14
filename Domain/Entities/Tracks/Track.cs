@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Entities.Albums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace Domain.Entities.Tracks
         public string Name { get; set; }
         public int Code { get; set; }
         public Guid AlbumId { get; set; }
+
+        public Album Album { get; set; }
     }
 }
