@@ -8,9 +8,26 @@ namespace Infrastructure.Persistance.Configurations.Artists
     {
         public void Configure(EntityTypeBuilder<ArtistTrack> builder)
         {
-            builder.ToTable("album_genres").HasKey("id");
+            builder.Property(p => p.Id).IsRequired();
             builder.Property(p => p.ArtistId).IsRequired();
             builder.Property(p => p.TrackId).IsRequired();
+
+            builder.HasOne(p => p.Artist).WithMany(p => p.ArtistTracks).HasForeignKey(p => p.ArtistId);
+            builder.HasOne(p => p.Track).WithMany(p => p.ArtistTracks).HasForeignKey(p => p.TrackId);
+
+            builder.HasData(
+                new ArtistTrack { TrackId = new Guid("8366834f-0278-46e2-8142-011813bda329"), ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"), Id = Guid.NewGuid() },
+                new ArtistTrack { TrackId = new Guid("533b7e3d-9cfd-4731-8dda-a1d5a86ff80a"), ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"), Id = Guid.NewGuid() },
+                new ArtistTrack { TrackId = new Guid("1afe4a9e-7121-4b34-89a6-8db6e0b6ddad"), ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"), Id = Guid.NewGuid() },
+                new ArtistTrack { TrackId = new Guid("f0c1326b-0646-46f4-966f-c10caa9c931b"), ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"), Id = Guid.NewGuid() },
+                new ArtistTrack { TrackId = new Guid("492f70ab-f1de-4de4-93b3-8602df66b05a"), ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"), Id = Guid.NewGuid() },
+                new ArtistTrack { TrackId = new Guid("baace2ca-c2c0-4cee-b129-53079d696059"), ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"), Id = Guid.NewGuid() },
+                new ArtistTrack { TrackId = new Guid("84d5050b-a7b7-4c23-a2d1-93281183264a"), ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"), Id = Guid.NewGuid() },
+                new ArtistTrack { TrackId = new Guid("6d342342-ea26-40f4-aa92-420f3a943603"), ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"), Id = Guid.NewGuid() },
+                new ArtistTrack { TrackId = new Guid("8e22b0a3-063e-40ae-976e-5b06f762c8ce"), ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"), Id = Guid.NewGuid() },
+                new ArtistTrack { TrackId = new Guid("77b75ed9-e6d2-4d47-84c9-58af10e455c1"), ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"), Id = Guid.NewGuid() },
+                new ArtistTrack { TrackId = new Guid("7fdfa190-66d6-43be-b2af-dbbd45052828"), ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"), Id = Guid.NewGuid() }
+            );
         }
     }
 }

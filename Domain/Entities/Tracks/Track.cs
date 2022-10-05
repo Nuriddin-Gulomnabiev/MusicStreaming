@@ -1,10 +1,6 @@
 ﻿using Domain.Common;
 using Domain.Entities.Albums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Entities.Artists;
 
 namespace Domain.Entities.Tracks
 {
@@ -15,5 +11,6 @@ namespace Domain.Entities.Tracks
         public Guid AlbumId { get; set; }
 
         public Album Album { get; set; }
+        public virtual ICollection<ArtistTrack> ArtistTracks { get; set; }
     }
 }

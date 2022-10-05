@@ -2,6 +2,10 @@
 using Domain.Entities.Albums;
 using Domain.Entities.Artists;
 using Domain.Entities.Genres;
+using Infrastructure.Persistance.Configurations.Albums;
+using Infrastructure.Persistance.Configurations.Artists;
+using Infrastructure.Persistance.Configurations.Genres;
+using Infrastructure.Persistance.Configurations.Tracks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistance.Contexts
@@ -20,9 +24,15 @@ namespace Infrastructure.Persistance.Contexts
             Database.EnsureCreated();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=musics;Username=postgres;Password=P!kn!k12");
+            modelBuilder.ApplyConfiguration(new AlbumConfiguration());
+            modelBuilder.ApplyConfiguration(new AlbumGenreConfiguration());
+            modelBuilder.ApplyConfiguration(new ArtistAlbumConfiguration());
+            modelBuilder.ApplyConfiguration(new ArtistConfiguration());
+            modelBuilder.ApplyConfiguration(new ArtistTrackConfiguration());
+            modelBuilder.ApplyConfiguration(new GenreConfiguration());
+            modelBuilder.ApplyConfiguration(new TrackConfiguration());
         }
     }
 }

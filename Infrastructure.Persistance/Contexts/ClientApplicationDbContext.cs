@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Infrastructure.Persistance.Contexts
+﻿namespace Infrastructure.Persistance.Contexts
 {
     internal class ClientApplicationDbContext
     {

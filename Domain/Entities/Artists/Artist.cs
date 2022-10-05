@@ -1,9 +1,4 @@
 ﻿using Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Entities.Artists
 {
@@ -11,5 +6,7 @@ namespace Domain.Entities.Artists
     {
         public string Name { get; set; }
         public int Code { get; set; }
+        public virtual ICollection<ArtistAlbum> ArtistAlbums { get; set; }
+        public virtual ICollection<ArtistTrack> ArtistTracks { get; set; }
     }
 }

@@ -2,11 +2,6 @@
 using Domain.Entities.Artists;
 using Domain.Entities.Genres;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdminPanel.Application.Common.Interfaces
 {
