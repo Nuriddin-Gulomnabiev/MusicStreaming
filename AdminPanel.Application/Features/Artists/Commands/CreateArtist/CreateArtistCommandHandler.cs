@@ -1,12 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AdminPanel.Application.Common.Interfaces;
+using Domain.Entities.Artists;
+using MediatR;
 
 namespace AdminPanel.Application.Features.Artists.Commands.CreateArtist
 {
-    internal class CreateArtistCommandHandler
+    public class CreateArtistCommandHandler : IRequestHandler<CreateArtistCommand, Artist>
     {
+        private readonly IAdminApplicationDbContext dbContext;
+
+        public CreateArtistCommandHandler(IAdminApplicationDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
+        public async Task<Artist> Handle(CreateArtistCommand request, CancellationToken cancellationToken)
+        {
+            var artist = new Artist() { Name = request.Name };
+
+            await dbContext.Artists.AddAsync(artist, cancellationToken);
+
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            return artist;
+        }
     }
 }

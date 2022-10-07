@@ -13,5 +13,7 @@ namespace AdminPanel.Application.Common.Interfaces
         public DbSet<ArtistAlbum> ArtistAlbums { get; set; }
         public DbSet<ArtistTrack> ArtistTracks { get; set; }
         public DbSet<Genre> Genres { get; set; }
+
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
