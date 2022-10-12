@@ -21,7 +21,6 @@ namespace Infrastructure.Persistance.Contexts
 
         public AdminApplicationDbContext(DbContextOptions<AdminApplicationDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

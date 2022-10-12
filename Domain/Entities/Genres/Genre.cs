@@ -7,6 +7,7 @@ namespace Domain.Entities.Genres
     {
         public string Name { get; set; }
         public int Code { get; set; }
+        public bool IsActive { get; set; }
         public virtual ICollection<AlbumGenre> AlbumGenres { get; set; }
     }
 }

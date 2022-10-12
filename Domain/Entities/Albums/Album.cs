@@ -10,6 +10,8 @@ namespace Domain.Entities.Albums
         public string Name { get; set; }
         public int Code { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public bool IsActive { get; set; }
+
         public virtual ICollection<Genre> Genres { get; set; }
         public virtual ICollection<ArtistAlbum> ArtistAlbums { get; set; }
         public virtual ICollection<AlbumGenre> AlbumGenres { get; set; }
