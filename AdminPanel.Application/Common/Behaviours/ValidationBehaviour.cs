@@ -7,7 +7,7 @@ namespace AdminPanel.Application.Common.Behaviours
     public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> validators;
-        private readonly ILogger<ValidationBehaviour<TRequest,TResponse>> logger;
+        private readonly ILogger<ValidationBehaviour<TRequest, TResponse>> logger;
 
         public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators, ILogger<ValidationBehaviour<TRequest, TResponse>> logger)
         {

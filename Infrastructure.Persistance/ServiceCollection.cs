@@ -11,8 +11,10 @@ namespace Infrastructure.Persistance
         public static IServiceCollection AddAdminApplicationPersistence(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AdminApplicationDbContext>(options =>
+            {
                 options.UseNpgsql(configuration.GetConnectionString("PostgreSqlConnection"),
-                    b => b.MigrationsAssembly(typeof(AdminApplicationDbContext).Assembly.FullName)));
+                    b => b.MigrationsAssembly(typeof(AdminApplicationDbContext).Assembly.FullName));
+            });
 
             services.AddScoped<IAdminApplicationDbContext>(provider => provider.GetService<AdminApplicationDbContext>()!);
 

@@ -1,6 +1,6 @@
 ﻿namespace AdminPanel.Application.Common.Exceptions
 {
-    internal class TrackNotFoundException
+    public class ArtistNotFoundException : Exception
     {
     }
 }

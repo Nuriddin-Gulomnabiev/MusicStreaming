@@ -13,6 +13,8 @@ namespace Infrastructure.Persistance.Configurations.Albums
             builder.Property(p => p.Code).IsRequired().ValueGeneratedOnAdd();
             builder.Property(p => p.ReleaseDate).HasColumnType("date").IsRequired();
 
+            builder.HasMany(p => p.Tracks).WithOne(t => t.Album).HasForeignKey(t => t.AlbumId);
+
             builder.HasData(
                 new Album { Id = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), Name = "17", ReleaseDate = new DateTime(2020, 1, 1) },
                 new Album { Id = new Guid("c7b12644-83a9-4ccd-8418-808b11d9755e"), Name = "Whole Lotta Red", ReleaseDate = new DateTime(2020, 1, 1) },

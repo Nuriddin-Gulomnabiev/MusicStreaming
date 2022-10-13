@@ -1,6 +1,6 @@
 ﻿namespace AdminPanel.Application.Common.Exceptions
 {
-    internal class TrackNotFoundException
+    internal class AlbumNotFoundException : Exception
     {
     }
 }

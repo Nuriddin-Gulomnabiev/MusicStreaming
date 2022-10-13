@@ -1,7 +1,9 @@
 ﻿using Domain.Entities.Albums;
 using Domain.Entities.Artists;
 using Domain.Entities.Genres;
+using Domain.Entities.Tracks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace AdminPanel.Application.Common.Interfaces
 {
@@ -13,7 +15,10 @@ namespace AdminPanel.Application.Common.Interfaces
         public DbSet<ArtistAlbum> ArtistAlbums { get; set; }
         public DbSet<ArtistTrack> ArtistTracks { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<Track> Tracks { get; set; }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
+        public DatabaseFacade Database { get; }
     }
 }

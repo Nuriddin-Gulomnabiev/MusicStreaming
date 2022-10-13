@@ -1,6 +1,6 @@
-﻿namespace AdminPanel.Application.Features.Artists.Queries.GetAllArtists
+﻿namespace AdminPanel.Application.Features.Artists.Queries.GetArtist
 {
-    public class GetAllArtistsViewModel
+    public class GetArtistViewModel
     {
         public string Name { get; set; }
         public int Code { get; set; }

@@ -6,7 +6,9 @@ namespace AdminPanel.Application.Features.Artists.Commands.CreateArtist
     {
         public CreateArtistCommandValidator()
         {
-            RuleFor(p => p.Name).NotEmpty().NotNull();
+            RuleFor(p => p.Name)
+                .NotEmpty()
+                .NotNull();
         }
     }
 }
