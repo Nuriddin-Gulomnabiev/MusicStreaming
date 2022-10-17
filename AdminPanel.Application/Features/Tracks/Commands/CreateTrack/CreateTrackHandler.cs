@@ -17,12 +17,12 @@ namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
 
         public async Task<Guid> Handle(CreateTrackCommand request, CancellationToken cancellationToken)
         {
-            /*using(var tran = dbContext.Database.BeginTransaction())
-            {*/
+            using(var tran = dbContext.Database.BeginTransaction())
+            {
                 try
                 {
                     var album = await dbContext.Albums.Where(a => a.Code == request.AlbumCode).FirstOrDefaultAsync()
-                        ?? throw new AlbumNotFoundException();
+                        ?? throw new ResourceNotFound("Альбом не найден");
 
                     var artistsCodes = request.ArtistsCodes.Distinct();
                     var artists = new List<Artist>();
@@ -30,7 +30,7 @@ namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
                     foreach (var artistCode in artistsCodes)
                     {
                         var artist = await dbContext.Artists.Where(a => a.Code == artistCode).FirstOrDefaultAsync()
-                            ?? throw new ArtistNotFoundException();
+                            ?? throw new ResourceNotFound("Исполнитель не найден");
 
                         artists.Add(artist);
                     }
@@ -56,17 +56,17 @@ namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
                     dbContext.ArtistTracks.AddRange(artistsTracks);
 
                     await dbContext.SaveChangesAsync();
-                    //tran.Commit();
+                    tran.Commit();
 
                     return track.Id;
                 }
                 catch (Exception)
                 {
-                    //tran.Rollback();
+                    tran.Rollback();
 
                     throw;
                 }
-            //}
+            }
         }
     }
 }

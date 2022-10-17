@@ -1,4 +1,5 @@
 using AdminPanel.Application;
+using AdminPanel.Web.Common.Middlewares;
 using Infrastructure.Persistance;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 
 builder.Configuration.SetBasePath(app.Environment.ContentRootPath);
@@ -22,5 +24,7 @@ builder.Configuration.SetBasePath(app.Environment.ContentRootPath);
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.Run();

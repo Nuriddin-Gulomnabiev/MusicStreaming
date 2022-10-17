@@ -8,7 +8,6 @@ using Infrastructure.Persistance.Configurations.Artists;
 using Infrastructure.Persistance.Configurations.Genres;
 using Infrastructure.Persistance.Configurations.Tracks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Infrastructure.Persistance.Contexts
 {
@@ -21,8 +20,6 @@ namespace Infrastructure.Persistance.Contexts
         public DbSet<ArtistTrack> ArtistTracks { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Track> Tracks { get; set; }
-
-        DatabaseFacade IAdminApplicationDbContext.Database { get; }
 
         public AdminApplicationDbContext(DbContextOptions<AdminApplicationDbContext> options) : base(options)
         {

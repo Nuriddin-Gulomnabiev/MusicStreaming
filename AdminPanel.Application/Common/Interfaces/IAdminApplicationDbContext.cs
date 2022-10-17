@@ -19,6 +19,6 @@ namespace AdminPanel.Application.Common.Interfaces
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
-        public DatabaseFacade Database { get; }
+        DatabaseFacade Database { get; }
     }
 }

@@ -1,17 +1,15 @@
-﻿using FluentValidation;
-using MediatR;
-using Microsoft.Extensions.Logging;
+﻿using MediatR;
+using FluentValidation;
+using ValidationException = AdminPanel.Application.Common.Exceptions.ValidationException;
 
 namespace AdminPanel.Application.Common.Behaviours
 {
     public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> validators;
-        private readonly ILogger<ValidationBehaviour<TRequest, TResponse>> logger;
 
-        public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators, ILogger<ValidationBehaviour<TRequest, TResponse>> logger)
+        public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators)
         {
-            this.logger = logger;
             this.validators = validators;
         }
 
@@ -27,12 +25,7 @@ namespace AdminPanel.Application.Common.Behaviours
 
                 if (failures.Any())
                 {
-                    var commandName = request.GetType().Name;
-                    var errors = string.Join(", ", failures.Select(f => f.ErrorMessage));
-
-                    logger.LogWarning($"Validation errors - {commandName}; Errors - {errors}");
-
-                    throw new ValidationException("Validation exception", failures);
+                    throw new ValidationException(failures);
                 }
             }
 
