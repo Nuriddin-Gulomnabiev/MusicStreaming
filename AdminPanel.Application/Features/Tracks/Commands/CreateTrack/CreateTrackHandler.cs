@@ -17,7 +17,7 @@ namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
 
         public async Task<Guid> Handle(CreateTrackCommand request, CancellationToken cancellationToken)
         {
-            using(var tran = dbContext.Database.BeginTransaction())
+            using (var tran = dbContext.Database.BeginTransaction())
             {
                 try
                 {
@@ -43,10 +43,10 @@ namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
                         IsActive = true
                     };
 
-                    var artistsTracks = artists.Select(a => 
-                        new ArtistTrack 
-                        { 
-                            Id = Guid.NewGuid(), 
+                    var artistsTracks = artists.Select(a =>
+                        new ArtistTrack
+                        {
+                            Id = Guid.NewGuid(),
                             TrackId = track.Id,
                             ArtistId = a.Id
                         }

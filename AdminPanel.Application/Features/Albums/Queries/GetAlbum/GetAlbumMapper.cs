@@ -3,7 +3,7 @@ using Domain.Entities.Albums;
 
 namespace AdminPanel.Application.Features.Albums.Queries.GetAlbum
 {
-    internal class GetAlbumMapper: Profile
+    internal class GetAlbumMapper : Profile
     {
         public GetAlbumMapper()
         {
