@@ -20,6 +20,14 @@ namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
             RuleForEach(p => p.ArtistsCodes)
                 .NotNull()
                 .GreaterThan(0);
+
+            RuleFor(p => p.Track)
+                .NotNull()
+                .WithMessage("Прикрепите аудио");
+
+            RuleFor(p => p.Track.ContentType)
+                .Must(c => c.Equals("audio/mpeg"))
+                .WithMessage("Неверный формат аудиофайла. Пожалуйста прикрепите mp3 файл");
         }
     }
 }

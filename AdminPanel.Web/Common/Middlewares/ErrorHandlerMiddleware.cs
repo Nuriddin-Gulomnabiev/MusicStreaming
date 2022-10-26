@@ -40,7 +40,14 @@ namespace AdminPanel.Web.Common.Middlewares
             }
             catch (Exception ex)
             {
-                logger.LogError($"Message: {ex.Message}, InnerException: {ex.InnerException.Message}, StactTrace: {ex.StackTrace}");
+                var logError = $"Message: {ex.Message}, ";
+
+                if (ex?.InnerException?.Message != null)
+                    logError += $"InnerException: {ex.InnerException.Message}, ";
+
+                logError += $"StactTrace: {ex.StackTrace}";
+
+                logger.LogError(logError);
 
                 await WriteResponseAsync(context, new ErrorModelResponse((int)ErrorCodeEnum.UNKNOW_ERROR, "Неизвестная ошибка"));
             }

@@ -3,6 +3,7 @@ using FluentValidation;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using AdminPanel.Application.Common.Behaviours;
+using Services;
 
 namespace AdminPanel.Application
 {
@@ -14,6 +15,7 @@ namespace AdminPanel.Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddCommonServices();
 
             return services;
         }

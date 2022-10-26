@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities.Albums;
+using Domain.Entities.Tracks;
 
 namespace AdminPanel.Application.Features.Albums.Queries.GetAlbum
 {
@@ -7,8 +8,8 @@ namespace AdminPanel.Application.Features.Albums.Queries.GetAlbum
     {
         public GetAlbumMapper()
         {
-            CreateMap<Album, GetAlbumViewModel>()
-                .ForMember(vm => vm.Tracks, opt => opt.MapFrom(src => src.Tracks.ToDictionary(t => t.Code, t => t.Name)));
+            CreateMap<Album, GetAlbumViewModel>();
+            CreateMap<Track, TrackViewModel>();
         }
     }
 }
