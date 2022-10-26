@@ -18,7 +18,7 @@ namespace AdminPanel.Application.Features.Albums.Queries.GetAlbum
             var album = await dbContext.Albums.Where(a => a.Code == request.Code)
                                         .Include(a => a.Tracks)
                                         .FirstOrDefaultAsync()
-                ?? throw new ResourceNotFound("Альбом не найден");
+                ?? throw new ResourceNotFoundException("Альбом не найден");
 
             var artists = await dbContext.ArtistAlbums.Where(a => a.AlbumId == album.Id)
                                                       .Select(a => a.Artist)

@@ -2,9 +2,9 @@
 
 namespace AdminPanel.Application.Common.Exceptions
 {
-    public class ResourceNotFound : BaseException
+    public class ResourceNotFoundException : BaseException
     {
-        public ResourceNotFound(string message) : base(message)
+        public ResourceNotFoundException(string message) : base(message)
         {
         }
 

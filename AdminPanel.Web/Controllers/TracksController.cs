@@ -16,7 +16,7 @@ namespace AdminPanel.Web.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateTrack([FromBody] CreateTrackCommand command)
+        public async Task<IActionResult> CreateTrack([FromForm] CreateTrackCommand command)
         {
             return Ok(await mediator.Send(command));
         }

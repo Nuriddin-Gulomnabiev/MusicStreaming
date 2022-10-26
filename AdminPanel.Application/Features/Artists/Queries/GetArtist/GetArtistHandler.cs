@@ -18,7 +18,7 @@ namespace AdminPanel.Application.Features.Artists.Queries.GetArtist
             int artistCode = request.Code;
 
             var artist = await dbContext.Artists.Where(a => a.Code == artistCode).FirstOrDefaultAsync()
-                ?? throw new ResourceNotFound("Исполнитель не найден");
+                ?? throw new ResourceNotFoundException("Исполнитель не найден");
 
             var artistViewModel = mapper.Map<GetArtistViewModel>(artist);
 
