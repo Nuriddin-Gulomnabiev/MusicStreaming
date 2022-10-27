@@ -4,11 +4,11 @@ using MediatR;
 
 namespace AdminPanel.Application.Features.Artists.Commands.CreateArtist
 {
-    public class CreateArtistCommandHandler : IRequestHandler<CreateArtistCommand, Artist>
+    public class CreateArtistHandler : IRequestHandler<CreateArtistCommand, Artist>
     {
         private readonly IAdminApplicationDbContext dbContext;
 
-        public CreateArtistCommandHandler(IAdminApplicationDbContext dbContext)
+        public CreateArtistHandler(IAdminApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

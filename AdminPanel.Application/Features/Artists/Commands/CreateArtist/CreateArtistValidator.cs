@@ -2,9 +2,9 @@
 
 namespace AdminPanel.Application.Features.Artists.Commands.CreateArtist
 {
-    public class CreateArtistCommandValidator : AbstractValidator<CreateArtistCommand>
+    public class CreateArtistValidator : AbstractValidator<CreateArtistCommand>
     {
-        public CreateArtistCommandValidator()
+        public CreateArtistValidator()
         {
             RuleFor(p => p.Name)
                 .NotEmpty()

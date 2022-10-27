@@ -27,7 +27,7 @@ namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
                 {
                     var album = await dbContext.Albums.Where(a => a.Code == request.AlbumCode).FirstOrDefaultAsync()
                         ?? throw new ResourceNotFoundException("Альбом не найден");
-                    
+
                     var artists = await GetArtists(request.ArtistsCodes);
 
                     var track = new Track()
