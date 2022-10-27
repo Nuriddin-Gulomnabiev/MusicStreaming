@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
+namespace AdminPanel.Application.Features.Tracks.Commands.EditTrack
 {
-    public class CreateTrackValidator : AbstractValidator<CreateTrackCommand>
+    public class EditTrackValidator : AbstractValidator<EditTrackCommand>
     {
-        public CreateTrackValidator()
+        public EditTrackValidator()
         {
             RuleFor(p => p.Name)
                 .NotNull()
@@ -30,7 +30,8 @@ namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
                         .Must(p => p.Equals("audio/mpeg"))
                         .OverridePropertyName(p => p.Track)
                         .WithMessage("Неверный формат аудиофайла. Пожалуйста прикрепите mp3 файл");
-                });
+                })
+                .When(p => p.IsTrackReloaded);
         }
     }
 }

@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.Application.Features.Artists.Queries.GetAllArtists
 {
-    internal class GetAllArtistsQueryHandler : BaseCommandQueryHandler, IRequestHandler<GetAllArtistsQuery, IEnumerable<GetAllArtistsViewModel>>
+    internal class GetAllArtistsHandler : BaseCommandQueryHandler, IRequestHandler<GetAllArtistsQuery, IEnumerable<GetAllArtistsViewModel>>
     {
-        public GetAllArtistsQueryHandler(IAdminApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        public GetAllArtistsHandler(IAdminApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
 
