@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using AdminPanel.Application.Features.Artists.Commands.CreateArtist;
 using AdminPanel.Application.Features.Artists.Queries.GetAllArtists;
 using AdminPanel.Application.Features.Artists.Queries.GetArtist;
+using AdminPanel.Application.Features.Artists.Commands.EditArtist;
+using AdminPanel.Application.Features.Artists.Commands.EditArtistStatus;
 
 namespace AdminPanel.Web.Controllers
 {
     [ApiController]
-    [Route("api/v1/artists")]
+    [Route("api/v1/artist")]
     public class ArtistsController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -33,6 +35,26 @@ namespace AdminPanel.Web.Controllers
         public async Task<IActionResult> CreateArtist([FromBody] CreateArtistCommand command)
         {
             return Ok(await mediator.Send(command));
+        }
+
+        [HttpPost("{code}/edit")]
+        public async Task<IActionResult> EditArtist([FromBody] EditArtistCommand command, [FromRoute] int code)
+        {
+            command.Code = code;
+
+            return Ok(await mediator.Send(command));
+        }
+
+        [HttpPost("{code}/enable")]
+        public async Task<IActionResult> EnableArtist([FromRoute] int code)
+        {
+            return Ok(await mediator.Send(new EditArtistStatusCommand(code, true)));
+        }
+
+        [HttpPost("{code}/disable")]
+        public async Task<IActionResult> DisableArtist([FromRoute] int code)
+        {
+            return Ok(await mediator.Send(new EditArtistStatusCommand(code, false)));
         }
     }
 }

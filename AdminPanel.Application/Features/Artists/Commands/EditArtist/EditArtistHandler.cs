@@ -1,0 +1,30 @@
+﻿using AdminPanel.Application.Common.Exceptions;
+using AdminPanel.Application.Common.Handlers;
+using AdminPanel.Application.Common.Interfaces;
+using AutoMapper;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+
+namespace AdminPanel.Application.Features.Artists.Commands.EditArtist
+{
+    internal class EditArtistHandler : BaseCommandQueryHandler, IRequestHandler<EditArtistCommand, bool>
+    {
+        public EditArtistHandler(IAdminApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+        {
+        }
+
+        public async Task<bool> Handle(EditArtistCommand request, CancellationToken cancellationToken)
+        {
+            var artist = await dbContext.Artists.Where(a => a.Code == request.Code).FirstOrDefaultAsync()
+                ?? throw new ResourceNotFoundException("Исполнитель не найден");
+
+            artist.Name = request.Name.Trim();
+            artist.IsActive = request.IsActive;
+
+            dbContext.Artists.Update(artist);
+            await dbContext.SaveChangesAsync();
+
+            return true;
+        }
+    }
+}

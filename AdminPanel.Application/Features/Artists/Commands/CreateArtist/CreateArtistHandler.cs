@@ -15,7 +15,11 @@ namespace AdminPanel.Application.Features.Artists.Commands.CreateArtist
 
         public async Task<Artist> Handle(CreateArtistCommand request, CancellationToken cancellationToken)
         {
-            var artist = new Artist() { Name = request.Name };
+            var artist = new Artist()
+            {
+                Name = request.Name,
+                IsActive = request.IsActive
+            };
 
             await dbContext.Artists.AddAsync(artist, cancellationToken);
 
