@@ -6,13 +6,13 @@ using MediatR;
 
 namespace AdminPanel.Application.Features.Genres.Commands.CreateGenre
 {
-    internal class CreateGenreHandler : BaseCommandQueryHandler, IRequestHandler<CreateGenreCommand, bool>
+    internal class CreateGenreHandler : BaseCommandQueryHandler, IRequestHandler<CreateGenreCommand>
     {
         public CreateGenreHandler(IAdminApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
 
-        public async Task<bool> Handle(CreateGenreCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateGenreCommand request, CancellationToken cancellationToken)
         {
             dbContext.Genres.Add(new Genre() 
             { 
@@ -23,7 +23,7 @@ namespace AdminPanel.Application.Features.Genres.Commands.CreateGenre
 
             await dbContext.SaveChangesAsync();
 
-            return true;
+            return Unit.Value;
         }
     }
 }

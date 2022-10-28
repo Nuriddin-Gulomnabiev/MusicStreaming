@@ -1,8 +1,8 @@
 ﻿using AdminPanel.Application.Common.Enums;
 using AdminPanel.Application.Common.Exceptions;
 using AdminPanel.Web.Common.ModelResponses;
+using AdminPanel.Web.Common.Utils;
 using Newtonsoft.Json;
-using System.Net;
 
 namespace AdminPanel.Web.Common.Middlewares
 {
@@ -53,30 +53,12 @@ namespace AdminPanel.Web.Common.Middlewares
             }
         }
 
-        private async Task WriteResponseAsync(HttpContext context, ErrorModelResponse response)
+        private static async Task WriteResponseAsync(HttpContext context, ErrorModelResponse response)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = GetHttpStatusCodeByErrorCodeEnum(response.Code);
+            context.Response.StatusCode = HttpStatusCodeUtil.GetHttpStatusCodeByErrorCodeEnum(response.Code);
 
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
-        }
-
-        private int GetHttpStatusCodeByErrorCodeEnum(int code)
-        {
-            switch (code)
-            {
-                case (int)ErrorCodeEnum.UNKNOW_ERROR:
-                    return (int)HttpStatusCode.InternalServerError;
-
-                case (int)ErrorCodeEnum.VALIDATION_ERROR:
-                    return (int)HttpStatusCode.BadRequest;
-
-                case (int)ErrorCodeEnum.RESOURCE_NOT_FOUND:
-                    return (int)HttpStatusCode.NotFound;
-
-                default:
-                    return (int)HttpStatusCode.InternalServerError;
-            }
         }
     }
 }

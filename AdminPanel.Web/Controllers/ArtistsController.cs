@@ -10,7 +10,7 @@ namespace AdminPanel.Web.Controllers
 {
     [ApiController]
     [Route("api/v1/artist")]
-    public class ArtistsController : ControllerBase
+    public class ArtistsController : BaseController
     {
         private readonly IMediator mediator;
 
@@ -22,19 +22,19 @@ namespace AdminPanel.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            return Ok(await mediator.Send(new GetAllArtistsQuery(), cancellationToken));
+            return Success(await mediator.Send(new GetAllArtistsQuery(), cancellationToken));
         }
 
         [HttpGet("{code}")]
         public async Task<IActionResult> GetArtist([FromRoute] int code, CancellationToken cancellationToken)
         {
-            return Ok(await mediator.Send(new GetArtistQuery(code), cancellationToken));
+            return Success(await mediator.Send(new GetArtistQuery(code), cancellationToken));
         }
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateArtist([FromBody] CreateArtistCommand command)
         {
-            return Ok(await mediator.Send(command));
+            return Success(await mediator.Send(command));
         }
 
         [HttpPost("{code}/edit")]
@@ -42,19 +42,19 @@ namespace AdminPanel.Web.Controllers
         {
             command.Code = code;
 
-            return Ok(await mediator.Send(command));
+            return Success(await mediator.Send(command));
         }
 
         [HttpPost("{code}/enable")]
         public async Task<IActionResult> EnableArtist([FromRoute] int code)
         {
-            return Ok(await mediator.Send(new EditArtistStatusCommand(code, true)));
+            return Success(await mediator.Send(new EditArtistStatusCommand(code, true)));
         }
 
         [HttpPost("{code}/disable")]
         public async Task<IActionResult> DisableArtist([FromRoute] int code)
         {
-            return Ok(await mediator.Send(new EditArtistStatusCommand(code, false)));
+            return Success(await mediator.Send(new EditArtistStatusCommand(code, false)));
         }
     }
 }

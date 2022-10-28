@@ -2,7 +2,7 @@
 
 namespace AdminPanel.Application.Features.Albums.Commands.EditAlbum
 {
-    public class EditAlbumCommand : IRequest<bool>
+    public class EditAlbumCommand : IRequest
     {
         public Guid Id { get; set; }
         public int Code { get; set; }

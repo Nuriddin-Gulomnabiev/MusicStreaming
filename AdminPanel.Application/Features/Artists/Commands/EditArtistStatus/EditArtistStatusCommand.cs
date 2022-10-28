@@ -2,7 +2,7 @@
 
 namespace AdminPanel.Application.Features.Artists.Commands.EditArtistStatus
 {
-    public class EditArtistStatusCommand : IRequest<bool>
+    public class EditArtistStatusCommand : IRequest
     {
         public int Code { get; set; }
         public bool Status { get; set; }

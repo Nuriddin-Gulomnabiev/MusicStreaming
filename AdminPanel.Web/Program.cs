@@ -1,6 +1,7 @@
 using AdminPanel.Application;
 using AdminPanel.Web.Common.Middlewares;
 using Infrastructure.Persistance;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAdminApplication();
 builder.Services.AddAdminApplicationPersistence(builder.Configuration);
+
+/*builder.Services.AddMvc()
+                .AddJsonOptions(options => {
+                    options.JsonSerializerOptions.DefaultIgnoreCondition
+                          = JsonIgnoreCondition.WhenWritingNull;
+                });*/
 
 var app = builder.Build();
 

@@ -9,7 +9,7 @@ namespace AdminPanel.Web.Controllers
 {
     [ApiController]
     [Route("api/v1/track")]
-    public class TracksController : ControllerBase
+    public class TracksController : BaseController
     {
         private readonly IMediator mediator;
 
@@ -21,31 +21,31 @@ namespace AdminPanel.Web.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateTrack([FromForm] CreateTrackCommand command)
         {
-            return Ok(await mediator.Send(command));
+            return Success(await mediator.Send(command));
         }
 
         [HttpGet("{code}")]
         public async Task<IActionResult> GetTrack([FromRoute] int code)
         {
-            return Ok(await mediator.Send(new GetTrackQuery(code)));
+            return Success(await mediator.Send(new GetTrackQuery(code)));
         }
 
         [HttpPost("{code}/edit")]
         public async Task<IActionResult> EditTrack([FromForm] EditTrackCommand command)
         {
-            return Ok(await mediator.Send(command));
+            return Success(await mediator.Send(command));
         }
 
         [HttpPost("{code}/enable")]
         public async Task<IActionResult> EnableTrack([FromRoute] int code)
         {
-            return Ok(await mediator.Send(new EditTrackStatusCommand(code, true)));
+            return Success(await mediator.Send(new EditTrackStatusCommand(code, true)));
         }
 
         [HttpPost("{code}/disable")]
         public async Task<IActionResult> DisableTrack([FromRoute] int code)
         {
-            return Ok(await mediator.Send(new EditTrackStatusCommand(code, false)));
+            return Success(await mediator.Send(new EditTrackStatusCommand(code, false)));
         }
     }
 }

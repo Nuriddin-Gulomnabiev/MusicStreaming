@@ -3,7 +3,7 @@ using MediatR;
 
 namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
 {
-    public class CreateTrackCommand : IRequest<Guid>
+    public class CreateTrackCommand : IRequest
     {
         public string Name { get; set; }
         public int AlbumCode { get; set; }

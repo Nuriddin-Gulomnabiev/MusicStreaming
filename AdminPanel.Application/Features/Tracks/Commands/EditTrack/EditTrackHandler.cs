@@ -5,12 +5,13 @@ using AutoMapper;
 using Domain.Entities.Artists;
 using Domain.Entities.Tracks;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Services.Services.FileManager;
 
 namespace AdminPanel.Application.Features.Tracks.Commands.EditTrack
 {
-    internal class EditTrackHandler : BaseCommandQueryHandler, IRequestHandler<EditTrackCommand, bool>
+    internal class EditTrackHandler : BaseCommandQueryHandler, IRequestHandler<EditTrackCommand>
     {
         private readonly IFileManagerService fileManagerService;
 
@@ -19,7 +20,7 @@ namespace AdminPanel.Application.Features.Tracks.Commands.EditTrack
             this.fileManagerService = fileManagerService;
         }
 
-        public async Task<bool> Handle(EditTrackCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(EditTrackCommand request, CancellationToken cancellationToken)
         {
             var track = await dbContext.Tracks
                     .Where(t => t.Id == request.Id && t.Code == request.Code)
@@ -32,9 +33,9 @@ namespace AdminPanel.Application.Features.Tracks.Commands.EditTrack
                 try
                 {
                     if (request.AlbumCode != track.Album.Code)
-                        await UpdateAlbumTrack(request, track);
+                        await UpdateAlbumTrack(request.AlbumCode, track);
 
-                    await UpdateTrackArtists(request, track);
+                    await UpdateTrackArtists(request.ArtistsCodes, track);
 
                     track.Name = request.Name;
                     track.IsActive = request.IsActive;
@@ -43,7 +44,7 @@ namespace AdminPanel.Application.Features.Tracks.Commands.EditTrack
                     await dbContext.SaveChangesAsync();
 
                     if (request.IsTrackReloaded)
-                        await UpdateTrackFile(request, track);
+                        await UpdateTrackFile(request.Track, track.Id);
 
                     tran.Commit();
                 }
@@ -55,22 +56,22 @@ namespace AdminPanel.Application.Features.Tracks.Commands.EditTrack
                 }
             }
 
-            return true;
+            return Unit.Value;
         }
 
-        private async Task UpdateTrackFile(EditTrackCommand request, Track track)
+        private async Task UpdateTrackFile(IFormFile file, Guid trackId)
         {
-            var res = await fileManagerService.CreateTrack(request.Track, track.Id);
+            var res = await fileManagerService.CreateTrack(file, trackId);
         }
 
-        private async Task UpdateTrackArtists(EditTrackCommand request, Track track)
+        private async Task UpdateTrackArtists(IEnumerable<int> artistsCodes, Track track)
         {
             var oldArtists = await dbContext.ArtistTracks
                     .Where(a => a.TrackId == track.Id)
                     .Include(a => a.Artist)
                     .ToListAsync();
 
-            var newArtistCodes = request.ArtistsCodes.Distinct().ToList();
+            var newArtistCodes = artistsCodes.Distinct().ToList();
 
             foreach (var oldArtist in oldArtists)
             {
@@ -97,9 +98,9 @@ namespace AdminPanel.Application.Features.Tracks.Commands.EditTrack
             }
         }
 
-        private async Task UpdateAlbumTrack(EditTrackCommand request, Track track)
+        private async Task UpdateAlbumTrack(int albumCode, Track track)
         {
-            var newAlbum = await dbContext.Albums.Where(a => a.Code == request.Code).FirstOrDefaultAsync()
+            var newAlbum = await dbContext.Albums.Where(a => a.Code == albumCode).FirstOrDefaultAsync()
                 ?? throw new ResourceNotFoundException("Альбом не найден");
 
             track.Album = newAlbum;

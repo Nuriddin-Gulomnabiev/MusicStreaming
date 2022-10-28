@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.Application.Features.Albums.Commands.EditAlbum
 {
-    internal class EditAlbumHandler : BaseCommandQueryHandler, IRequestHandler<EditAlbumCommand, bool>
+    internal class EditAlbumHandler : BaseCommandQueryHandler, IRequestHandler<EditAlbumCommand>
     {
         public EditAlbumHandler(IAdminApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
 
-        public async Task<bool> Handle(EditAlbumCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(EditAlbumCommand request, CancellationToken cancellationToken)
         {
             var album = await dbContext.Albums.Where(a => a.Id == request.Id && a.Code == request.Code).FirstOrDefaultAsync()
                 ?? throw new ResourceNotFoundException("Альбом не найден");
@@ -41,7 +41,7 @@ namespace AdminPanel.Application.Features.Albums.Commands.EditAlbum
                 throw;
             }
 
-            return true;
+            return Unit.Value;
         }
 
         private async Task UpdateArtists(IEnumerable<int> artistCodes, Guid albumId)

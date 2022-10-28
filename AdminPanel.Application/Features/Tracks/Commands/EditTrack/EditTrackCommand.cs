@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace AdminPanel.Application.Features.Tracks.Commands.EditTrack
 {
-    public class EditTrackCommand : IRequest<bool>
+    public class EditTrackCommand : IRequest
     {
         public Guid Id { get; set; }
         public int Code { get; set; }

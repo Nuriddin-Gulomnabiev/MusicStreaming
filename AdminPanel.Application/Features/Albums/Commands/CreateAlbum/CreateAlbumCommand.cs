@@ -2,7 +2,7 @@
 
 namespace AdminPanel.Application.Features.Albums.Commands.CreateAlbum
 {
-    public class CreateAlbumCommand : IRequest<bool>
+    public class CreateAlbumCommand : IRequest
     {
         public string Name { get; set; }
         public DateTime ReleaseDate { get; set; }

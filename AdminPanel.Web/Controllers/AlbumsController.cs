@@ -8,7 +8,7 @@ namespace AdminPanel.Web.Controllers
 {
     [ApiController]
     [Route("api/v1/album")]
-    public class AlbumsController : ControllerBase
+    public class AlbumsController : BaseController
     {
         private readonly IMediator mediator;
 
@@ -20,13 +20,13 @@ namespace AdminPanel.Web.Controllers
         [HttpGet("{code}")]
         public async Task<IActionResult> GetAlbum([FromRoute] int code)
         {
-            return Ok(await mediator.Send(new GetAlbumQuery(code)));
+            return Success(await mediator.Send(new GetAlbumQuery(code)));
         }
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumCommand command)
         {
-            return Ok(await mediator.Send(command));
+            return Success(await mediator.Send(command));
         }
 
         [HttpPost("{code}/edit")]
@@ -34,7 +34,7 @@ namespace AdminPanel.Web.Controllers
         {
             command.Code = code;
 
-            return Ok(await mediator.Send(command));
+            return Success(await mediator.Send(command));
         }
     }
 }

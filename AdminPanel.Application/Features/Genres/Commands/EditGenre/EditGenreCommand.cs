@@ -2,7 +2,7 @@
 
 namespace AdminPanel.Application.Features.Genres.Commands.EditGenre
 {
-    public class EditGenreCommand : IRequest<bool>
+    public class EditGenreCommand : IRequest
     {
         public Guid Id { get; set; }
         public int Code { get; set; }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
 {
-    internal class CreateTrackHandler : BaseCommandQueryHandler, IRequestHandler<CreateTrackCommand, Guid>
+    internal class CreateTrackHandler : BaseCommandQueryHandler, IRequestHandler<CreateTrackCommand>
     {
         private readonly IFileManagerService fileManagerService;
 
@@ -19,50 +19,48 @@ namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
             this.fileManagerService = fileManagerService;
         }
 
-        public async Task<Guid> Handle(CreateTrackCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateTrackCommand request, CancellationToken cancellationToken)
         {
-            using (var tran = dbContext.Database.BeginTransaction())
+            var album = await dbContext.Albums.Where(a => a.Code == request.AlbumCode).FirstOrDefaultAsync()
+                ?? throw new ResourceNotFoundException("Альбом не найден");
+
+            var artists = await GetArtists(request.ArtistsCodes);
+
+            using var tran = dbContext.Database.BeginTransaction();
+            try
             {
-                try
+                var track = new Track()
                 {
-                    var album = await dbContext.Albums.Where(a => a.Code == request.AlbumCode).FirstOrDefaultAsync()
-                        ?? throw new ResourceNotFoundException("Альбом не найден");
+                    Id = Guid.NewGuid(),
+                    Name = request.Name,
+                    AlbumId = album.Id,
+                    IsActive = true
+                };
 
-                    var artists = await GetArtists(request.ArtistsCodes);
-
-                    var track = new Track()
+                var artistsTracks = artists.Select(a =>
+                    new ArtistTrack
                     {
                         Id = Guid.NewGuid(),
-                        Name = request.Name,
-                        AlbumId = album.Id,
-                        IsActive = true
-                    };
+                        TrackId = track.Id,
+                        ArtistId = a.Id
+                    }
+                );
 
-                    var artistsTracks = artists.Select(a =>
-                        new ArtistTrack
-                        {
-                            Id = Guid.NewGuid(),
-                            TrackId = track.Id,
-                            ArtistId = a.Id
-                        }
-                    );
+                dbContext.Tracks.Add(track);
+                dbContext.ArtistTracks.AddRange(artistsTracks);
 
-                    dbContext.Tracks.Add(track);
-                    dbContext.ArtistTracks.AddRange(artistsTracks);
+                var result = await fileManagerService.CreateTrack(request.Track, track.Id);
 
-                    var result = await fileManagerService.CreateTrack(request.Track, track.Id);
+                await dbContext.SaveChangesAsync();
+                tran.Commit();
 
-                    await dbContext.SaveChangesAsync();
-                    tran.Commit();
+                return Unit.Value;
+            }
+            catch (Exception)
+            {
+                tran.Rollback();
 
-                    return track.Id;
-                }
-                catch (Exception)
-                {
-                    tran.Rollback();
-
-                    throw;
-                }
+                throw;
             }
         }
 

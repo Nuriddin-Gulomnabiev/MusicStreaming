@@ -9,44 +9,42 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.Application.Features.Albums.Commands.CreateAlbum
 {
-    internal class CreateAlbumHandler : BaseCommandQueryHandler, IRequestHandler<CreateAlbumCommand, bool>
+    internal class CreateAlbumHandler : BaseCommandQueryHandler, IRequestHandler<CreateAlbumCommand>
     {
         public CreateAlbumHandler(IAdminApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
 
-        public async Task<bool> Handle(CreateAlbumCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateAlbumCommand request, CancellationToken cancellationToken)
         {
-            using (var tran = dbContext.Database.BeginTransaction())
+            using var tran = dbContext.Database.BeginTransaction();
+            try
             {
-                try
+                var album = new Album()
                 {
-                    var album = new Album()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = request.Name,
-                        ReleaseDate = request.ReleaseDate,
-                        IsActive = false
-                    };
+                    Id = Guid.NewGuid(),
+                    Name = request.Name,
+                    ReleaseDate = request.ReleaseDate,
+                    IsActive = false
+                };
 
-                    dbContext.Albums.Add(album);
+                dbContext.Albums.Add(album);
 
-                    await GetArtists(request.ArtistsCodes, album.Id);
-                    await GetGenres(request.GenresCodes, album.Id);
+                await GetArtists(request.ArtistsCodes, album.Id);
+                await GetGenres(request.GenresCodes, album.Id);
 
-                    await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
 
-                    tran.Commit();
-                }
-                catch (Exception)
-                {
-                    tran.Rollback();
-
-                    throw;
-                }
-
-                return true;
+                tran.Commit();
             }
+            catch (Exception)
+            {
+                tran.Rollback();
+
+                throw;
+            }
+
+            return Unit.Value;
         }
 
         private async Task GetGenres(IEnumerable<int> genresCodes, Guid albumId)

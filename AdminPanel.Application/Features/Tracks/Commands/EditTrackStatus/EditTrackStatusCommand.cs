@@ -2,7 +2,7 @@
 
 namespace AdminPanel.Application.Features.Tracks.Commands.EditTrackStatus
 {
-    public class EditTrackStatusCommand : IRequest<bool>
+    public class EditTrackStatusCommand : IRequest
     {
         public int Code { get; set; }
         public bool Status { get; set; }
