@@ -1,5 +1,4 @@
-﻿using Domain.Entities.Artists;
-using MediatR;
+﻿using MediatR;
 
 namespace AdminPanel.Application.Features.Artists.Commands.CreateArtist
 {

@@ -14,8 +14,8 @@ namespace AdminPanel.Application.Features.Genres.Commands.CreateGenre
 
         public async Task<Unit> Handle(CreateGenreCommand request, CancellationToken cancellationToken)
         {
-            dbContext.Genres.Add(new Genre() 
-            { 
+            dbContext.Genres.Add(new Genre()
+            {
                 Id = Guid.NewGuid(),
                 Name = request.Name,
                 IsActive = request.IsActive
