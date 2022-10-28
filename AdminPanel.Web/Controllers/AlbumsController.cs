@@ -1,11 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using AdminPanel.Application.Features.Albums.Queries.GetAlbum;
+using AdminPanel.Application.Features.Albums.Commands.CreateAlbum;
+using AdminPanel.Application.Features.Albums.Commands.EditAlbum;
 
 namespace AdminPanel.Web.Controllers
 {
     [ApiController]
-    [Route("api/v1/albums")]
+    [Route("api/v1/album")]
     public class AlbumsController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -19,6 +21,20 @@ namespace AdminPanel.Web.Controllers
         public async Task<IActionResult> GetAlbum([FromRoute] int code)
         {
             return Ok(await mediator.Send(new GetAlbumQuery(code)));
+        }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumCommand command)
+        {
+            return Ok(await mediator.Send(command));
+        }
+
+        [HttpPost("{code}/edit")]
+        public async Task<IActionResult> EditAlbum([FromBody] EditAlbumCommand command, [FromRoute] int code)
+        {
+            command.Code = code;
+
+            return Ok(await mediator.Send(command));
         }
     }
 }
