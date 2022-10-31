@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace AdminPanel.Web.Common.ModelResponses
 {
@@ -34,7 +35,9 @@ namespace AdminPanel.Web.Common.ModelResponses
             context.HttpContext.Response.StatusCode = StatusCodes.Status200OK;
             context.HttpContext.Response.ContentType = "application/json";
 
-            await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(this));
+            string responseJson = JsonConvert.SerializeObject(this, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+
+            await context.HttpContext.Response.WriteAsync(responseJson);
         }
     }
 }

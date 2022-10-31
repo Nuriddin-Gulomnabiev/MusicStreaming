@@ -3,6 +3,7 @@ using AdminPanel.Application.Common.Exceptions;
 using AdminPanel.Web.Common.ModelResponses;
 using AdminPanel.Web.Common.Utils;
 using Newtonsoft.Json;
+using Services.Services.JwtService.Exceptions;
 
 namespace AdminPanel.Web.Common.Middlewares
 {
@@ -37,6 +38,14 @@ namespace AdminPanel.Web.Common.Middlewares
             catch (BaseException ex)
             {
                 await WriteResponseAsync(context, new ErrorModelResponse((int)ex.Code, ex.Message));
+            }
+            catch (TokenExpiredException ex)
+            {
+                await WriteResponseAsync(context, new ErrorModelResponse((int)ErrorCodeEnum.UNAUTHORIZED_ERROR, ex.Message));
+            }
+            catch (TokenInvalidException ex)
+            {
+                await WriteResponseAsync(context, new ErrorModelResponse((int)ErrorCodeEnum.UNAUTHORIZED_ERROR, ex.Message));
             }
             catch (Exception ex)
             {

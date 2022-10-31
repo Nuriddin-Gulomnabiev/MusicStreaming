@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Albums;
+﻿using Domain.Entities.Admins;
+using Domain.Entities.Albums;
 using Domain.Entities.Artists;
 using Domain.Entities.Genres;
 using Domain.Entities.Tracks;
@@ -9,6 +10,7 @@ namespace AdminPanel.Application.Common.Interfaces
 {
     public interface IAdminApplicationDbContext
     {
+        public DbSet<Admin> Admins { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<AlbumGenre> AlbumGenres { get; set; }
         public DbSet<Artist> Artists { get; set; }

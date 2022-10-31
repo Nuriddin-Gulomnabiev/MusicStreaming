@@ -2,11 +2,11 @@
 using AdminPanel.Application.Common.Handlers;
 using AdminPanel.Application.Common.Interfaces;
 using AutoMapper;
-using Services.Services.FileManager;
 using Domain.Entities.Artists;
 using Domain.Entities.Tracks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Services.Services.FileManager;
 
 namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
 {

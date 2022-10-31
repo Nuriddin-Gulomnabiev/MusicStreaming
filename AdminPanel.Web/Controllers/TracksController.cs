@@ -7,15 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Web.Controllers
 {
-    [ApiController]
     [Route("api/v1/track")]
     public class TracksController : BaseController
     {
-        private readonly IMediator mediator;
-
-        public TracksController(IMediator mediator)
+        public TracksController(IMediator mediator) : base(mediator)
         {
-            this.mediator = mediator;
         }
 
         [HttpPost("create")]

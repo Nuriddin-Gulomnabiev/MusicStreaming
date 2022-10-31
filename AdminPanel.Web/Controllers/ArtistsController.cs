@@ -1,22 +1,18 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using AdminPanel.Application.Features.Artists.Commands.CreateArtist;
-using AdminPanel.Application.Features.Artists.Queries.GetAllArtists;
-using AdminPanel.Application.Features.Artists.Queries.GetArtist;
+﻿using AdminPanel.Application.Features.Artists.Commands.CreateArtist;
 using AdminPanel.Application.Features.Artists.Commands.EditArtist;
 using AdminPanel.Application.Features.Artists.Commands.EditArtistStatus;
+using AdminPanel.Application.Features.Artists.Queries.GetAllArtists;
+using AdminPanel.Application.Features.Artists.Queries.GetArtist;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Web.Controllers
 {
-    [ApiController]
     [Route("api/v1/artist")]
     public class ArtistsController : BaseController
     {
-        private readonly IMediator mediator;
-
-        public ArtistsController(IMediator mediator)
+        public ArtistsController(IMediator mediator) : base(mediator)
         {
-            this.mediator = mediator;
         }
 
         [HttpGet]

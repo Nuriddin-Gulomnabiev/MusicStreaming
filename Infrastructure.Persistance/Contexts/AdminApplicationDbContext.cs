@@ -1,8 +1,10 @@
 ﻿using AdminPanel.Application.Common.Interfaces;
+using Domain.Entities.Admins;
 using Domain.Entities.Albums;
 using Domain.Entities.Artists;
 using Domain.Entities.Genres;
 using Domain.Entities.Tracks;
+using Infrastructure.Persistance.Configurations.Admins;
 using Infrastructure.Persistance.Configurations.Albums;
 using Infrastructure.Persistance.Configurations.Artists;
 using Infrastructure.Persistance.Configurations.Genres;
@@ -13,6 +15,7 @@ namespace Infrastructure.Persistance.Contexts
 {
     public class AdminApplicationDbContext : DbContext, IAdminApplicationDbContext
     {
+        public DbSet<Admin> Admins { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<AlbumGenre> AlbumGenres { get; set; }
         public DbSet<Artist> Artists { get; set; }
@@ -27,6 +30,7 @@ namespace Infrastructure.Persistance.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new AlbumConfiguration());
             modelBuilder.ApplyConfiguration(new AlbumGenreConfiguration());
             modelBuilder.ApplyConfiguration(new ArtistAlbumConfiguration());
