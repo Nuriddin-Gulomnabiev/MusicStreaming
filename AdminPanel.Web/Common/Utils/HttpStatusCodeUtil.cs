@@ -18,6 +18,9 @@ namespace AdminPanel.Web.Common.Utils
                 case (int)ErrorCodeEnum.RESOURCE_NOT_FOUND:
                     return (int)HttpStatusCode.NotFound;
 
+                case (int)ErrorCodeEnum.UNAUTHORIZED_ERROR:
+                    return (int)HttpStatusCode.Unauthorized;
+
                 default:
                     return (int)HttpStatusCode.InternalServerError;
             }

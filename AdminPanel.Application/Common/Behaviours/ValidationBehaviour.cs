@@ -1,5 +1,5 @@
-﻿using MediatR;
-using FluentValidation;
+﻿using FluentValidation;
+using MediatR;
 using ValidationException = AdminPanel.Application.Common.Exceptions.ValidationException;
 
 namespace AdminPanel.Application.Common.Behaviours

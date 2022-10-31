@@ -1,14 +1,17 @@
 using AdminPanel.Application;
+using AdminPanel.Web.Common.Extensions;
 using AdminPanel.Web.Common.Middlewares;
 using Infrastructure.Persistance;
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddAdminApplication();
 builder.Services.AddAdminApplicationPersistence(builder.Configuration);
+builder.Services.AddSwaggerServices();
+builder.Services.AddCommonServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -22,9 +25,9 @@ if (app.Environment.IsDevelopment())
 builder.Configuration.SetBasePath(app.Environment.ContentRootPath);
 
 app.UseHttpsRedirection();
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
-app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.Run();

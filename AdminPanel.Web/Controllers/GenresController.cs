@@ -6,15 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Web.Controllers
 {
-    [ApiController]
     [Route("api/v1/genre")]
     public class GenresController : BaseController
     {
-        private readonly IMediator mediator;
-
-        public GenresController(IMediator mediator)
+        public GenresController(IMediator mediator) : base(mediator)
         {
-            this.mediator = mediator;
         }
 
         [HttpGet("{code}")]

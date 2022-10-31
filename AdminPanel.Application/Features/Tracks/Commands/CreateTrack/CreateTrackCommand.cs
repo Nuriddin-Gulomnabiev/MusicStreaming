@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using MediatR;
+﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
 {

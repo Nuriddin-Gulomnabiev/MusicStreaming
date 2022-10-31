@@ -1,20 +1,16 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using AdminPanel.Application.Features.Albums.Queries.GetAlbum;
-using AdminPanel.Application.Features.Albums.Commands.CreateAlbum;
+﻿using AdminPanel.Application.Features.Albums.Commands.CreateAlbum;
 using AdminPanel.Application.Features.Albums.Commands.EditAlbum;
+using AdminPanel.Application.Features.Albums.Queries.GetAlbum;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Web.Controllers
 {
-    [ApiController]
     [Route("api/v1/album")]
     public class AlbumsController : BaseController
     {
-        private readonly IMediator mediator;
-
-        public AlbumsController(IMediator mediator)
+        public AlbumsController(IMediator mediator) : base(mediator)
         {
-            this.mediator = mediator;
         }
 
         [HttpGet("{code}")]

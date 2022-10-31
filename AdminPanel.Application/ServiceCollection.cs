@@ -1,9 +1,8 @@
-﻿using MediatR;
+﻿using AdminPanel.Application.Common.Behaviours;
 using FluentValidation;
-using System.Reflection;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using AdminPanel.Application.Common.Behaviours;
-using Services;
+using System.Reflection;
 
 namespace AdminPanel.Application
 {
@@ -15,7 +14,6 @@ namespace AdminPanel.Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddCommonServices();
 
             return services;
         }
