@@ -361,4 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/FileManager.WebApi/wwwroot/tracks
 /FileManager/wwwroot/tracks

@@ -1,7 +1,7 @@
-﻿using FileManager.Modules.Tracks.ModelRequests;
+﻿using FileManager.WebApi.Modules.Tracks.ModelRequests;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FileManager.Modules.Tracks
+namespace FileManager.WebApi.Modules.Tracks
 {
     [Route("api/v1/track")]
     public class TracksController : Controller

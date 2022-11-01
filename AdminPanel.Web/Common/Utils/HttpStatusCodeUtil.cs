@@ -1,4 +1,4 @@
-﻿using AdminPanel.Application.Common.Enums;
+﻿using Domain.Enums.ErrorCodes;
 using System.Net;
 
 namespace AdminPanel.Web.Common.Utils
@@ -7,23 +7,14 @@ namespace AdminPanel.Web.Common.Utils
     {
         public static int GetHttpStatusCodeByErrorCodeEnum(int code)
         {
-            switch (code)
+            return code switch
             {
-                case (int)ErrorCodeEnum.UNKNOW_ERROR:
-                    return (int)HttpStatusCode.InternalServerError;
-
-                case (int)ErrorCodeEnum.VALIDATION_ERROR:
-                    return (int)HttpStatusCode.BadRequest;
-
-                case (int)ErrorCodeEnum.RESOURCE_NOT_FOUND:
-                    return (int)HttpStatusCode.NotFound;
-
-                case (int)ErrorCodeEnum.UNAUTHORIZED_ERROR:
-                    return (int)HttpStatusCode.Unauthorized;
-
-                default:
-                    return (int)HttpStatusCode.InternalServerError;
-            }
+                (int)ErrorCodeEnum.UNKNOW_ERROR => (int)HttpStatusCode.InternalServerError,
+                (int)ErrorCodeEnum.VALIDATION_ERROR => (int)HttpStatusCode.BadRequest,
+                (int)ErrorCodeEnum.RESOURCE_NOT_FOUND => (int)HttpStatusCode.NotFound,
+                (int)ErrorCodeEnum.UNAUTHORIZED_ERROR => (int)HttpStatusCode.Unauthorized,
+                _ => (int)HttpStatusCode.InternalServerError,
+            };
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
+using Services.Services.FileManager.Helpers;
 
 namespace Services.Services.FileManager
 {
@@ -7,12 +7,12 @@ namespace Services.Services.FileManager
     {
         private readonly HttpClient client;
 
-        public FileManagerService(IConfiguration configuration)
+        public FileManagerService(FileManagerSettings fileManagerSettings)
         {
             client = new HttpClient
             {
-                BaseAddress = new Uri(configuration["FileManager:url"]),
-                Timeout = TimeSpan.FromSeconds(30),
+                BaseAddress = new Uri(fileManagerSettings.Url),
+                Timeout = TimeSpan.FromSeconds(fileManagerSettings.Timeout),
             };
         }
 
