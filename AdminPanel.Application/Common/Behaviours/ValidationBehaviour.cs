@@ -1,6 +1,7 @@
-﻿using FluentValidation;
-using MediatR;
-using ValidationException = AdminPanel.Application.Common.Exceptions.ValidationException;
+﻿using MediatR;
+using FluentValidation;
+using ValidationException = Domain.Exceptions.ValidationException;
+using Error = Domain.Exceptions.ValidationError;
 
 namespace AdminPanel.Application.Common.Behaviours
 {
@@ -25,7 +26,13 @@ namespace AdminPanel.Application.Common.Behaviours
 
                 if (failures.Any())
                 {
-                    throw new ValidationException(failures);
+                    var errors = failures.Select(e => new Error
+                    {
+                        ErrorMessage = e.ErrorMessage,
+                        PropertyName = e.PropertyName
+                    });
+
+                    throw new ValidationException(errors);
                 }
             }
 

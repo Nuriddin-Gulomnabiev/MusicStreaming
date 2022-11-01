@@ -1,4 +1,4 @@
-﻿namespace AdminPanel.Application.Common.Enums
+﻿namespace Domain.Enums.ErrorCodes
 {
     public enum ErrorCodeEnum
     {

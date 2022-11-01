@@ -1,6 +1,6 @@
-﻿using AdminPanel.Application.Common.Enums;
+﻿using Domain.Enums.ErrorCodes;
 
-namespace AdminPanel.Application.Common.Exceptions
+namespace Domain.Exceptions
 {
     public abstract class BaseException : Exception
     {

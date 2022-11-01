@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Application.Common.Interfaces;
+using FileManager.Application.Common.Interfaces;
 using Infrastructure.Persistance.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,17 @@ namespace Infrastructure.Persistance
             });
 
             services.AddScoped<IAdminApplicationDbContext>(provider => provider.GetService<AdminApplicationDbContext>()!);
+
+            return services;
+        }
+
+        public static IServiceCollection AddFileManagerPersistence(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<FileManagerDbContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("PostgreSqlConnection"))
+            );
+
+            services.AddScoped<IFileManagerDbContext>(provider => provider.GetService<FileManagerDbContext>());
 
             return services;
         }

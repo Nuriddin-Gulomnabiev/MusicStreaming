@@ -2,7 +2,8 @@ using AdminPanel.Application;
 using AdminPanel.Web.Common.Extensions;
 using AdminPanel.Web.Common.Middlewares;
 using Infrastructure.Persistance;
-using Services;
+using Services.Services.FileManager.Extensions;
+using Services.Services.JwtService.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAdminApplication();
 builder.Services.AddAdminApplicationPersistence(builder.Configuration);
 builder.Services.AddSwaggerServices();
-builder.Services.AddCommonServices(builder.Configuration);
+builder.Services.AddFileManagerServices(builder.Configuration);
+builder.Services.AddJwtServices(builder.Configuration);
+builder.Services.AddAuthorizationAuthetication();
 
 var app = builder.Build();
 

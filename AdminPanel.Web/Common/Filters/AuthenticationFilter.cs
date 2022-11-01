@@ -1,4 +1,4 @@
-﻿using AdminPanel.Application.Common.Exceptions;
+﻿using Domain.Exceptions;
 using AdminPanel.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -38,7 +38,7 @@ namespace AdminPanel.Web.Common.Filters
                 throw new UnauthorizedException("Токен не найден");
             }
 
-            var token = headerAuth.Substring(7, headerAuth.Length - 7);
+            var token = headerAuth[7..];
 
             if (string.IsNullOrEmpty(token))
                 throw new UnauthorizedException("Токен не найден");

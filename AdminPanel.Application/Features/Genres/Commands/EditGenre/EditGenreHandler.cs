@@ -1,4 +1,4 @@
-﻿using AdminPanel.Application.Common.Exceptions;
+﻿using Domain.Exceptions;
 using AdminPanel.Application.Common.Handlers;
 using AdminPanel.Application.Common.Interfaces;
 using AutoMapper;

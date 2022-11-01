@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace FileManager.Modules.Tracks.ModelRequests
+namespace FileManager.WebApi.Modules.Tracks.ModelRequests
 {
     public class AddFileModelRequest
     {

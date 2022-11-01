@@ -1,6 +1,6 @@
 ﻿namespace Services.Services.JwtService.Helpers
 {
-    internal class JwtSettings
+    public class JwtSettings
     {
         public string Section { get; } = "Authorization";
 
