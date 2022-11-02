@@ -1,11 +1,10 @@
 ﻿using Domain.Enums.ErrorCodes;
-using Domain.Exceptions;
-using AdminPanel.Web.Common.ModelResponses;
 using Newtonsoft.Json;
+using FileManager.WebApi.Common.ModelResponses;
 using Domain.Utils;
 using Domain.Common;
 
-namespace AdminPanel.Web.Common.Middlewares
+namespace FileManager.WebApi.Common.Middlewares
 {
     public class ErrorHandlerMiddleware
     {
@@ -24,20 +23,13 @@ namespace AdminPanel.Web.Common.Middlewares
             {
                 await next(context);
             }
-            catch (ValidationException ex)
-            {
-                IEnumerable<Error> errors = null;
-
-                if (ex.Errors != null && ex.Errors.Any())
-                {
-                    errors = ex.Errors.Select(e => new Error { ErrorMessage = e.ErrorMessage, PropertyName = e.PropertyName });
-                }
-
-                await WriteResponseAsync(context, new ErrorModelResponse((int)ex.Code, ex.Message, errors));
-            }
             catch (BaseException ex)
             {
                 await WriteResponseAsync(context, new ErrorModelResponse((int)ex.Code, ex.Message));
+            }
+            catch(FileNotFoundException ex)
+            {
+                await WriteResponseAsync(context, new ErrorModelResponse((int)ErrorCodeEnum.RESOURCE_NOT_FOUND, "Файл не найден"));
             }
             catch (Exception ex)
             {

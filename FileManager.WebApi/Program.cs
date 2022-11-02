@@ -1,3 +1,4 @@
+using FileManager.WebApi.Common.Middlewares;
 using Infrastructure.Persistance;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,5 +19,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.Run();

@@ -1,4 +1,5 @@
-﻿using Domain.Enums.ErrorCodes;
+﻿using Domain.Common;
+using Domain.Enums.ErrorCodes;
 
 namespace Domain.Exceptions
 {

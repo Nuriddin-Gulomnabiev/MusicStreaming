@@ -1,6 +1,6 @@
 ﻿using Domain.Enums.ErrorCodes;
 
-namespace Domain.Exceptions
+namespace Domain.Common
 {
     public abstract class BaseException : Exception
     {

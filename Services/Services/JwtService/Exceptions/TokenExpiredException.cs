@@ -1,5 +1,5 @@
-﻿using Domain.Enums.ErrorCodes;
-using Domain.Exceptions;
+﻿using Domain.Common;
+using Domain.Enums.ErrorCodes;
 
 namespace Services.Services.JwtService.Exceptions
 {

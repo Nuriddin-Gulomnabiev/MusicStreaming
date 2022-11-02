@@ -1,4 +1,4 @@
-﻿using AdminPanel.Web.Common.Utils;
+﻿using Domain.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
