@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Services.Services.FileManager.Helpers;
+using System.Net.Http.Headers;
 
 namespace Services.Services.FileManager
 {
@@ -30,6 +31,8 @@ namespace Services.Services.FileManager
             fileStream.Read(bytes, 0, (int)file.Length);
 
             var bytesContent = new ByteArrayContent(bytes);
+
+            bytesContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
 
             return new MultipartFormDataContent
             {

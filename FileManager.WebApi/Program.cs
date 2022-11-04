@@ -1,3 +1,4 @@
+using FileManager.Application;
 using FileManager.WebApi.Common.Middlewares;
 using Infrastructure.Persistance;
 
@@ -7,6 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddFileManagerPersistence(builder.Configuration);
+builder.Services.AddFileManagerApplication(builder.Configuration, builder.Environment.WebRootPath);
 
 var app = builder.Build();
 

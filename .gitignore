@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /FileManager.WebApi/wwwroot/tracks
 /FileManager/wwwroot/tracks
+/FileManager.WebApi/wwwroot/icons

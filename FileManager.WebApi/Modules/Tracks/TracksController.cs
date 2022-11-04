@@ -1,46 +1,35 @@
 ﻿using FileManager.WebApi.Modules.Tracks.ModelRequests;
+using FileManager.Application.Features.Tracks.Commands.AddTrack;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using FileManager.Application.Features.Tracks.Queries.GetTrack;
 
 namespace FileManager.WebApi.Modules.Tracks
 {
     [Route("api/v1/track")]
     public class TracksController : Controller
     {
-        private readonly IWebHostEnvironment environment;
+        private readonly IMediator mediator;
 
-        public TracksController(IWebHostEnvironment environment)
+        public TracksController(IMediator mediator)
         {
-            this.environment = environment;
+            this.mediator = mediator;
         }
 
         [HttpGet("{code}")]
-        public FileStreamResult GetTrack([FromRoute] Guid code)
+        public async Task<FileStreamResult> GetTrack([FromRoute] int code)
         {
-            var currDirect = environment.WebRootPath;
-            var path = Path.Combine(currDirect, "tracks", $"{code}.mp3");
+            var stream = await mediator.Send(new GetTrackQuery(code));
 
-            return File(System.IO.File.OpenRead(path), "audio/mp3", true);
+            return File(stream, "audio/mp3", true);
         }
 
         [HttpPost("add")]
         public async Task<IActionResult> AddTrack([FromForm] AddFileModelRequest request)
         {
-            if (request.File != null && request.File.Length > 0)
-            {
-                var wwwroot = environment.WebRootPath;
-                var fileName = request.File.FileName;
+            await mediator.Send(new AddTrackCommand(request.File));
 
-                var path = Path.Combine(wwwroot, "tracks", $"{fileName}.mp3");
-
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await request.File.CopyToAsync(fileStream);
-                }
-
-                return Ok();
-            }
-
-            return BadRequest();
+            return Ok();
         }
     }
 }
