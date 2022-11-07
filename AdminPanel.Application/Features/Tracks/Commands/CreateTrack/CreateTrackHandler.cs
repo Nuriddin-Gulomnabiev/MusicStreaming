@@ -49,7 +49,7 @@ namespace AdminPanel.Application.Features.Tracks.Commands.CreateTrack
                 dbContext.Tracks.Add(track);
                 dbContext.ArtistTracks.AddRange(artistsTracks);
 
-                var result = await fileManagerService.CreateTrack(request.Track, track.Id);
+                await fileManagerService.CreateTrack(request.Track, track.Id);
 
                 await dbContext.SaveChangesAsync();
                 tran.Commit();

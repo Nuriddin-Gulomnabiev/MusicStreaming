@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using FluentValidation;
 using ValidationException = Domain.Exceptions.ValidationException;
-using Error = Domain.Exceptions.ValidationError;
 
 namespace AdminPanel.Application.Common.Behaviours
 {
@@ -22,16 +21,16 @@ namespace AdminPanel.Application.Common.Behaviours
 
                 var validationResults = await Task.WhenAll(validators.Select(v => v.ValidateAsync(context, cancellationToken)));
 
-                var failures = validationResults.SelectMany(r => r.Errors).Where(e => e != null);
+                var errors = validationResults
+                    .SelectMany(r => r.Errors)
+                    .GroupBy(e => e.PropertyName)
+                    .ToDictionary(
+                        e => e.Key,
+                        e => e.Select(s => s.ErrorMessage)
+                    );
 
-                if (failures.Any())
+                if (errors.Any())
                 {
-                    var errors = failures.Select(e => new Error
-                    {
-                        ErrorMessage = e.ErrorMessage,
-                        PropertyName = e.PropertyName
-                    });
-
                     throw new ValidationException(errors);
                 }
             }

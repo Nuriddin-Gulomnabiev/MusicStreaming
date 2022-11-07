@@ -61,7 +61,7 @@ namespace AdminPanel.Application.Features.Tracks.Commands.EditTrack
 
         private async Task UpdateTrackFile(IFormFile file, Guid trackId)
         {
-            var res = await fileManagerService.CreateTrack(file, trackId);
+            await fileManagerService.CreateTrack(file, trackId);
         }
 
         private async Task UpdateTrackArtists(IEnumerable<int> artistsCodes, Track track)

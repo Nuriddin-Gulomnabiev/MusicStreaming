@@ -1,32 +1,31 @@
 ﻿using FileManager.Application.Common.Helpers;
-using FileManager.Application.Common.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
-namespace FileManager.Application.Features.Images.Commands.AddImage
+namespace FileManager.Application.Features.Photos.Commands.AddImage
 {
-    internal class AddImageHandler : IRequestHandler<AddImageCommand>
+    internal class AddPhotoHandler : IRequestHandler<AddPhotoCommand>
     {
         private readonly string WebRootPath;
 
-        public AddImageHandler(DirectoryPathSettings wwwroot)
+        public AddPhotoHandler(DirectoryPathSettings wwwroot)
         {
             WebRootPath = wwwroot.WebRootPath;
         }
 
-
-        public Task<Unit> Handle(AddImageCommand request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(AddPhotoCommand request, CancellationToken cancellationToken)
         {
-            var directory = DirectoryUtil.GetDirectoryNameByEnum(request.ImageType);
+            var path = Path.Combine(WebRootPath, "photos");
 
-            var path = Path.Combine(WebRootPath, $"{directory}");
-            var fileName = GenerateFileName(request.ImageFile);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
 
-            var image = Image.Load(request.ImageFile.OpenReadStream());
+            var image = Image.Load(request.PhotoFile.OpenReadStream());
             Resize(image, 500, 500);
 
+            var fileName = GenerateFileName(request.PhotoFile);
             var filePath = Path.Combine(path, fileName);
 
             image.Save(filePath);

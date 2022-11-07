@@ -1,19 +1,17 @@
-﻿using FileManager.WebApi.Modules.Tracks.ModelRequests;
-using FileManager.Application.Features.Tracks.Commands.AddTrack;
+﻿using FileManager.Application.Features.Tracks.Commands.AddTrack;
+using FileManager.Application.Features.Tracks.Queries.GetTrack;
+using FileManager.WebApi.Common.Controllers;
+using FileManager.WebApi.Modules.Tracks.ModelRequests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using FileManager.Application.Features.Tracks.Queries.GetTrack;
 
 namespace FileManager.WebApi.Modules.Tracks
 {
     [Route("api/v1/track")]
-    public class TracksController : Controller
+    public class TracksController : BaseController
     {
-        private readonly IMediator mediator;
-
-        public TracksController(IMediator mediator)
+        public TracksController(IMediator mediator) : base(mediator)
         {
-            this.mediator = mediator;
         }
 
         [HttpGet("{code}")]
@@ -27,9 +25,7 @@ namespace FileManager.WebApi.Modules.Tracks
         [HttpPost("add")]
         public async Task<IActionResult> AddTrack([FromForm] AddFileModelRequest request)
         {
-            await mediator.Send(new AddTrackCommand(request.File));
-
-            return Ok();
+            return Success(await mediator.Send(new AddTrackCommand(request.File)));
         }
     }
 }

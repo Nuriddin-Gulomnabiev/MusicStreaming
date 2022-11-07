@@ -1,5 +1,5 @@
-﻿using MediatR;
-using FileManager.Application.Common.Helpers;
+﻿using FileManager.Application.Common.Helpers;
+using MediatR;
 
 namespace FileManager.Application.Features.Tracks.Commands.AddTrack
 {
