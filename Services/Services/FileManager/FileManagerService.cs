@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Exceptions;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Services.Services.FileManager.Helpers;
 using System.Net.Http.Headers;
 
@@ -17,11 +19,41 @@ namespace Services.Services.FileManager
             };
         }
 
-        public async Task<HttpResponseMessage> CreateTrack(IFormFile track, Guid fileName)
+        public async Task CreateTrack(IFormFile track, Guid fileName)
         {
-            var content = GenerateMultipartFormDataContent(track, fileName);
+            var url = "/api/v1/track/add";
 
-            return await client.PostAsync("/api/v1/track/add", content);
+            await PostAsync(track, fileName, url);
+        }
+
+        public async Task CreateCover(IFormFile cover, Guid coverName)
+        {
+            var url = "/api/v1/cover/add";
+
+            await PostAsync(cover, coverName, url);
+        }
+
+        public async Task CreatePhoto(IFormFile photo, Guid photoName)
+        {
+            var url = "/api/v1/photo/add";
+
+            await PostAsync(photo, photoName, url);
+        }
+
+        private async Task PostAsync(IFormFile cover, Guid coverName, string url)
+        {
+            var formData = GenerateMultipartFormDataContent(cover, coverName);
+
+            var result = await client.PostAsync(url, formData);
+
+            var content = await result.Content.ReadAsStringAsync();
+
+            var response = JsonConvert.DeserializeObject<FileManagerResponse>(content);
+
+            if (response.Status)
+                return;
+
+            throw new ValidationException(response.Errors);
         }
 
         private static MultipartFormDataContent GenerateMultipartFormDataContent(IFormFile file, Guid fileName)

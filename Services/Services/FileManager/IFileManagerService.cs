@@ -4,6 +4,8 @@ namespace Services.Services.FileManager
 {
     public interface IFileManagerService
     {
-        Task<HttpResponseMessage> CreateTrack(IFormFile track, Guid fileName);
+        Task CreateTrack(IFormFile track, Guid fileName);
+        Task CreateCover(IFormFile cover, Guid coverName);
+        Task CreatePhoto(IFormFile photo, Guid photoName);
     }
 }

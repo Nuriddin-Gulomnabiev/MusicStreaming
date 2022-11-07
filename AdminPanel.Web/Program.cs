@@ -27,8 +27,9 @@ if (app.Environment.IsDevelopment())
 
 builder.Configuration.SetBasePath(app.Environment.ContentRootPath);
 
-app.UseHttpsRedirection();
 app.UseMiddleware<ErrorHandlerMiddleware>();
+
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

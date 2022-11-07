@@ -16,9 +16,15 @@ namespace AdminPanel.Web.Common.ModelResponses
         public string Message { get; set; }
 
         [JsonProperty("errors", NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<Error> Errors { get; set; }
+        public Dictionary<string, IEnumerable<string>> Errors { get; set; }
 
-        public ErrorModelResponse(int code, string message = null, IEnumerable<Error> errors = null)
+        public ErrorModelResponse(int code, string message = null)
+        {
+            Code = code;
+            Message = message;
+        }
+
+        public ErrorModelResponse(int code, string message = null, Dictionary<string, IEnumerable<string>> errors = null)
         {
             Code = code;
             Errors = errors;
@@ -32,11 +38,5 @@ namespace AdminPanel.Web.Common.ModelResponses
 
             await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(this));
         }
-    }
-
-    public class Error
-    {
-        public string PropertyName { get; set; }
-        public string ErrorMessage { get; set; }
     }
 }

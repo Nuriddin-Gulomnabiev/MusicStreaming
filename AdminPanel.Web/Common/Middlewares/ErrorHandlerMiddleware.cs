@@ -26,14 +26,7 @@ namespace AdminPanel.Web.Common.Middlewares
             }
             catch (ValidationException ex)
             {
-                IEnumerable<Error> errors = null;
-
-                if (ex.Errors != null && ex.Errors.Any())
-                {
-                    errors = ex.Errors.Select(e => new Error { ErrorMessage = e.ErrorMessage, PropertyName = e.PropertyName });
-                }
-
-                await WriteResponseAsync(context, new ErrorModelResponse((int)ex.Code, ex.Message, errors));
+                await WriteResponseAsync(context, new ErrorModelResponse((int)ex.Code, ex.Message, ex.Errors));
             }
             catch (BaseException ex)
             {
