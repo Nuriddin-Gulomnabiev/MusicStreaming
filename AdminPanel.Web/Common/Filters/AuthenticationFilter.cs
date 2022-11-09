@@ -3,16 +3,19 @@ using AdminPanel.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Services.Services.JwtService.Exceptions;
+using Services.Services.IdentifiedService;
 
 namespace AdminPanel.Web.Common.Filters
 {
     public class AuthenticationFilter : IAuthorizationFilter
     {
         private readonly IAdminApplicationDbContext dbContext;
+        private readonly IIdentifiedService identifiedService;
 
-        public AuthenticationFilter(IAdminApplicationDbContext dbContext)
+        public AuthenticationFilter(IAdminApplicationDbContext dbContext, IIdentifiedService identifiedService)
         {
             this.dbContext = dbContext;
+            this.identifiedService = identifiedService;
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)
@@ -20,13 +23,19 @@ namespace AdminPanel.Web.Common.Filters
             if (context.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any())
                 return;
 
-            var userId = context.HttpContext.User.FindFirst("data")?.Value
+            var data = context.HttpContext.User.FindFirst("data")?.Value
                 ?? throw new TokenInvalidException();
+
+            if (!Guid.TryParse(data, out Guid userId))
+                throw new TokenInvalidException();
 
             var token = GetBearerToken(context.HttpContext);
 
-            var admin = dbContext.Admins.Where(a => a.Id == new Guid(userId) && a.AccessToken == token).FirstOrDefault()
+            var admin = dbContext.Admins.Where(a => a.Id == userId && a.AccessToken == token).FirstOrDefault()
                 ?? throw new TokenExpiredException();
+
+            identifiedService.SetToken(token);
+            identifiedService.SetUserId(userId);
         }
 
         private static string GetBearerToken(HttpContext context)

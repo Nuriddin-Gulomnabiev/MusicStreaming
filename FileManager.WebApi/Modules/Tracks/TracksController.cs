@@ -3,6 +3,7 @@ using FileManager.Application.Features.Tracks.Queries.GetTrack;
 using FileManager.WebApi.Common.Controllers;
 using FileManager.WebApi.Modules.Tracks.ModelRequests;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FileManager.WebApi.Modules.Tracks
@@ -14,6 +15,7 @@ namespace FileManager.WebApi.Modules.Tracks
         {
         }
 
+        [AllowAnonymous]
         [HttpGet("{code}")]
         public async Task<FileStreamResult> GetTrack([FromRoute] int code)
         {

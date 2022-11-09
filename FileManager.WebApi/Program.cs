@@ -9,6 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddFileManagerPersistence(builder.Configuration);
 builder.Services.AddFileManagerApplication(builder.Configuration, builder.Environment.WebRootPath);
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 

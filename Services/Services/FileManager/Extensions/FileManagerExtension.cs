@@ -13,7 +13,7 @@ namespace Services.Services.FileManager.Extensions
             configuration.Bind(FileManagerSettings.Section, FileManagerSettings);
 
             services.AddSingleton(FileManagerSettings);
-            services.AddSingleton<IFileManagerService, FileManagerService>();
+            services.AddScoped<IFileManagerService, FileManagerService>();
 
             return services;
         }

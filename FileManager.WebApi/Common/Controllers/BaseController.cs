@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using FileManager.WebApi.Common.Filters;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FileManager.WebApi.Common.Controllers
 {
     [ApiController]
+    [TypeFilter((typeof(AuthorizationFilter)))]
     public class BaseController : Controller
     {
         protected readonly IMediator mediator;

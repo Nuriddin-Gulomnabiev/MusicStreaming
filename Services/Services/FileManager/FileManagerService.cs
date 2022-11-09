@@ -2,16 +2,23 @@
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Services.Services.FileManager.Helpers;
+using Services.Services.IdentifiedService;
+using Shared.Helpers.Hash;
 using System.Net.Http.Headers;
 
 namespace Services.Services.FileManager
 {
     public class FileManagerService : IFileManagerService
     {
+        private readonly IIdentifiedService identifiedService;
         private readonly HttpClient client;
+        private readonly string Key;
 
-        public FileManagerService(FileManagerSettings fileManagerSettings)
+        public FileManagerService(FileManagerSettings fileManagerSettings, IIdentifiedService identifiedService)
         {
+            this.identifiedService = identifiedService;
+            Key = fileManagerSettings.Key;
+
             client = new HttpClient
             {
                 BaseAddress = new Uri(fileManagerSettings.Url),
@@ -40,11 +47,19 @@ namespace Services.Services.FileManager
             await PostAsync(photo, photoName, url);
         }
 
-        private async Task PostAsync(IFormFile cover, Guid coverName, string url)
+        private async Task PostAsync(IFormFile file, Guid fileName, string url)
         {
-            var formData = GenerateMultipartFormDataContent(cover, coverName);
+            var token = identifiedService.GetToken();
+            var datetime = DateTime.Now.ToString("yyMMddHHmmss");
 
-            var result = await client.PostAsync(url, formData);
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+
+            request.Headers.Add("token", token);
+            request.Headers.Add("datetime", datetime);
+            request.Headers.Add("hash", HashService.Sha256($"{token}:{Key}:{datetime}"));
+            request.Content = GenerateMultipartFormDataContent(file, fileName);
+
+            var result = await client.SendAsync(request);
 
             var content = await result.Content.ReadAsStringAsync();
 
