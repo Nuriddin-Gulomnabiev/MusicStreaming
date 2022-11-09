@@ -28,23 +28,30 @@ namespace Services.Services.FileManager
 
         public async Task CreateTrack(IFormFile track, Guid fileName)
         {
-            var url = "/api/v1/track/add";
+            var url = "/api/v1/tracks/add";
 
             await PostAsync(track, fileName, url);
         }
 
         public async Task CreateCover(IFormFile cover, Guid coverName)
         {
-            var url = "/api/v1/cover/add";
+            var url = "/api/v1/covers/add";
 
             await PostAsync(cover, coverName, url);
         }
 
         public async Task CreatePhoto(IFormFile photo, Guid photoName)
         {
-            var url = "/api/v1/photo/add";
+            var url = "/api/v1/photos/add";
 
             await PostAsync(photo, photoName, url);
+        }
+
+        public async Task CreateIcon(IFormFile icon, Guid iconName)
+        {
+            var url = "/api/v1/icons/add";
+
+            await PostAsync(icon, iconName, url);
         }
 
         private async Task PostAsync(IFormFile file, Guid fileName, string url)

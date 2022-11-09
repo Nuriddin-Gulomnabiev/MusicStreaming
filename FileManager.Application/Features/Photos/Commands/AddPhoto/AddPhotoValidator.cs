@@ -1,7 +1,7 @@
 ﻿using FileManager.Application.Common.Helpers;
 using FluentValidation;
 
-namespace FileManager.Application.Features.Photos.Commands.AddImage
+namespace FileManager.Application.Features.Photos.Commands.AddPhoto
 {
     public class AddPhotoValidator : AbstractValidator<AddPhotoCommand>
     {

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace FileManager.WebApi.Modules.Photos.ModelRequests
+namespace FileManager.WebApi.Modules.Images.ModelRequests
 {
-    public class AddPhotoModelRequest
+    public class AddImageModelRequest
     {
         [JsonProperty("file")]
         public IFormFile Image { get; set; }

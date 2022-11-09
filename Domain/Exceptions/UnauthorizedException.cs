@@ -6,7 +6,7 @@ namespace Domain.Exceptions
     public class UnauthorizedException : BaseException
     {
         public override ErrorCodeEnum Code => ErrorCodeEnum.UNAUTHORIZED_ERROR;
-        
+
         public UnauthorizedException() : base("Ошибка авторизации")
         {
         }
