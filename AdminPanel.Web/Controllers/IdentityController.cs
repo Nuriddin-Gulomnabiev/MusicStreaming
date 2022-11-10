@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Web.Controllers
 {
-    [Route("api/v1/identity")]
+    [Route("api/v{version:apiVersion}/identity")]
     public class IdentityController : BaseController
     {
         public IdentityController(IMediator mediator) : base(mediator)

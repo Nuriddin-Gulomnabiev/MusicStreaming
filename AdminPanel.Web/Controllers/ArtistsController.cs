@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Web.Controllers
 {
-    [Route("api/v1/artists")]
+    [Route("api/v{version:apiVersion}/artists")]
     public class ArtistsController : BaseController
     {
         public ArtistsController(IMediator mediator) : base(mediator)

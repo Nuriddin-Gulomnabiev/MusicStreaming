@@ -1,4 +1,8 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using AdminPanel.Web.Common.Middlewares;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.OpenApi.Models;
 
 namespace AdminPanel.Web.Common.Extensions
 {
@@ -8,6 +12,16 @@ namespace AdminPanel.Web.Common.Extensions
         {
             services.AddSwaggerGen(s =>
             {
+                var provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
+
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    s.SwaggerDoc($"{description.GroupName}", new OpenApiInfo()
+                    {
+                        Title = "Music Streamer API Documentation",
+                        Version = description.ApiVersion.ToString()
+                    });
+                }
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
@@ -32,8 +46,36 @@ namespace AdminPanel.Web.Common.Extensions
                     }
                 });
             });
+            services.AddApiVersioning(options =>
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+            });
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
             return services;
+        }
+
+        public static void UseSwaggerApps(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<SwaggerAuthMiddleware>();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                var provider = app.ApplicationServices.GetService<IApiVersionDescriptionProvider>();
+
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    c.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", $"Music Streamer {description.GroupName}");
+                }
+            });
+            app.UseDeveloperExceptionPage();
         }
     }
 }

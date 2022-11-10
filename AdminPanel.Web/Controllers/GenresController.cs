@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Web.Controllers
 {
-    [Route("api/v1/genres")]
+    [Route("api/v{version:apiVersion}/genres")]
     public class GenresController : BaseController
     {
         public GenresController(IMediator mediator) : base(mediator)

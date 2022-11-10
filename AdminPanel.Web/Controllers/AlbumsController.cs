@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Web.Controllers
 {
-    [Route("api/v1/albums")]
+    [Route("api/v{version:apiVersion}/albums")]
     public class AlbumsController : BaseController
     {
         public AlbumsController(IMediator mediator) : base(mediator)
