@@ -4,12 +4,10 @@ using FileManager.Application.Features.Photos.Commands.AddPhoto;
 using FileManager.WebApi.Common.Controllers;
 using FileManager.WebApi.Modules.Images.ModelRequests;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FileManager.WebApi.Modules.Photos
 {
-    [AllowAnonymous]
     [Route("api/v1/")]
     public class ImagesController : BaseController
     {

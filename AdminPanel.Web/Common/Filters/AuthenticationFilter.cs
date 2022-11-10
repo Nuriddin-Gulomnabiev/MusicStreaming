@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Services.Services.JwtService.Exceptions;
 using Services.Services.IdentifiedService;
+using AdminPanel.Web.Common.Attributes;
 
 namespace AdminPanel.Web.Common.Filters
 {
@@ -31,7 +32,18 @@ namespace AdminPanel.Web.Common.Filters
 
             var token = GetBearerToken(context.HttpContext);
 
-            var admin = dbContext.Admins.Where(a => a.Id == userId && a.AccessToken == token).FirstOrDefault()
+            var getAdminQuery = dbContext.Admins.Where(a => a.Id == userId);
+
+            if (context.ActionDescriptor.EndpointMetadata.OfType<RefreshTokenAttribute>().Any())
+            {
+                getAdminQuery = getAdminQuery.Where(a => a.RefreshToken == token);
+            }
+            else
+            {
+                getAdminQuery = getAdminQuery.Where(a => a.AccessToken == token);
+            }
+
+            var admin = getAdminQuery.FirstOrDefault()
                 ?? throw new TokenExpiredException();
 
             identifiedService.SetToken(token);

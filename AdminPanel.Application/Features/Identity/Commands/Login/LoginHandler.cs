@@ -6,11 +6,12 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Services.Services.JwtService;
 
-namespace AdminPanel.Application.Features.Admins.Commands.Login
+namespace AdminPanel.Application.Features.Identity.Commands.Login
 {
     internal class LoginHandler : BaseCommandQueryHandler, IRequestHandler<LoginCommand, LoginViewModel>
     {
         private readonly IJwtService jwtService;
+
         public LoginHandler(IAdminApplicationDbContext dbContext, IMapper mapper, IJwtService jwtService) : base(dbContext, mapper)
         {
             this.jwtService = jwtService;
@@ -19,23 +20,35 @@ namespace AdminPanel.Application.Features.Admins.Commands.Login
         public async Task<LoginViewModel> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             var admin = await dbContext.Admins.Where(a => a.Login == request.Login && a.Password == request.Password).FirstOrDefaultAsync()
-                ?? throw new ResourceNotFoundException("Неверно введённый логин и/или пароль");
+                ?? throw new UnauthorizedException("Неверно введённый логин и/или пароль");
 
             var tokens = jwtService.CreateToken(admin.Id);
 
-            admin.AccessToken = tokens.AccessToken;
-            admin.RefreshToken = tokens.RefreshToken;
-
-            dbContext.Admins.Update(admin);
-            await dbContext.SaveChangesAsync();
-
-            var res = new LoginViewModel()
+            using var tran = dbContext.Database.BeginTransaction();
+            try
             {
-                AccessToken = tokens.AccessToken,
-                RefreshToken = tokens.RefreshToken
-            };
+                admin.AccessToken = tokens.AccessToken;
+                admin.RefreshToken = tokens.RefreshToken;
 
-            return res;
+                dbContext.Admins.Update(admin);
+                await dbContext.SaveChangesAsync();
+
+                var result = new LoginViewModel()
+                {
+                    AccessToken = tokens.AccessToken,
+                    RefreshToken = tokens.RefreshToken
+                };
+
+                tran.Commit();
+
+                return result;
+            }
+            catch
+            {
+                tran.Rollback();
+
+                throw;
+            }
         }
     }
 }

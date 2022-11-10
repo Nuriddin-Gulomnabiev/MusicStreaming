@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Admins\Queries\" />
+    <Folder Include="Features\Admins\Commands\" />
   </ItemGroup>
 
 </Project>

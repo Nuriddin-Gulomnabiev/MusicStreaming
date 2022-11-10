@@ -1,4 +1,4 @@
-﻿namespace AdminPanel.Application.Features.Admins.Commands.Login
+﻿namespace AdminPanel.Application.Features.Identity.Commands.Login
 {
     public class LoginViewModel
     {

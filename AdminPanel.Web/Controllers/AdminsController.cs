@@ -1,22 +1,20 @@
-﻿using AdminPanel.Application.Features.Admins.Commands.Login;
+﻿using AdminPanel.Application.Features.Admins.Queries.GetAllAdmins;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Web.Controllers
 {
-    [Route("api/v1/admin")]
+    [Route("api/v1/admins")]
     public class AdminsController : BaseController
     {
         public AdminsController(IMediator mediator) : base(mediator)
         {
         }
 
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginCommand command)
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            return Success(await mediator.Send(command));
+            return Success(await mediator.Send(new GetAllAdminsQuery()));
         }
     }
 }
