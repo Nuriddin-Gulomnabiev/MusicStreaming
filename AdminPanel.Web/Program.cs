@@ -19,12 +19,12 @@ var app = builder.Build();
 
 builder.Configuration.SetBasePath(app.Environment.ContentRootPath);
 
-app.UseMiddleware<ErrorHandlerMiddleware>();
-
 app.UseSwaggerApps();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.Run();

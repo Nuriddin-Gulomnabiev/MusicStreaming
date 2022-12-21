@@ -12,6 +12,7 @@ namespace Infrastructure.Persistance.Contexts
 
         public FileManagerDbContext(DbContextOptions<FileManagerDbContext> options) : base(options)
         {
+            Database.EnsureCreated();
         }
     }
 }

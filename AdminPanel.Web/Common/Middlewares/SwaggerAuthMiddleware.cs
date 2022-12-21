@@ -14,7 +14,7 @@ namespace AdminPanel.Web.Common.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (context.Request.Path.StartsWithSegments("/swagger") && !IsLocalRequest(context))
+            if (context.Request.Path.StartsWithSegments("/swagger"))
             {
                 string authHeader = context.Request.Headers["Authorization"];
                 if (authHeader != null && authHeader.StartsWith("Basic "))
@@ -47,23 +47,6 @@ namespace AdminPanel.Web.Common.Middlewares
         {
             return username.Equals("SwaggerUser", StringComparison.InvariantCultureIgnoreCase)
                 && password.Equals("ESbh~ma2P+}g4*D&");
-        }
-
-        public bool IsLocalRequest(HttpContext context)
-        {
-            if (context.Connection.RemoteIpAddress == null && context.Connection.LocalIpAddress == null)
-            {
-                return true;
-            }
-            if (context.Connection.RemoteIpAddress.Equals(context.Connection.LocalIpAddress))
-            {
-                return true;
-            }
-            if (IPAddress.IsLoopback(context.Connection.RemoteIpAddress))
-            {
-                return true;
-            }
-            return false;
         }
     }
 }
