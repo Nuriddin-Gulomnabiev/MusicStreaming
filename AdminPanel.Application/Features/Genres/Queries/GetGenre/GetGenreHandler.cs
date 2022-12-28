@@ -4,6 +4,7 @@ using AdminPanel.Application.Common.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper.QueryableExtensions;
 
 namespace AdminPanel.Application.Features.Genres.Queries.GetGenre
 {
@@ -15,10 +16,11 @@ namespace AdminPanel.Application.Features.Genres.Queries.GetGenre
 
         public async Task<GetGenreViewModel> Handle(GetGenreQuery request, CancellationToken cancellationToken)
         {
-            var genre = await dbContext.Genres.Where(g => g.Code == request.Code).FirstOrDefaultAsync()
+            return await dbContext.Genres
+                .Where(g => g.Code == request.Code)
+                .ProjectTo<GetGenreViewModel>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new ResourceNotFoundException("Жанр не найден");
-
-            return mapper.Map<GetGenreViewModel>(genre);
         }
     }
 }

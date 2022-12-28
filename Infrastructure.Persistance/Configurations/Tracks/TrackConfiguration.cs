@@ -11,11 +11,12 @@ namespace Infrastructure.Persistance.Configurations.Tracks
             builder.Property(p => p.Id).IsRequired();
             builder.Property(p => p.Name).HasMaxLength(70).IsRequired();
             builder.Property(p => p.Code).IsRequired().ValueGeneratedOnAdd();
+            builder.Property(p => p.Number).IsRequired().HasDefaultValue(1);
 
             builder.HasOne(e => e.Album).WithMany(p => p.Tracks).HasForeignKey(p => p.AlbumId);
 
             builder.HasData(
-                new Track { Id = new Guid("8366834f-0278-46e2-8142-011813bda329"), AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), Name = "The Explanation" },
+                new Track { Id = new Guid("8366834f-0278-46e2-8142-011813bda329"), AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), Name = "The Explanation", Duration = 1.1m },
                 new Track { Id = new Guid("533b7e3d-9cfd-4731-8dda-a1d5a86ff80a"), AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), Name = "Jocelyn Flores" },
                 new Track { Id = new Guid("1afe4a9e-7121-4b34-89a6-8db6e0b6ddad"), AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), Name = "Depression & Obsession" },
                 new Track { Id = new Guid("f0c1326b-0646-46f4-966f-c10caa9c931b"), AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), Name = "Everybody Dies In Their Nightmares" },

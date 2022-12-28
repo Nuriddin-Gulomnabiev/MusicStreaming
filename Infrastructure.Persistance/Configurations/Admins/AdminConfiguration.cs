@@ -17,7 +17,7 @@ namespace Infrastructure.Persistance.Configurations.Admins
 
             builder.HasData(new Admin()
             {
-                Id = Guid.NewGuid(),
+                Id = new Guid("3e54f0cd-21d9-406d-bf67-e3bce0ce1199"),
                 FirstName = "Админ",
                 LastName = "Админов",
                 MiddleName = "Админович",

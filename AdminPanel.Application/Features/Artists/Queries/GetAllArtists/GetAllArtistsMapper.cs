@@ -7,7 +7,8 @@ namespace AdminPanel.Application.Features.Artists.Queries.GetAllArtists
     {
         public GetAllArtistsMapper()
         {
-            CreateMap<Artist, GetAllArtistsViewModel>();
+            CreateMap<Artist, GetAllArtistsViewModel>()
+                .ForMember(vm => vm.Albums, opt => opt.MapFrom(src => src.ArtistAlbums.Select(a => a.Album).ToDictionary(a => a.Code, a => a.Name)));
         }
     }
 }

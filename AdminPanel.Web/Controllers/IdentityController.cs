@@ -21,6 +21,12 @@ namespace AdminPanel.Web.Controllers
             return Success(await mediator.Send(command));
         }
 
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout([FromBody] LoginCommand command)
+        {
+            return Success(await mediator.Send(command));
+        }
+
         [RefreshToken]
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh()

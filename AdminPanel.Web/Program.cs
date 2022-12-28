@@ -21,10 +21,10 @@ builder.Configuration.SetBasePath(app.Environment.ContentRootPath);
 
 app.UseSwaggerApps();
 app.UseHttpsRedirection();
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
-app.UseMiddleware<ErrorHandlerMiddleware>();
+//app.UseAdminApplicationMigrates();
 
 app.Run();

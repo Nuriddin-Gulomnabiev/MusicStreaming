@@ -1,6 +1,7 @@
 ﻿using AdminPanel.Application.Common.Interfaces;
 using FileManager.Application.Common.Interfaces;
 using Infrastructure.Persistance.Contexts;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,17 @@ namespace Infrastructure.Persistance
             services.AddScoped<IFileManagerDbContext>(provider => provider.GetService<FileManagerDbContext>());
 
             return services;
+        }
+
+        public static WebApplication UseAdminApplicationMigrates(this WebApplication app)
+        {
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AdminApplicationDbContext>();
+                db.Database.Migrate();
+            }
+
+            return app;
         }
     }
 }

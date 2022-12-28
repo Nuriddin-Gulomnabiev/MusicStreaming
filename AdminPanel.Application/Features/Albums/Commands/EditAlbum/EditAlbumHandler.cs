@@ -5,6 +5,7 @@ using AutoMapper;
 using Domain.Entities.Artists;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Domain.Entities.Albums;
 
 namespace AdminPanel.Application.Features.Albums.Commands.EditAlbum
 {
@@ -16,14 +17,20 @@ namespace AdminPanel.Application.Features.Albums.Commands.EditAlbum
 
         public async Task<Unit> Handle(EditAlbumCommand request, CancellationToken cancellationToken)
         {
-            var album = await dbContext.Albums.Where(a => a.Id == request.Id && a.Code == request.Code).FirstOrDefaultAsync()
+            var album = await dbContext.Albums
+                .Where(a => a.Id == request.Id && a.Code == request.Code)
+                .Include(a => a.AlbumGenres)
+                .ThenInclude(ag => ag.Genre)
+                .Include(a => a.ArtistAlbums)
+                .ThenInclude(aa => aa.Artist)
+                .FirstOrDefaultAsync()
                 ?? throw new ResourceNotFoundException("Альбом не найден");
 
             using var tran = dbContext.Database.BeginTransaction();
             try
             {
-                await UpdateArtists(request.ArtistsCodes, album.Id);
-                await UpdateGenres(request.GenresCodes, album.Id);
+                await UpdateArtists(request.ArtistsCodes, album);
+                await UpdateGenres(request.GenresCodes, album);
 
                 album.Name = request.Name;
                 album.IsActive = request.IsActive;
@@ -44,12 +51,9 @@ namespace AdminPanel.Application.Features.Albums.Commands.EditAlbum
             return Unit.Value;
         }
 
-        private async Task UpdateArtists(IEnumerable<int> artistCodes, Guid albumId)
+        private async Task UpdateArtists(IEnumerable<int> artistCodes, Album album)
         {
-            var oldArtists = await dbContext.ArtistAlbums
-                    .Where(a => a.AlbumId == albumId)
-                    .Include(a => a.Artist)
-                    .ToListAsync();
+            var oldArtists = album.ArtistAlbums;
 
             var newArtistCodes = artistCodes.Distinct().ToList();
 
@@ -73,17 +77,14 @@ namespace AdminPanel.Application.Features.Albums.Commands.EditAlbum
                 {
                     Id = Guid.NewGuid(),
                     ArtistId = newArtist.Id,
-                    AlbumId = albumId
+                    AlbumId = album.Id
                 });
             }
         }
 
-        private async Task UpdateGenres(IEnumerable<int> genresCodes, Guid albumId)
+        private async Task UpdateGenres(IEnumerable<int> genresCodes, Album album)
         {
-            var oldGenres = await dbContext.AlbumGenres
-                    .Where(a => a.AlbumId == albumId)
-                    .Include(a => a.Genre)
-                    .ToListAsync();
+            var oldGenres = album.AlbumGenres;
 
             var newGenresCodes = genresCodes.Distinct().ToList();
 
@@ -107,7 +108,7 @@ namespace AdminPanel.Application.Features.Albums.Commands.EditAlbum
                 {
                     Id = Guid.NewGuid(),
                     ArtistId = newArtist.Id,
-                    AlbumId = albumId
+                    AlbumId = album.Id
                 });
             }
         }

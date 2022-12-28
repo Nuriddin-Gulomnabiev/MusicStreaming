@@ -15,19 +15,15 @@ namespace AdminPanel.Application.Features.Tracks.Queries.GetTrack
 
         public async Task<GetTrackViewModel> Handle(GetTrackQuery request, CancellationToken cancellationToken)
         {
-            var track = await dbContext.Tracks.Where(t => t.Code == request.Code).Include(t => t.Album).FirstOrDefaultAsync(cancellationToken)
+            var track = await dbContext.Tracks
+                .Where(t => t.Code == request.Code)
+                .Include(t => t.Album)
+                .Include(t => t.ArtistTracks)
+                .ThenInclude(at => at.Artist)
+                .FirstOrDefaultAsync(cancellationToken)
                 ?? throw new ResourceNotFoundException("Трек не найден");
 
-            var res = mapper.Map<GetTrackViewModel>(track);
-
-            var artists = await dbContext.ArtistTracks.Where(at => at.TrackId == track.Id).Select(a => a.Artist).ToListAsync();
-
-            if (!artists.Any())
-                throw new ResourceNotFoundException($"Исполнители трека {track.Code} не найдены");
-
-            res.Artists = artists.ToDictionary(a => a.Code, a => a.Name);
-
-            return res;
+            return mapper.Map<GetTrackViewModel>(track);
         }
     }
 }

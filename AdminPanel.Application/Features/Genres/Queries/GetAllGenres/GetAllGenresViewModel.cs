@@ -1,6 +1,6 @@
-﻿namespace AdminPanel.Application.Features.Genres.Queries.GetGenre
+﻿namespace AdminPanel.Application.Features.Genres.Queries.GetAllGenres
 {
-    public class GetGenreViewModel
+    public class GetAllGenresViewModel
     {
         public int Code { get; set; }
         public string Name { get; set; }

@@ -17,25 +17,14 @@ namespace AdminPanel.Application.Features.Albums.Queries.GetAlbum
         {
             var album = await dbContext.Albums.Where(a => a.Code == request.Code)
                                         .Include(a => a.Tracks)
+                                        .Include(a => a.AlbumGenres)
+                                        .ThenInclude(ag => ag.Genre)
+                                        .Include(a => a.ArtistAlbums)
+                                        .ThenInclude(aa => aa.Artist)
                                         .FirstOrDefaultAsync()
                 ?? throw new ResourceNotFoundException("Альбом не найден");
 
-            var artists = await dbContext.ArtistAlbums.Where(a => a.AlbumId == album.Id)
-                                                      .Select(a => a.Artist)
-                                                      .ToListAsync()
-                ?? throw new ResourceNotFoundException($"Исполнители альбома {album.Code} не найдены");
-
-            var genres = await dbContext.AlbumGenres.Where(a => a.AlbumId == album.Id)
-                                                    .Select(a => a.Genre)
-                                                    .ToListAsync()
-                ?? throw new ResourceNotFoundException($"Жанры альбома {album.Code} не найдены");
-
-            var albumViewModel = mapper.Map<GetAlbumViewModel>(album);
-
-            albumViewModel.Artists = artists.ToDictionary(a => a.Code, a => a.Name);
-            albumViewModel.Genres = genres.ToDictionary(a => a.Code, a => a.Name);
-
-            return albumViewModel;
+            return mapper.Map<GetAlbumViewModel>(album);
         }
     }
 }

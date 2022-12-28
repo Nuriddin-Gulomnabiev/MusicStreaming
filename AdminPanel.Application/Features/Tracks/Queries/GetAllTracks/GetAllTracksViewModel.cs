@@ -1,6 +1,6 @@
-﻿namespace AdminPanel.Application.Features.Tracks.Queries.GetTrack
+﻿namespace AdminPanel.Application.Features.Tracks.Queries.GetAllTracks
 {
-    public class GetTrackViewModel
+    public class GetAllTracksViewModel
     {
         public Guid Id { get; set; }
         public int Code { get; set; }

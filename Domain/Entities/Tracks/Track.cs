@@ -10,6 +10,8 @@ namespace Domain.Entities.Tracks
         public int Code { get; set; }
         public Guid AlbumId { get; set; }
         public bool IsActive { get; set; }
+        public int Number { get; set; }
+        public decimal Duration { get; set; }
 
         public Album Album { get; set; }
         public virtual ICollection<ArtistTrack> ArtistTracks { get; set; }

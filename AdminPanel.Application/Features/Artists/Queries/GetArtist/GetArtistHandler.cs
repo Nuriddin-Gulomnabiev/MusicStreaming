@@ -15,19 +15,14 @@ namespace AdminPanel.Application.Features.Artists.Queries.GetArtist
 
         public async Task<GetArtistViewModel> Handle(GetArtistQuery request, CancellationToken cancellationToken)
         {
-            int artistCode = request.Code;
-
-            var artist = await dbContext.Artists.Where(a => a.Code == artistCode).FirstOrDefaultAsync()
+            var artist = await dbContext.Artists
+                .Where(a => a.Code == request.Code)
+                .Include(a => a.ArtistAlbums)
+                .ThenInclude(aa => aa.Album)
+                .FirstOrDefaultAsync()
                 ?? throw new ResourceNotFoundException("Исполнитель не найден");
 
-            var artistViewModel = mapper.Map<GetArtistViewModel>(artist);
-
-            var albums = await dbContext.ArtistAlbums.Where(a => a.ArtistId == artist.Id).Select(a => a.Album).ToListAsync();
-
-            if (albums.Any())
-                artistViewModel.Albums = albums.ToDictionary(a => a.Code, a => a.Name);
-
-            return artistViewModel;
+            return mapper.Map<GetArtistViewModel>(artist);
         }
     }
 }

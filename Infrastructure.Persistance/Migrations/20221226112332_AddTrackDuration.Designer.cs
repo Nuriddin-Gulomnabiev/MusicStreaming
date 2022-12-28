@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Persistance.Migrations
 {
     [DbContext(typeof(AdminApplicationDbContext))]
-    [Migration("20221013130343_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20221226112332_AddTrackDuration")]
+    partial class AddTrackDuration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,58 @@ namespace Infrastructure.Persistance.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Domain.Entities.Admins.Admin", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AccessToken")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("character varying(25)");
+
+                    b.Property<string>("MiddleName")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Admins");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("3e54f0cd-21d9-406d-bf67-e3bce0ce1199"),
+                            FirstName = "Админ",
+                            LastName = "Админов",
+                            Login = "admin",
+                            MiddleName = "Админович",
+                            Password = "admin"
+                        });
+                });
 
             modelBuilder.Entity("Domain.Entities.Albums.Album", b =>
                 {
@@ -109,55 +161,55 @@ namespace Infrastructure.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("15e079b2-3209-4b63-b206-13545bae50ef"),
+                            Id = new Guid("262342b2-861e-4802-a54c-c84522188cd7"),
                             AlbumId = new Guid("62e05eec-dfed-462d-abfe-7489534fad8b"),
                             GenreId = new Guid("ae14797c-31cd-432a-b2de-b3db95a82ab4")
                         },
                         new
                         {
-                            Id = new Guid("16a24bf7-eb35-4ebe-a1d8-bcfc06942248"),
+                            Id = new Guid("395d511c-4387-46e8-9868-f8be6ea5c517"),
                             AlbumId = new Guid("62e05eec-dfed-462d-abfe-7489534fad8b"),
                             GenreId = new Guid("8745e56f-b335-43fe-bd10-bad6bead0892")
                         },
                         new
                         {
-                            Id = new Guid("475a485d-f36f-43c3-9aef-f664103fcdf9"),
+                            Id = new Guid("444757cc-64ec-46b3-a97b-6c31e25d7d18"),
                             AlbumId = new Guid("62e05eec-dfed-462d-abfe-7489534fad8b"),
                             GenreId = new Guid("2f044c88-a983-4cf5-bcc1-a5d7764507ed")
                         },
                         new
                         {
-                            Id = new Guid("38032425-3ff4-49fe-9482-ef4bdb3dc406"),
+                            Id = new Guid("46e8fe85-9e9d-4ab1-b711-2a100f9402c6"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             GenreId = new Guid("8745e56f-b335-43fe-bd10-bad6bead0892")
                         },
                         new
                         {
-                            Id = new Guid("fc0173b4-8aad-42f1-92a5-44a7a47ea5cd"),
+                            Id = new Guid("49318a5d-3a15-4ca5-8a26-71c5e0928bee"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             GenreId = new Guid("baa56e06-9672-4118-aee3-4098cec4581e")
                         },
                         new
                         {
-                            Id = new Guid("e00dd346-b3f3-4945-9b10-48b65e0d40c7"),
+                            Id = new Guid("631bc28a-fc2c-406e-9bd6-3dcd90ef2bf4"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             GenreId = new Guid("e2a8929f-2190-4329-bae1-83b170a3677f")
                         },
                         new
                         {
-                            Id = new Guid("312fe46e-7c2a-4165-851e-7103c27fb87a"),
+                            Id = new Guid("9788b398-eb7d-4f0a-a778-a595edf8764e"),
                             AlbumId = new Guid("c7b12644-83a9-4ccd-8418-808b11d9755e"),
                             GenreId = new Guid("ae14797c-31cd-432a-b2de-b3db95a82ab4")
                         },
                         new
                         {
-                            Id = new Guid("a6f8ecab-cc9e-44eb-b889-86ea1aff1a83"),
+                            Id = new Guid("c2d56b4f-1968-42e0-b95c-ceb4cd976ffd"),
                             AlbumId = new Guid("c7b12644-83a9-4ccd-8418-808b11d9755e"),
                             GenreId = new Guid("8745e56f-b335-43fe-bd10-bad6bead0892")
                         },
                         new
                         {
-                            Id = new Guid("f2f5e17e-f823-4341-9718-4b20102d608d"),
+                            Id = new Guid("f1279fe9-84d4-417e-8b5b-627e0b4e6029"),
                             AlbumId = new Guid("f7c43f96-79e4-4244-b21b-8ac476e54495"),
                             GenreId = new Guid("8745e56f-b335-43fe-bd10-bad6bead0892")
                         });
@@ -241,25 +293,25 @@ namespace Infrastructure.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ab753097-c69f-4fb4-b745-dae6acdbbc3f"),
+                            Id = new Guid("30965a2d-b2eb-448b-bedb-56e56215f76f"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5")
                         },
                         new
                         {
-                            Id = new Guid("882c67d3-b997-401e-b668-cdb0e1dfc8b5"),
+                            Id = new Guid("86e9eb76-1f31-40b1-a655-6b7d6860a7bd"),
                             AlbumId = new Guid("c7b12644-83a9-4ccd-8418-808b11d9755e"),
                             ArtistId = new Guid("a62f20f1-a42d-41cb-8c17-890cc61b4b14")
                         },
                         new
                         {
-                            Id = new Guid("f909e04f-1052-4266-a7b5-133c53a68ef5"),
+                            Id = new Guid("87cb0a2e-63f3-491c-b164-eac43dd743f4"),
                             AlbumId = new Guid("62e05eec-dfed-462d-abfe-7489534fad8b"),
                             ArtistId = new Guid("03810320-12e9-435f-9d8b-473572074360")
                         },
                         new
                         {
-                            Id = new Guid("37bc9b8b-300a-423b-a744-7102834d2e5c"),
+                            Id = new Guid("994a42cd-1c68-4fdb-b2b1-f0e9f4ee44a5"),
                             AlbumId = new Guid("f7c43f96-79e4-4244-b21b-8ac476e54495"),
                             ArtistId = new Guid("d3179697-703d-4ee8-998d-7674119309a5")
                         });
@@ -288,67 +340,67 @@ namespace Infrastructure.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3d81f7e8-7df1-4855-b67d-e922416d9b6d"),
+                            Id = new Guid("034fe159-32db-4875-9131-6426134d2743"),
                             ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"),
                             TrackId = new Guid("8366834f-0278-46e2-8142-011813bda329")
                         },
                         new
                         {
-                            Id = new Guid("06d85a87-8d2c-4290-a276-1888c909c177"),
+                            Id = new Guid("062c2665-7591-4c78-82da-da9fe95f2277"),
                             ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"),
                             TrackId = new Guid("533b7e3d-9cfd-4731-8dda-a1d5a86ff80a")
                         },
                         new
                         {
-                            Id = new Guid("794f09a9-a514-45a1-9cab-3af82404f939"),
+                            Id = new Guid("1227371f-f8cb-409c-ae62-9a864ce52d62"),
                             ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"),
                             TrackId = new Guid("1afe4a9e-7121-4b34-89a6-8db6e0b6ddad")
                         },
                         new
                         {
-                            Id = new Guid("f012c235-7fa7-47b3-a577-ae3b9246b22c"),
+                            Id = new Guid("1d7ace2e-de9c-492a-b535-723fb24975cb"),
                             ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"),
                             TrackId = new Guid("f0c1326b-0646-46f4-966f-c10caa9c931b")
                         },
                         new
                         {
-                            Id = new Guid("00472d18-b6f4-4bff-8da5-8da6df82cfe1"),
+                            Id = new Guid("38d003fd-762e-410b-b93c-3b4ef2ec39ca"),
                             ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"),
                             TrackId = new Guid("492f70ab-f1de-4de4-93b3-8602df66b05a")
                         },
                         new
                         {
-                            Id = new Guid("2be88acb-fd9e-49d1-a37a-7c6640158982"),
+                            Id = new Guid("960c53c2-d34a-4692-9f2b-6d6fd1015868"),
                             ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"),
                             TrackId = new Guid("baace2ca-c2c0-4cee-b129-53079d696059")
                         },
                         new
                         {
-                            Id = new Guid("5ba69259-6bbe-4e04-95cc-f8f1a0c65862"),
+                            Id = new Guid("983414b0-1371-4327-bd66-684afc8e3d05"),
                             ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"),
                             TrackId = new Guid("84d5050b-a7b7-4c23-a2d1-93281183264a")
                         },
                         new
                         {
-                            Id = new Guid("3e126816-068e-451e-b606-511cd1c302c7"),
+                            Id = new Guid("d033186f-8ab5-435e-9874-5238e141b148"),
                             ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"),
                             TrackId = new Guid("6d342342-ea26-40f4-aa92-420f3a943603")
                         },
                         new
                         {
-                            Id = new Guid("2f3edcdc-2ee1-4dfa-9de4-714c8118efaa"),
+                            Id = new Guid("dc4036b5-d7ef-4788-8b33-e21b42374005"),
                             ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"),
                             TrackId = new Guid("8e22b0a3-063e-40ae-976e-5b06f762c8ce")
                         },
                         new
                         {
-                            Id = new Guid("50826b84-341a-42de-8e15-6517d4f24721"),
+                            Id = new Guid("dc96bf29-f981-4cfe-9777-a459d0ab69db"),
                             ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"),
                             TrackId = new Guid("77b75ed9-e6d2-4d47-84c9-58af10e455c1")
                         },
                         new
                         {
-                            Id = new Guid("d780ef77-daaf-4c07-b01d-88eebc4aadbe"),
+                            Id = new Guid("de175c65-a3a6-4204-a1b2-318abe039cee"),
                             ArtistId = new Guid("c878736d-da07-4401-ab27-2743d4e035c5"),
                             TrackId = new Guid("7fdfa190-66d6-43be-b2af-dbbd45052828")
                         });
@@ -436,6 +488,9 @@ namespace Infrastructure.Persistance.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Code"));
 
+                    b.Property<decimal>("Duration")
+                        .HasColumnType("numeric");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
@@ -443,6 +498,9 @@ namespace Infrastructure.Persistance.Migrations
                         .IsRequired()
                         .HasMaxLength(70)
                         .HasColumnType("character varying(70)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -456,88 +514,110 @@ namespace Infrastructure.Persistance.Migrations
                             Id = new Guid("8366834f-0278-46e2-8142-011813bda329"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             Code = 0,
+                            Duration = 1.1m,
                             IsActive = false,
-                            Name = "The Explanation"
+                            Name = "The Explanation",
+                            Number = 0
                         },
                         new
                         {
                             Id = new Guid("533b7e3d-9cfd-4731-8dda-a1d5a86ff80a"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             Code = 0,
+                            Duration = 0m,
                             IsActive = false,
-                            Name = "Jocelyn Flores"
+                            Name = "Jocelyn Flores",
+                            Number = 0
                         },
                         new
                         {
                             Id = new Guid("1afe4a9e-7121-4b34-89a6-8db6e0b6ddad"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             Code = 0,
+                            Duration = 0m,
                             IsActive = false,
-                            Name = "Depression & Obsession"
+                            Name = "Depression & Obsession",
+                            Number = 0
                         },
                         new
                         {
                             Id = new Guid("f0c1326b-0646-46f4-966f-c10caa9c931b"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             Code = 0,
+                            Duration = 0m,
                             IsActive = false,
-                            Name = "Everybody Dies In Their Nightmares"
+                            Name = "Everybody Dies In Their Nightmares",
+                            Number = 0
                         },
                         new
                         {
                             Id = new Guid("492f70ab-f1de-4de4-93b3-8602df66b05a"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             Code = 0,
+                            Duration = 0m,
                             IsActive = false,
-                            Name = "Revenge"
+                            Name = "Revenge",
+                            Number = 0
                         },
                         new
                         {
                             Id = new Guid("baace2ca-c2c0-4cee-b129-53079d696059"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             Code = 0,
+                            Duration = 0m,
                             IsActive = false,
-                            Name = "Save Me"
+                            Name = "Save Me",
+                            Number = 0
                         },
                         new
                         {
                             Id = new Guid("84d5050b-a7b7-4c23-a2d1-93281183264a"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             Code = 0,
+                            Duration = 0m,
                             IsActive = false,
-                            Name = "Dead Inside (Interlude)"
+                            Name = "Dead Inside (Interlude)",
+                            Number = 0
                         },
                         new
                         {
                             Id = new Guid("6d342342-ea26-40f4-aa92-420f3a943603"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             Code = 0,
+                            Duration = 0m,
                             IsActive = false,
-                            Name = "Fuck Love feat. Trippie Redd"
+                            Name = "Fuck Love feat. Trippie Redd",
+                            Number = 0
                         },
                         new
                         {
                             Id = new Guid("8e22b0a3-063e-40ae-976e-5b06f762c8ce"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             Code = 0,
+                            Duration = 0m,
                             IsActive = false,
-                            Name = "Carry On"
+                            Name = "Carry On",
+                            Number = 0
                         },
                         new
                         {
                             Id = new Guid("77b75ed9-e6d2-4d47-84c9-58af10e455c1"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             Code = 0,
+                            Duration = 0m,
                             IsActive = false,
-                            Name = "Orlando"
+                            Name = "Orlando",
+                            Number = 0
                         },
                         new
                         {
                             Id = new Guid("7fdfa190-66d6-43be-b2af-dbbd45052828"),
                             AlbumId = new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"),
                             Code = 0,
+                            Duration = 0m,
                             IsActive = false,
-                            Name = "Ayala (Outro)"
+                            Name = "Ayala (Outro)",
+                            Number = 0
                         });
                 });
 

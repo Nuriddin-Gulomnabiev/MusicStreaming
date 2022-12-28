@@ -25,6 +25,8 @@ namespace AdminPanel.Application.Features.Tracks.Commands.EditTrack
             var track = await dbContext.Tracks
                     .Where(t => t.Id == request.Id && t.Code == request.Code)
                     .Include(t => t.Album)
+                    .Include(t => t.ArtistTracks)
+                    .ThenInclude(at => at.Artist)
                     .FirstOrDefaultAsync()
                 ?? throw new ResourceNotFoundException("Трек не найден");
 
@@ -66,10 +68,7 @@ namespace AdminPanel.Application.Features.Tracks.Commands.EditTrack
 
         private async Task UpdateTrackArtists(IEnumerable<int> artistsCodes, Track track)
         {
-            var oldArtists = await dbContext.ArtistTracks
-                    .Where(a => a.TrackId == track.Id)
-                    .Include(a => a.Artist)
-                    .ToListAsync();
+            var oldArtists = track.ArtistTracks;
 
             var newArtistCodes = artistsCodes.Distinct().ToList();
 

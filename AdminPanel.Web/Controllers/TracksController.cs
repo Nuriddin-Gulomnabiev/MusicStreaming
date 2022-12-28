@@ -1,6 +1,7 @@
 ﻿using AdminPanel.Application.Features.Tracks.Commands.CreateTrack;
 using AdminPanel.Application.Features.Tracks.Commands.EditTrack;
 using AdminPanel.Application.Features.Tracks.Commands.EditTrackStatus;
+using AdminPanel.Application.Features.Tracks.Queries.GetAllTracks;
 using AdminPanel.Application.Features.Tracks.Queries.GetTrack;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,12 @@ namespace AdminPanel.Web.Controllers
     {
         public TracksController(IMediator mediator) : base(mediator)
         {
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTracks([FromQuery] GetAllTracksQuery query)
+        {
+            return Success(await mediator.Send(query));
         }
 
         [HttpPost("create")]

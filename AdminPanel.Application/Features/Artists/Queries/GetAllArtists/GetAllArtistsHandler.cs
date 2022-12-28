@@ -14,23 +14,13 @@ namespace AdminPanel.Application.Features.Artists.Queries.GetAllArtists
 
         public async Task<IEnumerable<GetAllArtistsViewModel>> Handle(GetAllArtistsQuery request, CancellationToken cancellationToken)
         {
-            var artists = await dbContext.Artists.OrderBy(a => a.Name).ToListAsync();
+            var artists = await dbContext.Artists
+                .OrderBy(a => a.Name)
+                .Include(a => a.ArtistAlbums)
+                .ThenInclude(aa => aa.Album)
+                .ToListAsync();
 
-            var result = new List<GetAllArtistsViewModel>();
-
-            foreach (Domain.Entities.Artists.Artist artist in artists)
-            {
-                var albums = await dbContext.ArtistAlbums.Where(a => a.ArtistId == artist.Id).Select(a => a.Album).ToListAsync(cancellationToken: cancellationToken);
-
-                var artistVM = mapper.Map<GetAllArtistsViewModel>(artist);
-
-                if (albums.Any())
-                    artistVM.Albums = albums.ToDictionary(a => a.Code, a => a.Name);
-
-                result.Add(artistVM);
-            }
-
-            return result;
+            return mapper.Map<List<GetAllArtistsViewModel>>(artists);
         }
     }
 }

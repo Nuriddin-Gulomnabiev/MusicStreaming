@@ -1,5 +1,6 @@
 ﻿using AdminPanel.Application.Features.Genres.Commands.CreateGenre;
 using AdminPanel.Application.Features.Genres.Commands.EditGenre;
+using AdminPanel.Application.Features.Genres.Queries.GetAllGenres;
 using AdminPanel.Application.Features.Genres.Queries.GetGenre;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,12 @@ namespace AdminPanel.Web.Controllers
     {
         public GenresController(IMediator mediator) : base(mediator)
         {
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetGenres([FromQuery] GetAllGenresQuery query, CancellationToken cancellationToken)
+        {
+            return Success(await mediator.Send(query, cancellationToken));
         }
 
         [HttpGet("{code}")]

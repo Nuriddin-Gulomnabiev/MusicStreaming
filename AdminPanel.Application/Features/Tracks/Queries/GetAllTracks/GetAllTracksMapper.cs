@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Domain.Entities.Tracks;
 
-namespace AdminPanel.Application.Features.Tracks.Queries.GetTrack
+namespace AdminPanel.Application.Features.Tracks.Queries.GetAllTracks
 {
-    public class GetTrackMapper : Profile
+    public class GetAllTracksMapper : Profile
     {
-        public GetTrackMapper()
+        public GetAllTracksMapper()
         {
-            CreateMap<Track, GetTrackViewModel>()
+            CreateMap<Track, GetAllTracksViewModel>()
                 .ForMember(vm => vm.Artists, opt => opt.MapFrom(src => src.ArtistTracks.Select(a => a.Artist).ToDictionary(a => a.Code, a => a.Name)));
         }
     }
