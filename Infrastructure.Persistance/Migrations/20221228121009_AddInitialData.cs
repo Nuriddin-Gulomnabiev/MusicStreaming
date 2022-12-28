@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Infrastructure.Persistance.Migrations
 {
-    public partial class AddTrackNumber : Migration
+    public partial class AddInitialData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -90,7 +89,8 @@ namespace Infrastructure.Persistance.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AlbumId = table.Column<Guid>(type: "uuid", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    Number = table.Column<int>(type: "integer", nullable: false)
+                    Number = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    Duration = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -246,20 +246,20 @@ namespace Infrastructure.Persistance.Migrations
 
             migrationBuilder.InsertData(
                 table: "Tracks",
-                columns: new[] { "Id", "AlbumId", "IsActive", "Name", "Number" },
+                columns: new[] { "Id", "AlbumId", "Duration", "IsActive", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("1afe4a9e-7121-4b34-89a6-8db6e0b6ddad"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), false, "Depression & Obsession", 0 },
-                    { new Guid("492f70ab-f1de-4de4-93b3-8602df66b05a"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), false, "Revenge", 0 },
-                    { new Guid("533b7e3d-9cfd-4731-8dda-a1d5a86ff80a"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), false, "Jocelyn Flores", 0 },
-                    { new Guid("6d342342-ea26-40f4-aa92-420f3a943603"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), false, "Fuck Love feat. Trippie Redd", 0 },
-                    { new Guid("77b75ed9-e6d2-4d47-84c9-58af10e455c1"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), false, "Orlando", 0 },
-                    { new Guid("7fdfa190-66d6-43be-b2af-dbbd45052828"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), false, "Ayala (Outro)", 0 },
-                    { new Guid("8366834f-0278-46e2-8142-011813bda329"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), false, "The Explanation", 0 },
-                    { new Guid("84d5050b-a7b7-4c23-a2d1-93281183264a"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), false, "Dead Inside (Interlude)", 0 },
-                    { new Guid("8e22b0a3-063e-40ae-976e-5b06f762c8ce"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), false, "Carry On", 0 },
-                    { new Guid("baace2ca-c2c0-4cee-b129-53079d696059"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), false, "Save Me", 0 },
-                    { new Guid("f0c1326b-0646-46f4-966f-c10caa9c931b"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), false, "Everybody Dies In Their Nightmares", 0 }
+                    { new Guid("1afe4a9e-7121-4b34-89a6-8db6e0b6ddad"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), 0m, false, "Depression & Obsession" },
+                    { new Guid("492f70ab-f1de-4de4-93b3-8602df66b05a"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), 0m, false, "Revenge" },
+                    { new Guid("533b7e3d-9cfd-4731-8dda-a1d5a86ff80a"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), 0m, false, "Jocelyn Flores" },
+                    { new Guid("6d342342-ea26-40f4-aa92-420f3a943603"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), 0m, false, "Fuck Love feat. Trippie Redd" },
+                    { new Guid("77b75ed9-e6d2-4d47-84c9-58af10e455c1"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), 0m, false, "Orlando" },
+                    { new Guid("7fdfa190-66d6-43be-b2af-dbbd45052828"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), 0m, false, "Ayala (Outro)" },
+                    { new Guid("8366834f-0278-46e2-8142-011813bda329"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), 1.1m, false, "The Explanation" },
+                    { new Guid("84d5050b-a7b7-4c23-a2d1-93281183264a"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), 0m, false, "Dead Inside (Interlude)" },
+                    { new Guid("8e22b0a3-063e-40ae-976e-5b06f762c8ce"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), 0m, false, "Carry On" },
+                    { new Guid("baace2ca-c2c0-4cee-b129-53079d696059"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), 0m, false, "Save Me" },
+                    { new Guid("f0c1326b-0646-46f4-966f-c10caa9c931b"), new Guid("fe024194-aad4-462a-8fbd-8dd7b4a2cd90"), 0m, false, "Everybody Dies In Their Nightmares" }
                 });
 
             migrationBuilder.InsertData(
