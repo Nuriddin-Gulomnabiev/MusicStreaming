@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Persistance.Migrations
 {
     [DbContext(typeof(AdminApplicationDbContext))]
-    [Migration("20221228121009_AddInitialData")]
+    [Migration("20221229110450_AddInitialData")]
     partial class AddInitialData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

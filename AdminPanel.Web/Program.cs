@@ -25,6 +25,6 @@ app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-//app.UseAdminApplicationMigrates();
+app.UseAdminApplicationMigrates();
 
 app.Run();
