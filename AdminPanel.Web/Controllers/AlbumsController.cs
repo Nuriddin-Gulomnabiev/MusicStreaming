@@ -1,6 +1,7 @@
 ﻿using AdminPanel.Application.Features.Albums.Commands.CreateAlbum;
 using AdminPanel.Application.Features.Albums.Commands.EditAlbum;
 using AdminPanel.Application.Features.Albums.Queries.GetAlbum;
+using AdminPanel.Application.Features.Albums.Queries.GetAllAlbums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,12 @@ namespace AdminPanel.Web.Controllers
     {
         public AlbumsController(IMediator mediator) : base(mediator)
         {
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAlbums([FromQuery] GetAllAlbumsQuery query)
+        {
+            return Success(await mediator.Send(query));
         }
 
         [HttpGet("{code}")]
