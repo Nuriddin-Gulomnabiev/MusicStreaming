@@ -1,13 +1,13 @@
 ﻿using MediatR;
 using FluentValidation;
-using System.Reflection;
-using AdminPanel.Application.Common.Behaviours;
+using Client.Application.Common.Behaviours;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Services.Services.FileManager.Extensions;
 using Services.Services.IdentifiedService.Extensions;
+using System.Reflection;
 
-namespace AdminPanel.Application
+namespace Client.Application
 {
     public static class ServiceCollection
     {
