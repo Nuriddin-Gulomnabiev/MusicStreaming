@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Application.Common.Interfaces;
+using Client.Application.Common.Interfaces;
 using FileManager.Application.Common.Interfaces;
 using Infrastructure.Persistance.Contexts;
 using Microsoft.AspNetCore.Builder;
@@ -19,6 +20,17 @@ namespace Infrastructure.Persistance
             });
 
             services.AddScoped<IAdminApplicationDbContext>(provider => provider.GetService<AdminApplicationDbContext>()!);
+
+            return services;
+        }
+
+        public static IServiceCollection AddClientApplicationPersistence(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<ClientApplicationDbContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("PostgreSqlConnection"))
+            );
+
+            services.AddScoped<IClientApplicationDbContext>(provider => provider.GetService<ClientApplicationDbContext>()!);
 
             return services;
         }

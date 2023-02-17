@@ -11,7 +11,7 @@ namespace Client.Application
 {
     public static class ServiceCollection
     {
-        public static IServiceCollection AddAdminApplication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddClientApplication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());

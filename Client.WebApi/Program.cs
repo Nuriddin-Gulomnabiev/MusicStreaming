@@ -1,25 +1,27 @@
+using Client.Application;
+using Client.WebApi.Common.Extensions;
+using Client.WebApi.Common.Middlewares;
+using Infrastructure.Persistance;
+using Services.Services.JwtService.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddClientApplication(builder.Configuration);
+builder.Services.AddClientApplicationPersistence(builder.Configuration);
+builder.Services.AddSwaggerServices();
+builder.Services.AddJwtServices(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+builder.Configuration.SetBasePath(app.Environment.ContentRootPath);
 
+app.UseSwaggerApps();
 app.UseHttpsRedirection();
-
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

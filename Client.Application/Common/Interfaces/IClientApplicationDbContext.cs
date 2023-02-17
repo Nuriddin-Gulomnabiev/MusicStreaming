@@ -4,11 +4,11 @@ using Domain.Entities.Artists;
 using Domain.Entities.Genres;
 using Domain.Entities.Tracks;
 using Microsoft.EntityFrameworkCore;
-using Client.Application.Common.Interfaces;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Infrastructure.Persistance.Contexts
+namespace Client.Application.Common.Interfaces
 {
-    public class ClientApplicationDbContext : DbContext, IClientApplicationDbContext
+    public interface IClientApplicationDbContext
     {
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Album> Albums { get; set; }
@@ -19,13 +19,8 @@ namespace Infrastructure.Persistance.Contexts
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Track> Tracks { get; set; }
 
-        public ClientApplicationDbContext(DbContextOptions<ClientApplicationDbContext> options) : base(options)
-        {
-        }
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return await base.SaveChangesAsync(cancellationToken);
-        }
+        DatabaseFacade Database { get; }
     }
 }
