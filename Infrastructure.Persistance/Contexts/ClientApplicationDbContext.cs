@@ -5,6 +5,7 @@ using Domain.Entities.Genres;
 using Domain.Entities.Tracks;
 using Microsoft.EntityFrameworkCore;
 using Client.Application.Common.Interfaces;
+using Domain.Entities.Sessions;
 
 namespace Infrastructure.Persistance.Contexts
 {
@@ -18,6 +19,7 @@ namespace Infrastructure.Persistance.Contexts
         public DbSet<ArtistTrack> ArtistTracks { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Track> Tracks { get; set; }
+        public DbSet<Session> Sessions { get; set; }
 
         public ClientApplicationDbContext(DbContextOptions<ClientApplicationDbContext> options) : base(options)
         {

@@ -30,10 +30,10 @@ namespace Services.Services.JwtService
 
             var signingCredentials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256Signature);
 
-            var accessToken = WriteToken(claims, signingCredentials, JwtSettings.AccessExpiration);
-            var refreshToken = WriteToken(claims, signingCredentials, JwtSettings.RefreshExpiration);
+            (var accessToken, var accessExpiresAt) = WriteToken(claims, signingCredentials, JwtSettings.AccessExpiration);
+            (var refreshToken, var refreshExpiresAt) = WriteToken(claims, signingCredentials, JwtSettings.RefreshExpiration);
 
-            return new Tokens(accessToken, refreshToken);
+            return new Tokens(accessToken, refreshToken, accessExpiresAt, refreshExpiresAt);
         }
 
         public ClaimsPrincipal ValidateToken(string token)
@@ -68,8 +68,10 @@ namespace Services.Services.JwtService
             }
         }
 
-        private string WriteToken(Claim[] claims, SigningCredentials signingCredentials, int tokenExpire)
+        private (string token, DateTime expiresAt) WriteToken(Claim[] claims, SigningCredentials signingCredentials, int tokenExpire)
         {
+            var expiresAt = DateTime.Now.AddMinutes(tokenExpire);
+
             var jwt = new JwtSecurityToken(
                             issuer: JwtSettings.Issuer,
                             audience: JwtSettings.Audience,
@@ -77,7 +79,7 @@ namespace Services.Services.JwtService
                             expires: DateTime.Now.AddMinutes(tokenExpire),
                             signingCredentials: signingCredentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(jwt);
+            return (new JwtSecurityTokenHandler().WriteToken(jwt), expiresAt);
         }
     }
 }
