@@ -29,8 +29,6 @@ namespace Infrastructure.Persistance.Contexts
 
         public AdminApplicationDbContext(DbContextOptions<AdminApplicationDbContext> options) : base(options)
         {
-            //Database.EnsureCreated();
-            //Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

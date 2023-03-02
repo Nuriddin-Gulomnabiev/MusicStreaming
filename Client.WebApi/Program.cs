@@ -4,6 +4,8 @@ using Client.WebApi.Common.Middlewares;
 using Infrastructure.Persistance;
 using Services.Services.JwtService.Extensions;
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -12,6 +14,7 @@ builder.Services.AddClientApplication(builder.Configuration);
 builder.Services.AddClientApplicationPersistence(builder.Configuration);
 builder.Services.AddSwaggerServices();
 builder.Services.AddJwtServices(builder.Configuration);
+builder.Services.AddAuthorizationAuthetication();
 
 var app = builder.Build();
 

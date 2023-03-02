@@ -1,4 +1,5 @@
 ﻿using Services.Services.JwtService.Exceptions;
+using Services.Services.JwtService.Interfaces;
 using Services.Services.JwtService.ModelResponses;
 using System.Security.Claims;
 
@@ -6,7 +7,7 @@ namespace Services.Services.JwtService
 {
     public interface IJwtService
     {
-        Tokens CreateToken(Guid userId);
+        Tokens CreateToken(IJwtPayload payload);
 
         /// <summary>
         /// Валидация токена

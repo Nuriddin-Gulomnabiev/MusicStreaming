@@ -4,6 +4,8 @@ using AdminPanel.Web.Common.Middlewares;
 using Infrastructure.Persistance;
 using Services.Services.JwtService.Extensions;
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();

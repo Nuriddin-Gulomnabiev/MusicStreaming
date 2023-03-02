@@ -1,6 +1,8 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Services.Services.JwtService.Exceptions;
 using Services.Services.JwtService.Helpers;
+using Services.Services.JwtService.Interfaces;
 using Services.Services.JwtService.ModelResponses;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -21,11 +23,11 @@ namespace Services.Services.JwtService
             Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings.Key));
         }
 
-        public Tokens CreateToken(Guid userId)
+        public Tokens CreateToken(IJwtPayload payload)
         {
             var claims = new[]
             {
-                new Claim("data", userId.ToString()),
+                new Claim("data", JsonConvert.SerializeObject(payload)),
             };
 
             var signingCredentials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256Signature);

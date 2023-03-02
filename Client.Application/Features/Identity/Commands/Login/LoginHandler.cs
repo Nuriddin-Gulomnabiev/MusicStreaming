@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using Client.Application.Common.Handlers;
+using Client.Application.Common.Helpers;
 using Client.Application.Common.Interfaces;
+using Domain.Entities.Artists;
 using Domain.Entities.Sessions;
 using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Services.Services.JwtService;
+using Services.Services.JwtService.ModelResponses;
 
 namespace Client.Application.Features.Identity.Commands.Login
 {
@@ -23,7 +26,7 @@ namespace Client.Application.Features.Identity.Commands.Login
             var artist = await dbContext.Artists.Where(a => a.Email == request.Email && a.Password == request.Password).Include(a => a.Sessions).FirstOrDefaultAsync()
                 ?? throw new UnauthorizedException("Неверно введённый логин и/или пароль");
 
-            var tokens = jwtService.CreateToken(artist.Id);
+            var tokens = jwtService.CreateToken(new JwtPayload(artist.Id, request.DeviceId));
 
             using var tran = dbContext.Database.BeginTransaction();
             try
@@ -32,23 +35,11 @@ namespace Client.Application.Features.Identity.Commands.Login
 
                 if (session == null)
                 {
-                    session = new Session()
-                    {
-                        Id = Guid.NewGuid(),
-                        ArtistId = artist.Id,
-                        DeviceId = request.DeviceId,
-                        ExpiresAt = tokens.RefreshExpiresAt,
-                        RefreshToken = tokens.RefreshToken,
-                    };
-
-                    dbContext.Sessions.Add(session);
+                    AddNewSession(request, artist, tokens);
                 }
                 else
                 {
-                    session.RefreshToken = tokens.RefreshToken;
-                    session.ExpiresAt = tokens.RefreshExpiresAt;
-
-                    dbContext.Sessions.Update(session);
+                    UpdateSession(tokens, session);
                 }
 
                 await dbContext.SaveChangesAsync();
@@ -69,6 +60,28 @@ namespace Client.Application.Features.Identity.Commands.Login
 
                 throw;
             }
+        }
+
+        private void UpdateSession(Tokens tokens, Session session)
+        {
+            session.RefreshToken = tokens.RefreshToken;
+            session.ExpiresAt = tokens.RefreshExpiresAt;
+
+            dbContext.Sessions.Update(session);
+        }
+
+        private void AddNewSession(LoginCommand request, Artist artist, Tokens tokens)
+        {
+            Session session = new Session()
+            {
+                Id = Guid.NewGuid(),
+                ArtistId = artist.Id,
+                DeviceId = request.DeviceId,
+                ExpiresAt = tokens.RefreshExpiresAt,
+                RefreshToken = tokens.RefreshToken,
+            };
+
+            dbContext.Sessions.Add(session);
         }
     }
 }

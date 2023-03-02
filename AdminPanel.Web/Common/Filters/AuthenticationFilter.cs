@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Services.Services.JwtService.Exceptions;
 using Services.Services.IdentifiedService;
 using AdminPanel.Web.Common.Attributes;
+using Newtonsoft.Json;
+using AdminPanel.Application.Common.Helpers;
 
 namespace AdminPanel.Web.Common.Filters
 {
@@ -27,12 +29,14 @@ namespace AdminPanel.Web.Common.Filters
             var data = context.HttpContext.User.FindFirst("data")?.Value
                 ?? throw new TokenInvalidException();
 
-            if (!Guid.TryParse(data, out Guid userId))
+            var payload = JsonConvert.DeserializeObject<JwtPayload>(data);
+
+            if (payload?.UserId == null)
                 throw new TokenInvalidException();
 
             var token = GetBearerToken(context.HttpContext);
 
-            var getAdminQuery = dbContext.Admins.Where(a => a.Id == userId);
+            var getAdminQuery = dbContext.Admins.Where(a => a.Id == payload.UserId);
 
             if (context.ActionDescriptor.EndpointMetadata.OfType<RefreshTokenAttribute>().Any())
             {
@@ -47,7 +51,8 @@ namespace AdminPanel.Web.Common.Filters
                 ?? throw new TokenExpiredException();
 
             identifiedService.SetToken(token);
-            identifiedService.SetUserId(userId);
+            identifiedService.SetUserId(payload.UserId);
+            identifiedService.SetPayload(payload);
         }
 
         private static string GetBearerToken(HttpContext context)

@@ -5,6 +5,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Services.Services.JwtService;
+using AdminPanel.Application.Common.Helpers;
 
 namespace AdminPanel.Application.Features.Identity.Commands.Login
 {
@@ -22,7 +23,7 @@ namespace AdminPanel.Application.Features.Identity.Commands.Login
             var admin = await dbContext.Admins.Where(a => a.Login == request.Login && a.Password == request.Password).FirstOrDefaultAsync()
                 ?? throw new UnauthorizedException("Неверно введённый логин и/или пароль");
 
-            var tokens = jwtService.CreateToken(admin.Id);
+            var tokens = jwtService.CreateToken(new JwtPayload(admin.Id));
 
             using var tran = dbContext.Database.BeginTransaction();
             try

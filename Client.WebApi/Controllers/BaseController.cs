@@ -1,11 +1,14 @@
-﻿using Client.WebApi.Common.ModelResponses;
+﻿using Client.WebApi.Common.Filter;
+using Client.WebApi.Common.ModelResponses;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Client.WebApi.Controllers
 {
+    [Authorize]
     [ApiController]
-    //[TypeFilter((typeof(AuthenticationFilter)))]
+    [TypeFilter((typeof(AuthenticationFilter)))]
     public abstract class BaseController : ControllerBase
     {
         protected readonly IMediator mediator;

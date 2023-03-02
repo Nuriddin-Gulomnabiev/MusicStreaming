@@ -6,6 +6,7 @@ using AdminPanel.Application.Common.Interfaces;
 using Services.Services.IdentifiedService;
 using Services.Services.JwtService;
 using Services.Services.JwtService.Exceptions;
+using AdminPanel.Application.Common.Helpers;
 
 namespace AdminPanel.Application.Features.Identity.Commands.RefreshToken
 {
@@ -33,7 +34,7 @@ namespace AdminPanel.Application.Features.Identity.Commands.RefreshToken
             var admin = await dbContext.Admins.Where(a => a.RefreshToken == refreshToken && a.Id == userId).FirstOrDefaultAsync()
                 ?? throw new TokenInvalidException();
 
-            var tokens = jwtService.CreateToken(admin.Id);
+            var tokens = jwtService.CreateToken(new JwtPayload(admin.Id));
 
             using var tran = dbContext.Database.BeginTransaction();
             try
