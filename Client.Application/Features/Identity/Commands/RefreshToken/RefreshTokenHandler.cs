@@ -12,7 +12,6 @@ namespace Client.Application.Features.Identity.Commands.RefreshToken
 {
     internal class RefreshTokenHandler : BaseCommandQueryHandler, IRequestHandler<RefreshTokenCommand, RefreshTokenViewModel>
     {
-        private readonly IIdentifiedService identifiedService;
         private readonly IJwtService jwtService;
 
         public RefreshTokenHandler(
@@ -20,10 +19,9 @@ namespace Client.Application.Features.Identity.Commands.RefreshToken
             IMapper mapper,
             IIdentifiedService identifiedService,
             IJwtService jwtService
-            ) : base(dbContext, mapper)
+            ) : base(dbContext, mapper, identifiedService)
         {
             this.jwtService = jwtService;
-            this.identifiedService = identifiedService;
         }
 
         public async Task<RefreshTokenViewModel> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)

@@ -11,6 +11,7 @@ namespace Domain.Entities.Albums
         public int Code { get; set; }
         public DateTime ReleaseDate { get; set; }
         public bool IsActive { get; set; }
+        public string CoverUrl { get; set; }
 
         public virtual ICollection<Genre> Genres { get; set; }
         public virtual ICollection<ArtistAlbum> ArtistAlbums { get; set; }

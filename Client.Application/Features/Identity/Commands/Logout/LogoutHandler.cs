@@ -10,11 +10,8 @@ namespace Client.Application.Features.Identity.Commands.Logout
 {
     internal class LogoutHandler : BaseCommandQueryHandler, IRequestHandler<LogoutCommand>
     {
-        private readonly IIdentifiedService identifiedService;
-
-        public LogoutHandler(IClientApplicationDbContext dbContext, IMapper mapper, IIdentifiedService identifiedService) : base(dbContext, mapper)
+        public LogoutHandler(IClientApplicationDbContext dbContext, IMapper mapper, IIdentifiedService identifiedService) : base(dbContext, mapper, identifiedService)
         {
-            this.identifiedService = identifiedService;
         }
 
         public async Task<Unit> Handle(LogoutCommand request, CancellationToken cancellationToken)

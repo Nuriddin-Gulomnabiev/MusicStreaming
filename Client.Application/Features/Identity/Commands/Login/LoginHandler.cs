@@ -7,6 +7,7 @@ using Domain.Entities.Sessions;
 using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Services.Services.IdentifiedService;
 using Services.Services.JwtService;
 using Services.Services.JwtService.ModelResponses;
 
@@ -16,7 +17,11 @@ namespace Client.Application.Features.Identity.Commands.Login
     {
         private readonly IJwtService jwtService;
 
-        public LoginHandler(IClientApplicationDbContext dbContext, IMapper mapper, IJwtService jwtService) : base(dbContext, mapper)
+        public LoginHandler(
+            IClientApplicationDbContext dbContext,
+            IMapper mapper,
+            IJwtService jwtService,
+            IIdentifiedService identifiedService) : base(dbContext, mapper, identifiedService)
         {
             this.jwtService = jwtService;
         }

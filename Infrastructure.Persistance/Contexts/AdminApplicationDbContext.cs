@@ -3,12 +3,14 @@ using Domain.Entities.Admins;
 using Domain.Entities.Albums;
 using Domain.Entities.Artists;
 using Domain.Entities.Genres;
+using Domain.Entities.Playlists;
 using Domain.Entities.Sessions;
 using Domain.Entities.Tracks;
 using Infrastructure.Persistance.Configurations.Admins;
 using Infrastructure.Persistance.Configurations.Albums;
 using Infrastructure.Persistance.Configurations.Artists;
 using Infrastructure.Persistance.Configurations.Genres;
+using Infrastructure.Persistance.Configurations.Playlists;
 using Infrastructure.Persistance.Configurations.Sessions;
 using Infrastructure.Persistance.Configurations.Tracks;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +28,8 @@ namespace Infrastructure.Persistance.Contexts
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Track> Tracks { get; set; }
         public DbSet<Session> Sessions { get; set; }
+        public DbSet<Playlist> Playlists { get; set; }
+        public DbSet<PlaylistTrack> PlaylistTracks { get; set; }
 
         public AdminApplicationDbContext(DbContextOptions<AdminApplicationDbContext> options) : base(options)
         {
@@ -42,6 +46,8 @@ namespace Infrastructure.Persistance.Contexts
             modelBuilder.ApplyConfiguration(new GenreConfiguration());
             modelBuilder.ApplyConfiguration(new TrackConfiguration());
             modelBuilder.ApplyConfiguration(new SessionConfiguration());
+            modelBuilder.ApplyConfiguration(new PlaylistConfiguration());
+            modelBuilder.ApplyConfiguration(new PlaylistTrackConfiguration());
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

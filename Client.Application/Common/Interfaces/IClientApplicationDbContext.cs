@@ -1,7 +1,9 @@
-﻿using Domain.Entities.Admins;
+﻿using Domain.Common;
+using Domain.Entities.Admins;
 using Domain.Entities.Albums;
 using Domain.Entities.Artists;
 using Domain.Entities.Genres;
+using Domain.Entities.Playlists;
 using Domain.Entities.Sessions;
 using Domain.Entities.Tracks;
 using Microsoft.EntityFrameworkCore;
@@ -20,8 +22,12 @@ namespace Client.Application.Common.Interfaces
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Track> Tracks { get; set; }
         public DbSet<Session> Sessions { get; set; }
+        public DbSet<Playlist> Playlists { get; set; }
+        public DbSet<PlaylistTrack> PlaylistTracks { get; set; }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
+        public Task UpdateChangedProperties<T>(T entity, CancellationToken cancellationToken = default) where T : BaseEntity;
 
         DatabaseFacade Database { get; }
     }

@@ -2,6 +2,8 @@
 using Domain.Entities.Albums;
 using Domain.Entities.Artists;
 using Domain.Entities.Genres;
+using Domain.Entities.Playlists;
+using Domain.Entities.Sessions;
 using Domain.Entities.Tracks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -18,6 +20,9 @@ namespace AdminPanel.Application.Common.Interfaces
         public DbSet<ArtistTrack> ArtistTracks { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Track> Tracks { get; set; }
+        public DbSet<Session> Sessions { get; set; }
+        public DbSet<Playlist> Playlists { get; set; }
+        public DbSet<PlaylistTrack> PlaylistTracks { get; set; }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 

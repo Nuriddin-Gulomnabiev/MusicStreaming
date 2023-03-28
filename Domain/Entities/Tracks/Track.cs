@@ -1,6 +1,7 @@
 ﻿using Domain.Common;
 using Domain.Entities.Albums;
 using Domain.Entities.Artists;
+using Domain.Entities.Playlists;
 
 namespace Domain.Entities.Tracks
 {
@@ -15,5 +16,6 @@ namespace Domain.Entities.Tracks
 
         public Album Album { get; set; }
         public virtual ICollection<ArtistTrack> ArtistTracks { get; set; }
+        public virtual ICollection<PlaylistTrack> PlaylistTracks { get; set; }
     }
 }

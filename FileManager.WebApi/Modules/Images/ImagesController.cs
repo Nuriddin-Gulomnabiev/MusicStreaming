@@ -6,7 +6,7 @@ using FileManager.WebApi.Modules.Images.ModelRequests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FileManager.WebApi.Modules.Photos
+namespace FileManager.WebApi.Modules.Images
 {
     [Route("api/v1/")]
     public class ImagesController : BaseController

@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Entities.Playlists;
 using Domain.Entities.Sessions;
 
 namespace Domain.Entities.Artists
@@ -10,8 +11,10 @@ namespace Domain.Entities.Artists
         public bool IsActive { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+
         public virtual ICollection<ArtistAlbum> ArtistAlbums { get; set; }
         public virtual ICollection<ArtistTrack> ArtistTracks { get; set; }
         public virtual ICollection<Session> Sessions { get; set; }
+        public virtual ICollection<Playlist> Playlists { get; set; }
     }
 }
