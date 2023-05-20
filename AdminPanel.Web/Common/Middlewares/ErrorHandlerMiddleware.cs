@@ -1,9 +1,9 @@
-﻿using Domain.Enums.ErrorCodes;
-using Domain.Exceptions;
-using AdminPanel.Web.Common.ModelResponses;
-using Newtonsoft.Json;
-using Domain.Utils;
+﻿using AdminPanel.Web.Common.ModelResponses;
 using Domain.Common;
+using Domain.Enums.ErrorCodes;
+using Domain.Exceptions;
+using Domain.Helper;
+using Newtonsoft.Json;
 
 namespace AdminPanel.Web.Common.Middlewares
 {
@@ -50,7 +50,7 @@ namespace AdminPanel.Web.Common.Middlewares
         private static async Task WriteResponseAsync(HttpContext context, ErrorModelResponse response)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = HttpStatusCodeUtil.GetHttpStatusCodeByErrorCodeEnum(response.Code);
+            context.Response.StatusCode = HttpStatusCodeHelper.GetHttpStatusCodeByErrorCodeEnum(response.Code);
 
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
         }

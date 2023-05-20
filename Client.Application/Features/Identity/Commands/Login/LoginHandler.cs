@@ -13,7 +13,7 @@ using Services.Services.JwtService.ModelResponses;
 
 namespace Client.Application.Features.Identity.Commands.Login
 {
-    internal class LoginHandler : BaseCommandQueryHandler, IRequestHandler<LoginCommand, LoginViewModel>
+    internal class LoginHandler : BaseHandler, IRequestHandler<LoginCommand, LoginViewModel>
     {
         private readonly IJwtService jwtService;
 

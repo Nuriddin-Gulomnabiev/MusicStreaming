@@ -1,9 +1,9 @@
 ﻿using Domain.Exceptions;
-using Shared.Helpers.Hash;
+using Domain.Helpers;
 using FileManager.WebApi.Common.Helpers;
-using Microsoft.Extensions.Primitives;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Primitives;
 
 namespace FileManager.WebApi.Common.Filters
 {
@@ -37,7 +37,7 @@ namespace FileManager.WebApi.Common.Filters
             var allowedHost = allowedHosts.Where(a => a.Host == host).FirstOrDefault()
                 ?? throw new UnauthorizedException();
 
-            if (HashService.Sha256($"{token}:{allowedHost.Key}:{datetime}") != hash)
+            if (HashHelper.Sha256($"{token}:{allowedHost.Key}:{datetime}") != hash)
                 throw new UnauthorizedException();
 
             if (context.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any())

@@ -1,11 +1,11 @@
-﻿using Domain.Exceptions;
-using AdminPanel.Application.Common.Handlers;
+﻿using AdminPanel.Application.Common.Handlers;
 using AdminPanel.Application.Common.Interfaces;
 using AutoMapper;
+using Domain.Entities.Albums;
 using Domain.Entities.Artists;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Domain.Entities.Albums;
 
 namespace AdminPanel.Application.Features.Albums.Commands.EditAlbum
 {

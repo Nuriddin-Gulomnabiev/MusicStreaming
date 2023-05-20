@@ -8,7 +8,7 @@ using Services.Services.IdentifiedService;
 
 namespace Client.Application.Features.Playlists.Command.DeletePlaylist
 {
-    internal class DeletePlaylistHandler : BaseCommandQueryHandler, IRequestHandler<DeletePlaylistCommand>
+    internal class DeletePlaylistHandler : BaseHandler, IRequestHandler<DeletePlaylistCommand>
     {
         public DeletePlaylistHandler(IClientApplicationDbContext dbContext, IMapper mapper, IIdentifiedService identifiedService) : base(dbContext, mapper, identifiedService)
         {
@@ -24,7 +24,7 @@ namespace Client.Application.Features.Playlists.Command.DeletePlaylist
             playlist.LastUpdatedAt = DateTime.Now;
             playlist.IsActive = false;
 
-            await dbContext.UpdateChangedProperties(playlist);
+            dbContext.Attach(playlist);
             await dbContext.SaveChangesAsync();
 
             return Unit.Value;

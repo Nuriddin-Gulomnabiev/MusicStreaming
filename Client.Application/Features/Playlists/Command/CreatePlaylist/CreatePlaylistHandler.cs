@@ -7,7 +7,7 @@ using Services.Services.IdentifiedService;
 
 namespace Client.Application.Features.Playlists.Command.CreatePlaylist
 {
-    internal class CreatePlaylistHandler : BaseCommandQueryHandler, IRequestHandler<CreatePlaylistCommand>
+    internal class CreatePlaylistHandler : BaseHandler, IRequestHandler<CreatePlaylistCommand>
     {
         public CreatePlaylistHandler(IClientApplicationDbContext dbContext, IMapper mapper, IIdentifiedService identifiedService) : base(dbContext, mapper, identifiedService)
         {

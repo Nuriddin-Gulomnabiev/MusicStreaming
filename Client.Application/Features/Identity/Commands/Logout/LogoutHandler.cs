@@ -8,7 +8,7 @@ using Services.Services.IdentifiedService;
 
 namespace Client.Application.Features.Identity.Commands.Logout
 {
-    internal class LogoutHandler : BaseCommandQueryHandler, IRequestHandler<LogoutCommand>
+    internal class LogoutHandler : BaseHandler, IRequestHandler<LogoutCommand>
     {
         public LogoutHandler(IClientApplicationDbContext dbContext, IMapper mapper, IIdentifiedService identifiedService) : base(dbContext, mapper, identifiedService)
         {

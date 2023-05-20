@@ -1,10 +1,10 @@
-﻿using Domain.Exceptions;
-using AdminPanel.Application.Common.Handlers;
+﻿using AdminPanel.Application.Common.Handlers;
 using AdminPanel.Application.Common.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper.QueryableExtensions;
 
 namespace AdminPanel.Application.Features.Genres.Queries.GetGenre
 {

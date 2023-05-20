@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿using Client.Application.Common.Behaviours;
 using FluentValidation;
-using Client.Application.Common.Behaviours;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Services.Services.FileManager.Extensions;

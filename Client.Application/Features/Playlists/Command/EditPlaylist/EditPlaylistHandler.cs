@@ -8,7 +8,7 @@ using Services.Services.IdentifiedService;
 
 namespace Client.Application.Features.Playlists.Command.EditPlaylist
 {
-    internal class EditPlaylistHandler : BaseCommandQueryHandler, IRequestHandler<EditPlaylistCommand>
+    internal class EditPlaylistHandler : BaseHandler, IRequestHandler<EditPlaylistCommand>
     {
         public EditPlaylistHandler(IClientApplicationDbContext dbContext, IMapper mapper, IIdentifiedService identifiedService) : base(dbContext, mapper, identifiedService)
         {
@@ -31,7 +31,7 @@ namespace Client.Application.Features.Playlists.Command.EditPlaylist
                 playlist.IsPublic = request.IsPublic.Value;
             }
 
-            await dbContext.UpdateChangedProperties(playlist);
+            dbContext.Attach(playlist);
             await dbContext.SaveChangesAsync();
 
             return Unit.Value;
