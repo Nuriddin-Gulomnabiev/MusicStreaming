@@ -1,5 +1,5 @@
-﻿using MediatR;
-using FluentValidation;
+﻿using FluentValidation;
+using MediatR;
 using ValidationException = Domain.Exceptions.ValidationException;
 
 namespace FileManager.Application.Common.Behaviours

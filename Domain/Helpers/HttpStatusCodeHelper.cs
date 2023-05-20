@@ -1,9 +1,9 @@
 ﻿using Domain.Enums.ErrorCodes;
 using System.Net;
 
-namespace Domain.Utils
+namespace Domain.Helper
 {
-    public static class HttpStatusCodeUtil
+    public static class HttpStatusCodeHelper
     {
         public static int GetHttpStatusCodeByErrorCodeEnum(int code)
         {

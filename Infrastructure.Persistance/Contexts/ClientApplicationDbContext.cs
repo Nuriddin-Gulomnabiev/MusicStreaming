@@ -1,12 +1,13 @@
-﻿using Domain.Entities.Admins;
+﻿using Client.Application.Common.Interfaces;
+using Dapper;
+using Domain.Common;
+using Domain.Entities.Admins;
 using Domain.Entities.Albums;
 using Domain.Entities.Artists;
 using Domain.Entities.Genres;
-using Domain.Entities.Tracks;
-using Microsoft.EntityFrameworkCore;
-using Client.Application.Common.Interfaces;
-using Domain.Entities.Sessions;
 using Domain.Entities.Playlists;
+using Domain.Entities.Sessions;
+using Domain.Entities.Tracks;
 using Infrastructure.Persistance.Configurations.Admins;
 using Infrastructure.Persistance.Configurations.Albums;
 using Infrastructure.Persistance.Configurations.Artists;
@@ -14,7 +15,7 @@ using Infrastructure.Persistance.Configurations.Genres;
 using Infrastructure.Persistance.Configurations.Playlists;
 using Infrastructure.Persistance.Configurations.Sessions;
 using Infrastructure.Persistance.Configurations.Tracks;
-using Domain.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistance.Contexts
 {
@@ -56,11 +57,23 @@ namespace Infrastructure.Persistance.Contexts
             return await base.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task UpdateChangedProperties<T>(T entity, CancellationToken cancellationToken = default) where T : BaseEntity
+        public void Attach<T>(T entity, CancellationToken cancellationToken = default) where T : BaseEntity
         {
-            Set<T>().Attach(entity);
+            base.Set<T>().Attach(entity);
+        }
 
-            await base.SaveChangesAsync(cancellationToken);
+        public async Task<IEnumerable<T>> QueryListAsync<T>(string sql, CancellationToken cancellationToken = default) where T : class
+        {
+            var connection = Database.GetDbConnection();
+
+            return await connection.QueryAsync<T>(new CommandDefinition(sql, cancellationToken));
+        }
+
+        public async Task<T> QueryFirstAsync<T>(string sql, CancellationToken cancellationToken = default) where T : class
+        {
+            var connection = Database.GetDbConnection();
+
+            return await connection.QueryFirstOrDefaultAsync<T>(new CommandDefinition(sql, cancellationToken));
         }
     }
 }

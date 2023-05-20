@@ -27,7 +27,11 @@ namespace Client.Application.Common.Interfaces
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
-        public Task UpdateChangedProperties<T>(T entity, CancellationToken cancellationToken = default) where T : BaseEntity;
+        public void Attach<T>(T entity, CancellationToken cancellationToken = default) where T : BaseEntity;
+
+        Task<IEnumerable<T>> QueryListAsync<T>(string sql, CancellationToken cancellationToken = default) where T : class;
+
+        Task<T> QueryFirstAsync<T>(string sql, CancellationToken cancellationToken = default) where T : class;
 
         DatabaseFacade Database { get; }
     }

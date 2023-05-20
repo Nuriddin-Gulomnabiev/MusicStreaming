@@ -1,9 +1,9 @@
-﻿using MediatR;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using AdminPanel.Application.Common.Handlers;
+﻿using AdminPanel.Application.Common.Handlers;
 using AdminPanel.Application.Common.Interfaces;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.Application.Features.Admins.Queries.GetAllAdmins
 {

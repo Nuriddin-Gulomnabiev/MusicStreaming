@@ -2,15 +2,15 @@
 using Client.Application.Common.Handlers;
 using Client.Application.Common.Helpers;
 using Client.Application.Common.Interfaces;
-using Services.Services.JwtService.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Services.Services.IdentifiedService;
 using Services.Services.JwtService;
+using Services.Services.JwtService.Exceptions;
 
 namespace Client.Application.Features.Identity.Commands.RefreshToken
 {
-    internal class RefreshTokenHandler : BaseCommandQueryHandler, IRequestHandler<RefreshTokenCommand, RefreshTokenViewModel>
+    internal class RefreshTokenHandler : BaseHandler, IRequestHandler<RefreshTokenCommand, RefreshTokenViewModel>
     {
         private readonly IJwtService jwtService;
 

@@ -8,7 +8,7 @@ using Services.Services.IdentifiedService;
 
 namespace Client.Application.Features.Playlists.Query.GetMyPlaylists
 {
-    internal class GetMyPlaylistsHandler : BaseCommandQueryHandler, IRequestHandler<GetMyPlaylistsQuery, List<GetMyPlaylistsViewModel>>
+    internal class GetMyPlaylistsHandler : BaseHandler, IRequestHandler<GetMyPlaylistsQuery, List<GetMyPlaylistsViewModel>>
     {
         public GetMyPlaylistsHandler(IClientApplicationDbContext dbContext, IMapper mapper, IIdentifiedService identifiedService) : base(dbContext, mapper, identifiedService)
         {

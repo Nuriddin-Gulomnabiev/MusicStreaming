@@ -1,9 +1,9 @@
 ﻿using Domain.Exceptions;
+using Domain.Helpers;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Services.Services.FileManager.Helpers;
 using Services.Services.IdentifiedService;
-using Shared.Helpers.Hash;
 using System.Net.Http.Headers;
 
 namespace Services.Services.FileManager
@@ -63,7 +63,7 @@ namespace Services.Services.FileManager
 
             request.Headers.Add("token", token);
             request.Headers.Add("datetime", datetime);
-            request.Headers.Add("hash", HashService.Sha256($"{token}:{Key}:{datetime}"));
+            request.Headers.Add("hash", HashHelper.Sha256($"{token}:{Key}:{datetime}"));
             request.Content = GenerateMultipartFormDataContent(file, fileName);
 
             var result = await client.SendAsync(request);

@@ -1,7 +1,7 @@
 ﻿using Domain.Common;
 using Domain.Enums.ErrorCodes;
 using Domain.Exceptions;
-using Domain.Utils;
+using Domain.Helper;
 using FileManager.WebApi.Common.ModelResponses;
 using Newtonsoft.Json;
 
@@ -54,7 +54,7 @@ namespace FileManager.WebApi.Common.Middlewares
         private static async Task WriteResponseAsync(HttpContext context, ErrorModelResponse response)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = HttpStatusCodeUtil.GetHttpStatusCodeByErrorCodeEnum(response.Code);
+            context.Response.StatusCode = HttpStatusCodeHelper.GetHttpStatusCodeByErrorCodeEnum(response.Code);
 
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
         }

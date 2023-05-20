@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Application.Common.Interfaces;
+using Dapper;
 using Domain.Entities.Admins;
 using Domain.Entities.Albums;
 using Domain.Entities.Artists;
@@ -53,6 +54,13 @@ namespace Infrastructure.Persistance.Contexts
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<T>> QueryAsync<T>(string sql, params object[] parameters)
+        {
+            var connection = Database.GetDbConnection();
+
+            return await connection.QueryAsync<T>(new CommandDefinition(sql, parameters));
         }
     }
 }

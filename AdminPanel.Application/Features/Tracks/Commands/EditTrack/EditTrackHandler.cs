@@ -1,9 +1,9 @@
-﻿using Domain.Exceptions;
-using AdminPanel.Application.Common.Handlers;
+﻿using AdminPanel.Application.Common.Handlers;
 using AdminPanel.Application.Common.Interfaces;
 using AutoMapper;
 using Domain.Entities.Artists;
 using Domain.Entities.Tracks;
+using Domain.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;

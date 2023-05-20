@@ -1,4 +1,4 @@
-﻿using Domain.Utils;
+﻿using Domain.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -34,7 +34,7 @@ namespace AdminPanel.Web.Common.ModelResponses
         public async Task ExecuteResultAsync(ActionContext context)
         {
             context.HttpContext.Response.ContentType = "application/json";
-            context.HttpContext.Response.StatusCode = HttpStatusCodeUtil.GetHttpStatusCodeByErrorCodeEnum(Code);
+            context.HttpContext.Response.StatusCode = HttpStatusCodeHelper.GetHttpStatusCodeByErrorCodeEnum(Code);
 
             await context.HttpContext.Response.WriteAsync(JsonConvert.SerializeObject(this));
         }

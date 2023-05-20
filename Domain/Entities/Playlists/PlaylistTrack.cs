@@ -7,10 +7,9 @@ namespace Domain.Entities.Playlists
     {
         public Guid PlaylistId { get; set; }
         public Guid TrackId { get; set; }
-        public Guid? NextPlaylistTrackId { get; set; }
+        public decimal Position { get; set; }
 
         public Playlist Playlist { get; set; }
         public Track Track { get; set; }
-        public PlaylistTrack NextPlaylistTrack { get; set; }
     }
 }

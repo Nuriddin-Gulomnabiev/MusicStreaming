@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Shared.Helpers\Shared.Helpers.csproj" />
   </ItemGroup>
 
 </Project>
