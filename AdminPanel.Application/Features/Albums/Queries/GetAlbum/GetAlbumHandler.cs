@@ -1,6 +1,7 @@
 ﻿using AdminPanel.Application.Common.Handlers;
 using AdminPanel.Application.Common.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -15,16 +16,15 @@ namespace AdminPanel.Application.Features.Albums.Queries.GetAlbum
 
         public async Task<GetAlbumViewModel> Handle(GetAlbumQuery request, CancellationToken cancellationToken)
         {
-            var album = await dbContext.Albums.Where(a => a.Code == request.Code)
-                                        .Include(a => a.Tracks)
-                                        .Include(a => a.AlbumGenres)
-                                        .ThenInclude(ag => ag.Genre)
-                                        .Include(a => a.ArtistAlbums)
-                                        .ThenInclude(aa => aa.Artist)
-                                        .FirstOrDefaultAsync()
+            return await dbContext.Albums.Where(a => a.Code == request.Code)
+                                         .Include(a => a.Tracks)
+                                         .Include(a => a.AlbumGenres)
+                                         .ThenInclude(ag => ag.Genre)
+                                         .Include(a => a.ArtistAlbums)
+                                         .ThenInclude(aa => aa.Artist)
+                                         .ProjectTo<GetAlbumViewModel>(mapper.ConfigurationProvider)
+                                         .FirstOrDefaultAsync()
                 ?? throw new ResourceNotFoundException("Альбом не найден");
-
-            return mapper.Map<GetAlbumViewModel>(album);
         }
     }
 }
