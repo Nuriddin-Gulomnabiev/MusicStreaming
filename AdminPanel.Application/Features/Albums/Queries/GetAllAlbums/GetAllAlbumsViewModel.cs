@@ -8,6 +8,5 @@
         public bool IsActive { get; set; }
 
         public Dictionary<int, string> Artists { get; set; }
-        public Dictionary<int, string> Genres { get; set; }
     }
 }

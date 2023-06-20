@@ -7,6 +7,5 @@ namespace AdminPanel.Application.Features.Albums.Commands.CreateAlbum
         public string Name { get; set; }
         public DateTime ReleaseDate { get; set; }
         public IEnumerable<int> ArtistsCodes { get; set; }
-        public IEnumerable<int> GenresCodes { get; set; }
     }
 }

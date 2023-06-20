@@ -18,8 +18,6 @@ namespace AdminPanel.Application.Features.Albums.Queries.GetAlbum
         {
             return await dbContext.Albums.Where(a => a.Code == request.Code)
                                          .Include(a => a.Tracks)
-                                         .Include(a => a.AlbumGenres)
-                                         .ThenInclude(ag => ag.Genre)
                                          .Include(a => a.ArtistAlbums)
                                          .ThenInclude(aa => aa.Artist)
                                          .ProjectTo<GetAlbumViewModel>(mapper.ConfigurationProvider)

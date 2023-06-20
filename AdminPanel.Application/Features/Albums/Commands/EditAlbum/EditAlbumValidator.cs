@@ -36,23 +36,6 @@ namespace AdminPanel.Application.Features.Albums.Commands.EditAlbum
                         });
 
                 });
-
-            RuleFor(p => p.GenresCodes)
-                .NotNull()
-                .WithMessage("Заполните список жанров")
-                .DependentRules(() =>
-                {
-                    RuleFor(p => p.GenresCodes)
-                        .Must(p => p.Any())
-                        .WithMessage("Заполните список жанров")
-                        .DependentRules(() =>
-                        {
-                            RuleForEach(p => p.GenresCodes)
-                                .GreaterThan(0)
-                                .WithMessage("Неверный идентификатор Жанра");
-                        });
-
-                });
         }
     }
 }

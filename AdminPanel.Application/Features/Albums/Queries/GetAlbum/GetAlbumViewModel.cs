@@ -7,9 +7,8 @@
         public int Code { get; set; }
         public DateTime ReleaseDate { get; set; }
         public IEnumerable<CollectionViewModel> Artists { get; set; }
-        public IEnumerable<CollectionViewModel> Genres { get; set; }
         public IEnumerable<CollectionViewModel> Tracks { get; set; }
-        
+
         public class CollectionViewModel
         {
             public int Code { get; set; }

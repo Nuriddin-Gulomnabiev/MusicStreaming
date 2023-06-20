@@ -15,12 +15,12 @@ namespace Client.Application.Common.Interfaces
     {
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Album> Albums { get; set; }
-        public DbSet<AlbumGenre> AlbumGenres { get; set; }
         public DbSet<Artist> Artists { get; set; }
         public DbSet<ArtistAlbum> ArtistAlbums { get; set; }
         public DbSet<ArtistTrack> ArtistTracks { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Track> Tracks { get; set; }
+        public DbSet<TrackGenre> TrackGenres { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
         public DbSet<PlaylistTrack> PlaylistTracks { get; set; }
