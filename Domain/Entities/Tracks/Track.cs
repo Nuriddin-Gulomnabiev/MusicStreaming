@@ -15,6 +15,7 @@ namespace Domain.Entities.Tracks
         public decimal Duration { get; set; }
 
         public Album Album { get; set; }
+        public virtual ICollection<TrackGenre> TrackGenres { get; set; }
         public virtual ICollection<ArtistTrack> ArtistTracks { get; set; }
         public virtual ICollection<PlaylistTrack> PlaylistTracks { get; set; }
     }

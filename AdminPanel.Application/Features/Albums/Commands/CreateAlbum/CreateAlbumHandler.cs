@@ -31,7 +31,6 @@ namespace AdminPanel.Application.Features.Albums.Commands.CreateAlbum
                 dbContext.Albums.Add(album);
 
                 await GetArtists(request.ArtistsCodes, album.Id);
-                await GetGenres(request.GenresCodes, album.Id);
 
                 await dbContext.SaveChangesAsync();
 
@@ -45,24 +44,6 @@ namespace AdminPanel.Application.Features.Albums.Commands.CreateAlbum
             }
 
             return Unit.Value;
-        }
-
-        private async Task GetGenres(IEnumerable<int> genresCodes, Guid albumId)
-        {
-            genresCodes = genresCodes.Distinct();
-
-            foreach (var artistCode in genresCodes)
-            {
-                var genre = await dbContext.Genres.Where(a => a.Code == artistCode).FirstOrDefaultAsync()
-                    ?? throw new ResourceNotFoundException("Жанр не найден");
-
-                dbContext.AlbumGenres.Add(new AlbumGenre()
-                {
-                    Id = Guid.NewGuid(),
-                    AlbumId = albumId,
-                    GenreId = genre.Id
-                });
-            }
         }
 
         private async Task GetArtists(IEnumerable<int> artistCodes, Guid albumId)

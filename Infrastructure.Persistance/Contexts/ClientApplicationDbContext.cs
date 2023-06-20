@@ -23,12 +23,12 @@ namespace Infrastructure.Persistance.Contexts
     {
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Album> Albums { get; set; }
-        public DbSet<AlbumGenre> AlbumGenres { get; set; }
         public DbSet<Artist> Artists { get; set; }
         public DbSet<ArtistAlbum> ArtistAlbums { get; set; }
         public DbSet<ArtistTrack> ArtistTracks { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Track> Tracks { get; set; }
+        public DbSet<TrackGenre> TrackGenres { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
         public DbSet<PlaylistTrack> PlaylistTracks { get; set; }
@@ -41,7 +41,7 @@ namespace Infrastructure.Persistance.Contexts
         {
             modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new AlbumConfiguration());
-            modelBuilder.ApplyConfiguration(new AlbumGenreConfiguration());
+            modelBuilder.ApplyConfiguration(new TrackGenreConfiguration());
             modelBuilder.ApplyConfiguration(new ArtistAlbumConfiguration());
             modelBuilder.ApplyConfiguration(new ArtistConfiguration());
             modelBuilder.ApplyConfiguration(new ArtistTrackConfiguration());

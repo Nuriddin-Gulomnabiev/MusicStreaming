@@ -1,5 +1,5 @@
 ﻿using Domain.Common;
-using Domain.Entities.Albums;
+using Domain.Entities.Tracks;
 
 namespace Domain.Entities.Genres
 {
@@ -8,6 +8,6 @@ namespace Domain.Entities.Genres
         public string Name { get; set; }
         public int Code { get; set; }
         public bool IsActive { get; set; }
-        public virtual ICollection<AlbumGenre> AlbumGenres { get; set; }
+        public virtual ICollection<TrackGenre> TrackGenres { get; set; }
     }
 }

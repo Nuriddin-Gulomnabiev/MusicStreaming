@@ -17,8 +17,6 @@ namespace AdminPanel.Application.Features.Albums.Queries.GetAllAlbums
             var skipCount = (request.Page - 1) * request.PageSize;
 
             var albumsQuery = dbContext.Albums
-                .Include(t => t.AlbumGenres)
-                .ThenInclude(a => a.Genre)
                 .Include(t => t.ArtistAlbums)
                 .ThenInclude(at => at.Artist)
                 .AsQueryable();
@@ -26,11 +24,6 @@ namespace AdminPanel.Application.Features.Albums.Queries.GetAllAlbums
             if (request.Artists != null && request.Artists.Any())
             {
                 albumsQuery = albumsQuery.Where(a => a.ArtistAlbums.Where(at => request.Artists.Contains(at.Artist.Code)).Any());
-            }
-
-            if (request.Genres != null && request.Genres.Any())
-            {
-                albumsQuery = albumsQuery.Where(a => a.AlbumGenres.Where(ag => request.Genres.Contains(ag.Genre.Code)).Any());
             }
 
             if (!string.IsNullOrEmpty(request.Name))

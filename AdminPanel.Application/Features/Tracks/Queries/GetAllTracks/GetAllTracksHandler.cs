@@ -18,7 +18,7 @@ namespace AdminPanel.Application.Features.Tracks.Queries.GetAllTracks
 
             var tracksQuery = dbContext.Tracks
                 .Include(t => t.Album)
-                .ThenInclude(a => a.AlbumGenres)
+                .Include(t => t.TrackGenres)
                 .ThenInclude(a => a.Genre)
                 .Include(t => t.ArtistTracks)
                 .ThenInclude(at => at.Artist)
@@ -31,7 +31,7 @@ namespace AdminPanel.Application.Features.Tracks.Queries.GetAllTracks
 
             if (request.Genres != null && request.Genres.Any())
             {
-                tracksQuery = tracksQuery.Where(t => t.Album.AlbumGenres.Where(ag => request.Genres.Contains(ag.Genre.Code)).Any());
+                tracksQuery = tracksQuery.Where(t => t.TrackGenres.Where(ag => request.Genres.Contains(ag.Genre.Code)).Any());
             }
 
             if (!string.IsNullOrEmpty(request.Name))

@@ -10,6 +10,5 @@ namespace AdminPanel.Application.Features.Albums.Commands.EditAlbum
         public bool IsActive { get; set; }
         public DateTime ReleaseDate { get; set; }
         public IEnumerable<int> ArtistsCodes { get; set; }
-        public IEnumerable<int> GenresCodes { get; set; }
     }
 }

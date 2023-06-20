@@ -9,6 +9,5 @@ namespace AdminPanel.Application.Features.Albums.Queries.GetAllAlbums
         public int PageSize { get; set; }
 
         public ICollection<int> Artists { get; set; }
-        public ICollection<int> Genres { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Client.Application.Features.Identity.Commands.Login;
 using Client.Application.Features.Identity.Commands.Logout;
 using Client.Application.Features.Identity.Commands.RefreshToken;
+using Client.Application.Features.Identity.Commands.Register;
 using Client.WebApi.Common.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +14,13 @@ namespace Client.WebApi.Controllers
     {
         public IdentityController(IMediator mediator) : base(mediator)
         {
+        }
+
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterCommand command)
+        {
+            return Success(await mediator.Send(command));
         }
 
         [AllowAnonymous]
