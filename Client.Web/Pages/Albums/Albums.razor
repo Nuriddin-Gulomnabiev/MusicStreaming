@@ -1,9 +1,11 @@
-﻿@page "/artist/{ArtistCode:int}"
+﻿@page "/albums"
 
 @attribute [Authorize]
 
+@using Client.Web.Pages.Albums.Components
 @using Client.Web.Services.ApiHttpService.Models.ModelResponse
-@using static Client.Web.Pages.AlbumComponent
+@using static Client.Web.Pages.Albums.Components.AlbumComponent
+
 @inject ApiHttpService HttpService
 @inject NavigationManager Navigation
 
@@ -30,12 +32,9 @@
     private List<AlbumModel> albums;
     private bool isLoading = true;
 
-    [Parameter]
-    public int ArtistCode { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
-        var response = await HttpService.GetAsync<List<AlbumModel>>($"/api/v1/albums?artistCode={ArtistCode}");
+        var response = await HttpService.GetAsync<List<AlbumModel>>($"/api/v1/albums");
 
         if (response.Success)
             albums = response.Data;

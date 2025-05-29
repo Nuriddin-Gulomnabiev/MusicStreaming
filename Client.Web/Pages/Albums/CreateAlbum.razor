@@ -1,0 +1,51 @@
+﻿@page "/my-albums/create"
+
+@inject ApiHttpService HttpService
+@inject NavigationManager Navigation
+
+<div style="padding: 40px;">
+    <MudPaper Class="p-6 max-w-md mx-auto mt-8" Style=" padding: 20px;">
+        <MudText Typo="Typo.h5" Class="mb-4 font-bold">Создание альбома</MudText>
+
+        <MudTextField Label="Название альбома" @bind-Value="albumName" Required="true" />
+        <MudDatePicker Label="Дата релиза" @bind-Date="releaseDate" Required="true" Class="mt-4" />
+
+        <MudButton Disabled="@isSubmitting" OnClick="CreateAlbumAsync" Variant="Variant.Filled" Color="Color.Primary" Class="mt-6">
+            Создать
+        </MudButton>
+    </MudPaper>
+</div>
+
+@code {
+    private string albumName;
+    private DateTime? releaseDate = DateTime.Today;
+    private bool isSubmitting = false;
+
+    private async Task CreateAlbumAsync()
+    {
+        if (string.IsNullOrWhiteSpace(albumName) || releaseDate == null)
+            return;
+
+        isSubmitting = true;
+
+        var command = new
+        {
+            Name = albumName,
+            ReleaseDate = releaseDate.Value
+        };
+
+        var response = await HttpService.PostAsync<int>("/api/v1/albums/create", command);
+
+        isSubmitting = false;
+
+        if (response.Success)
+        {
+            var albumId = response.Data;
+            Navigation.NavigateTo($"/my-albums/{albumId}/upload");
+        }
+        else
+        {
+            // handle error
+        }
+    }
+}

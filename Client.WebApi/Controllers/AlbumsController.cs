@@ -1,5 +1,6 @@
 ﻿using Client.Application.Features.Albums.Queries.GetAlbum;
 using Client.Application.Features.Albums.Queries.GetAllAlbums;
+using Client.Application.Features.Albums.Queries.GetMyAlbums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,12 @@ namespace Client.WebApi.Controllers
         public async Task<IActionResult> GetAll([FromQuery] GetAllAlbumsQuery request)
         {
             return Success(await mediator.Send(request));
+        }
+
+        [HttpGet("my")]
+        public async Task<IActionResult> GetMy()
+        {
+            return Success(await mediator.Send(new GetMyAlbumsQuery()));
         }
 
         [HttpGet("{albumCode}")]

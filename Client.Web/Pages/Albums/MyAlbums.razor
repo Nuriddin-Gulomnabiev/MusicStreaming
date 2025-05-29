@@ -1,14 +1,16 @@
-﻿@page "/albums"
+﻿@page "/my-albums"
 
 @attribute [Authorize]
 
+@using Client.Web.Pages.Albums.Components
 @using Client.Web.Services.ApiHttpService.Models.ModelResponse
-@using static Client.Web.Pages.AlbumComponent
+@using static Client.Web.Pages.Albums.Components.AlbumComponent
+
 @inject ApiHttpService HttpService
 @inject NavigationManager Navigation
 
 <div style="padding: 40px">
-    <MudText Typo="Typo.h4" Class="mb-4 font-bold">💿 Список альбомов</MudText>
+    <MudText Typo="Typo.h4" Class="mb-4 font-bold">💿 Мои альбомы</MudText>
 
     @if (isLoading)
     {
@@ -18,7 +20,9 @@
     }
     else if (albums is not null)
     {
-
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" OnClick="GoToCreateAlbum" Class="mb-4">
+            Новый альбом
+        </MudButton>
         <AlbumComponent Albums="albums" />
     }
     else
@@ -31,9 +35,12 @@
     private List<AlbumModel> albums;
     private bool isLoading = true;
 
+    [Parameter]
+    public int ArtistCode { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
-        var response = await HttpService.GetAsync<List<AlbumModel>>($"/api/v1/albums");
+        var response = await HttpService.GetAsync<List<AlbumModel>>($"/api/v1/albums/my");
 
         if (response.Success)
             albums = response.Data;
@@ -42,4 +49,10 @@
 
         isLoading = false;
     }
+
+    private void GoToCreateAlbum()
+    {
+        Navigation.NavigateTo("/my-albums/create");
+    }
+
 }

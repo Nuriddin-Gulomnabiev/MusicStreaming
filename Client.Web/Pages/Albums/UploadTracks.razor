@@ -1,0 +1,27 @@
+﻿@page "/my-albums/{AlbumId:int}/upload"
+
+@inject ApiHttpService HttpService
+@inject NavigationManager Navigation
+
+<input type="file" @onchange="@((e) => UploadFileAsync(e))" multiple />
+
+@code {
+    [Parameter] public int AlbumId { get; set; }
+
+    private async Task UploadFileAsync(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
+        {
+            var content = new MultipartFormDataContent();
+            content.Add(new StringContent(file.Name), "Name");
+            content.Add(new StreamContent(file.OpenReadStream()), "Track", file.Name);
+
+            var response = await HttpService.PostFormAsync("/api/v1/tracks/create", content);
+
+            if (!response.Success)
+            {
+                // Обработка ошибки
+            }
+        }
+    }
+}

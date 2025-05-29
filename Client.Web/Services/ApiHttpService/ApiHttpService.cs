@@ -34,6 +34,14 @@ namespace Client.Web.Services.ApiHttpService
             return await HandleResponse<T>(response);
         }
 
+        public async Task<ApiResponse<object>> PostFormAsync(string url, MultipartFormDataContent content)
+        {
+            AddAuthorizationHeader();
+
+            var response = await _http.PostAsync(url, content);
+            return await HandleResponse<object>(response);
+        }
+
         private void AddAuthorizationHeader()
         {
             var token = _tokenProvider.GetToken();
