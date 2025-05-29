@@ -15,6 +15,15 @@ builder.Services.AddClientApplicationPersistence(builder.Configuration);
 builder.Services.AddSwaggerServices();
 builder.Services.AddJwtServices(builder.Configuration);
 builder.Services.AddAuthorizationAuthetication();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -26,5 +35,6 @@ app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors();
 
 app.Run();

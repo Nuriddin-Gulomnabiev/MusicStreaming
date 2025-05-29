@@ -2,7 +2,7 @@
 using Domain.Common;
 using Domain.Enums.ErrorCodes;
 using Domain.Exceptions;
-using Domain.Helper;
+using Domain.Helpers;
 using Newtonsoft.Json;
 
 namespace AdminPanel.Web.Common.Middlewares

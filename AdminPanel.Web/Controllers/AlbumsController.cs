@@ -2,7 +2,11 @@
 using AdminPanel.Application.Features.Albums.Commands.EditAlbum;
 using AdminPanel.Application.Features.Albums.Queries.GetAlbum;
 using AdminPanel.Application.Features.Albums.Queries.GetAllAlbums;
+using AdminPanel.Application.Features.Artists.Commands.CreateArtist;
+using AdminPanel.Application.Features.Tracks.Commands.CreateTrack;
+using AdminPanel.Web.Common.ModelRequests;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminPanel.Web.Controllers
@@ -30,6 +34,37 @@ namespace AdminPanel.Web.Controllers
         public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumCommand command)
         {
             return Success(await mediator.Send(command));
+        }
+
+        [HttpPost("create/full")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateAlbumFull([FromForm] CreateAlbumFullModelRequest request)
+        {
+            var artistCode = await mediator.Send(new CreateArtistCommand
+            {
+                Name = request.ArtistName,
+                IsActive = true
+            });
+
+            var albumCode = await mediator.Send(new CreateAlbumCommand
+            {
+                Name = request.AlbumName,
+                ReleaseDate = request.ReleaseDate,
+                ArtistsCodes = new List<int> { artistCode }
+            });
+
+            foreach (var track in request.Tracks)
+            {
+                await mediator.Send(new CreateTrackCommand
+                {
+                    Name = track.Name,
+                    Track = track.Track,
+                    AlbumCode = albumCode,
+                    ArtistsCodes = new List<int> { artistCode }
+                });
+            }
+
+            return Success(true);
         }
 
         [HttpPost("{code}/edit")]

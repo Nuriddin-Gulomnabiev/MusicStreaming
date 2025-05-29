@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdminPanel.Application.Features.Albums.Commands.CreateAlbum
 {
-    internal class CreateAlbumHandler : BaseCommandQueryHandler, IRequestHandler<CreateAlbumCommand>
+    internal class CreateAlbumHandler : BaseCommandQueryHandler, IRequestHandler<CreateAlbumCommand, int>
     {
         public CreateAlbumHandler(IAdminApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
 
-        public async Task<Unit> Handle(CreateAlbumCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateAlbumCommand request, CancellationToken cancellationToken)
         {
             using var tran = dbContext.Database.BeginTransaction();
             try
@@ -25,7 +25,7 @@ namespace AdminPanel.Application.Features.Albums.Commands.CreateAlbum
                     Id = Guid.NewGuid(),
                     Name = request.Name,
                     ReleaseDate = request.ReleaseDate,
-                    IsActive = false
+                    IsActive = true,
                 };
 
                 dbContext.Albums.Add(album);
@@ -35,6 +35,8 @@ namespace AdminPanel.Application.Features.Albums.Commands.CreateAlbum
                 await dbContext.SaveChangesAsync();
 
                 tran.Commit();
+
+                return album.Code;
             }
             catch (Exception)
             {
@@ -42,8 +44,6 @@ namespace AdminPanel.Application.Features.Albums.Commands.CreateAlbum
 
                 throw;
             }
-
-            return Unit.Value;
         }
 
         private async Task GetArtists(IEnumerable<int> artistCodes, Guid albumId)

@@ -1,7 +1,7 @@
 ﻿using Domain.Common;
 using Domain.Enums.ErrorCodes;
 using Domain.Exceptions;
-using Domain.Helper;
+using Domain.Helpers;
 using FileManager.WebApi.Common.ModelResponses;
 using Newtonsoft.Json;
 

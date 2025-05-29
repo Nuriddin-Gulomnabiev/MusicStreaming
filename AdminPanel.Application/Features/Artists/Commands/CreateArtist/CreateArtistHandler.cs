@@ -4,7 +4,7 @@ using MediatR;
 
 namespace AdminPanel.Application.Features.Artists.Commands.CreateArtist
 {
-    public class CreateArtistHandler : IRequestHandler<CreateArtistCommand>
+    public class CreateArtistHandler : IRequestHandler<CreateArtistCommand, int>
     {
         private readonly IAdminApplicationDbContext dbContext;
 
@@ -13,11 +13,13 @@ namespace AdminPanel.Application.Features.Artists.Commands.CreateArtist
             this.dbContext = dbContext;
         }
 
-        public async Task<Unit> Handle(CreateArtistCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(CreateArtistCommand request, CancellationToken cancellationToken)
         {
             var artist = new Artist()
             {
                 Name = request.Name,
+                Email = "test@mail.ru",
+                Password="1111",
                 IsActive = request.IsActive
             };
 
@@ -25,7 +27,7 @@ namespace AdminPanel.Application.Features.Artists.Commands.CreateArtist
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            return artist.Code;
         }
     }
 }

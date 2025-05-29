@@ -1,0 +1,35 @@
+﻿<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    @if (context.User?.Identity?.IsAuthenticated == false)
+                    {
+                        <RedirectToLogin />
+                    }
+                    else
+                    {
+                        <h1>Sorry</h1>
+                        <p>You do not have access to this resource</p>
+                    }
+                </NotAuthorized>
+                <Authorizing>
+                    <h1>Wait</h1>
+                    <p>The authorization process is in progress</p>
+                </Authorizing>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <CascadingAuthenticationState>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <h1>Sorry</h1>
+                    <p><a href="/dashboard">Sorry, there's nothing at this address</a></p>
+                </LayoutView>
+            </CascadingAuthenticationState>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
+
+@code {
+    [CascadingParameter] private Task<AuthenticationState> AuthenticationStateTask { get; set; } = default!;
+}

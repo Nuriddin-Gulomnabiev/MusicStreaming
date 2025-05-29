@@ -1,4 +1,4 @@
-﻿using Domain.Helper;
+﻿using Domain.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 

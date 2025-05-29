@@ -1,0 +1,22 @@
+﻿@page "/register"
+
+@inject AuthService AuthService
+@inject NavigationManager Nav
+
+<h3>Register</h3>
+
+<EditForm Model="model" OnValidSubmit="RegisterAsync">
+    <InputText @bind-Value="model.Email" placeholder="Email" />
+    <InputText @bind-Value="model.Password" placeholder="Password" type="password" />
+    <button type="submit">Register</button>
+</EditForm>
+
+@code {
+    private AuthRequest model = new();
+
+    private async Task RegisterAsync()
+    {
+        if (await AuthService.RegisterAsync(model))
+            Nav.NavigateTo("/");
+    }
+}

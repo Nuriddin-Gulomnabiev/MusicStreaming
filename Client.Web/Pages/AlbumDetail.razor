@@ -1,0 +1,267 @@
+﻿@page "/album/{albumCode:int}"
+@attribute [Authorize]
+
+@inject ApiHttpService HttpService
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Альбом</PageTitle>
+
+<style>
+    .player-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1300;
+        height: 80px;
+        background-color: white;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    body, .mud-main-content {
+        padding-bottom: 80px;
+    }
+
+    .album-card {
+        text-align: center;
+        border-radius: 20px;
+        padding: 24px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .album-card:hover {
+            background-color: #f5f5f5;
+        }
+
+    .album-cover {
+        margin: 0px 50px;
+        width: 180px;
+        height: 180px;
+        border-radius: 10px;
+        background-color: #90caf9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+@if (isLoading)
+{
+    <div class="flex justify-center items-center" style="height:200px;">
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" Size="Size.Large" />
+    </div>
+}
+else if (Album is not null)
+{
+    <div style="padding: 40px">
+        <MudPaper Class="p-6 mb-4 rounded-lg shadow-lg" Elevation="1">
+            <MudGrid Style="padding: 20px;">
+                <div class="album-cover" style="background-color:@GetRandomColor(albumCode)">
+                    🎧
+                </div>
+                <div>
+                    <MudText Typo="Typo.h4">@Album.Name</MudText>
+                    <MudText Typo="Typo.subtitle1">Исполнители: @string.Join(", ", Album.Artists.Values)</MudText>
+                    <MudText Typo="Typo.subtitle2">Дата выхода: @Album.ReleaseDate.ToString("d")</MudText>
+                    <MudText Typo="Typo.caption">Треков: @Album.TrackCount | Длительность: @FormatDuration(Album.Duration)</MudText>
+                </div>
+            </MudGrid>
+        </MudPaper>
+        <MudTable Items="@Album.Tracks" Hover="true">
+            <HeaderContent>
+                <MudTh>Название</MudTh>
+                <MudTh>Исполнители</MudTh>
+                <MudTh>Жанры</MudTh>
+                <MudTh>Длительность</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>
+                    <MudButton Variant="Variant.Text" OnClick="@(() => PlayTrack(context))">
+                        @context.Name
+                    </MudButton>
+                </MudTd>
+                <MudTd>@string.Join(", ", context.Artists.Values)</MudTd>
+                <MudTd>@string.Join(", ", context.Genres.Values)</MudTd>
+                <MudTd>@FormatDuration(context.Duration)</MudTd>
+            </RowTemplate>
+        </MudTable>
+
+    </div>
+
+    @if (CurrentTrack != null)
+    {
+        <MudPaper Class="fixed bottom-0 left-0 right-0 p-3 bg-grey-light d-flex justify-between items-center player-container" Elevation="10" Style="width: 100%;">
+            <div style="width: 100%;display: flex;justify-content: space-between;">
+                <div>
+                    <MudText Typo="Typo.subtitle1">@CurrentTrack.Name</MudText>
+                    <MudText Typo="Typo.caption">@string.Join(", ", CurrentTrack.Artists.Values)</MudText>
+                </div>
+                <div style="width: 40%">
+                    <MudSlider T="double"
+                               Min="0"
+                               Max="@CurrentTrack.Duration"
+                               Value="@CurrentTime"
+                               ValueChanged="@(value => UpdateTime(value))"
+                               Step="0.1"
+                               Size="Size.Small"
+                               Immediate="true" />
+
+
+                    <div class="d-flex justify-space-between" style="width: 100%;">
+                        <MudText Typo="Typo.caption">@FormatTime(CurrentTime)</MudText>
+                        <MudText Typo="Typo.caption">@FormatTime(CurrentTrack.Duration)</MudText>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <MudIconButton Icon="@Icons.Material.Filled.SkipPrevious" OnClick="@PrevTrack" Disabled="@(CurrentTrackIndex <= 0)" />
+                    <MudIconButton Icon="@PlayIcon" OnClick="@TogglePlay" />
+                    <MudIconButton Icon="@Icons.Material.Filled.SkipNext" OnClick="@NextTrack" Disabled="@(CurrentTrackIndex >= Album.Tracks.Count - 1)" />
+                </div>
+            </div>
+        </MudPaper>
+    }
+
+    <audio @ref="AudioElement" @ontimeupdate="OnTimeUpdate" @onended="OnTrackEnded" />
+}
+
+@code {
+    [Parameter] public int albumCode { get; set; }
+
+    private AlbumModelResponse Album;
+    private TrackModelResponse CurrentTrack;
+    private int CurrentTrackIndex = -1;
+    private bool IsPlaying;
+    private bool isLoading = true;
+    private double CurrentTime;
+    private ElementReference AudioElement;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await HttpService.GetAsync<AlbumModelResponse>($"/api/v1/albums/{albumCode}");
+        if (response.Success)
+            Album = response.Data;
+        else
+            Snackbar.Add("Ошибка при загрузке альбома", Severity.Error);
+        isLoading = false;
+    }
+
+    private async Task PlayTrack(TrackModelResponse track)
+    {
+        CurrentTrack = track;
+        CurrentTrackIndex = Album.Tracks.IndexOf(track);
+        IsPlaying = true;
+        CurrentTime = 0;
+
+        var audioUrl = $"https://localhost:7256/api/v1/tracks/{track.Code}";
+        await JSRuntime.InvokeVoidAsync("setAudioSource", AudioElement, audioUrl);
+        await JSRuntime.InvokeVoidAsync("playAudio", AudioElement);
+        StateHasChanged();
+    }
+
+    private async Task TogglePlay()
+    {
+        if (IsPlaying)
+        {
+            await JSRuntime.InvokeVoidAsync("pauseAudio", AudioElement);
+            IsPlaying = false;
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("playAudio", AudioElement);
+            IsPlaying = true;
+        }
+        StateHasChanged();
+    }
+
+    private async Task PrevTrack()
+    {
+        if (CurrentTrackIndex > 0)
+        {
+            await PlayTrack(Album.Tracks[CurrentTrackIndex - 1]);
+        }
+    }
+
+    private async Task NextTrack()
+    {
+        if (CurrentTrackIndex < Album.Tracks.Count - 1)
+        {
+            await PlayTrack(Album.Tracks[CurrentTrackIndex + 1]);
+        }
+    }
+
+    private async Task OnTimeUpdate()
+    {
+        CurrentTime = await JSRuntime.InvokeAsync<double>("getAudioCurrentTime", AudioElement);
+        StateHasChanged();
+    }
+
+    private async Task OnTrackEnded()
+    {
+        IsPlaying = false;
+        await NextTrack();
+    }
+
+    private async Task UpdateTime(double newTime)
+    {
+        CurrentTime = newTime;
+        await JSRuntime.InvokeVoidAsync("setAudioCurrentTime", AudioElement, newTime);
+        StateHasChanged();
+    }
+
+    private string FormatDuration(double minutes)
+    {
+        var ts = TimeSpan.FromSeconds(minutes);
+        return $"{(int)ts.TotalMinutes}:{ts.Seconds:D2}";
+    }
+
+    private string FormatTime(double time)
+    {
+        var t = TimeSpan.FromSeconds(time);
+        return t.ToString(@"m\:ss");
+    }
+
+    public class AlbumModelResponse
+    {
+        public int Code { get; set; }
+        public string Name { get; set; }
+        public string Cover { get; set; }
+        public DateTime ReleaseDate { get; set; }
+        public Dictionary<int, string> Artists { get; set; }
+        public int TrackCount { get; set; }
+        public double Duration { get; set; }
+        public int DurationSecond => (int)(Duration * 60);
+
+        public List<TrackModelResponse> Tracks { get; set; }
+    }
+
+    public class TrackModelResponse
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public double Duration { get; set; }
+        public Dictionary<int, string> Genres { get; set; }
+        public Dictionary<int, string> Artists { get; set; }
+
+    }
+
+    private string PlayIcon => IsPlaying ? Icons.Material.Filled.Pause : Icons.Material.Filled.PlayArrow;
+
+    private string GetRandomColor(int seed)
+    {
+        var colors = new[]
+        {
+            "#EF5350", "#AB47BC", "#5C6BC0", "#29B6F6",
+            "#66BB6A", "#FFCA28", "#FF7043", "#8D6E63",
+            "#78909C", "#EC407A"
+        };
+
+        return colors[seed % colors.Length];
+    }
+}

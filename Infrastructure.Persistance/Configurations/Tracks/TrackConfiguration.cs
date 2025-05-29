@@ -211,7 +211,6 @@ namespace Infrastructure.Persistance.Configurations.Tracks
                 new Track { Id = PurposeTrackIdEnum.Trust, AlbumId = AlbumIdEnum.Purpose, Name = "Trust", Duration = 2.16m, IsActive = true },
                 new Track { Id = PurposeTrackIdEnum.AllInIt, AlbumId = AlbumIdEnum.Purpose, Name = "AllInIt", Duration = 2.16m, IsActive = true },
             #endregion
-
             #region Sweetener
     new Track { Id = SweetenerTrackIdEnum.Raindrops, AlbumId = AlbumIdEnum.Sweetener, Name = "Raindrops", Duration = 2.16m, IsActive = true },
                 new Track { Id = SweetenerTrackIdEnum.Blazed, AlbumId = AlbumIdEnum.Sweetener, Name = "Blazed", Duration = 2.16m, IsActive = true },

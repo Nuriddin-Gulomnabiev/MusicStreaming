@@ -1,0 +1,48 @@
+﻿@page "/login"
+
+@inject AuthService AuthService
+@inject ApiHttpService HttpService
+@inject TokenProvider TokenProvider
+@inject NavigationManager Nav
+
+<h3>Login</h3>
+
+<MudCard Class="mx-auto mt-6" Style="max-width: 400px;">
+    <MudCardContent>
+        <MudText Typo="Typo.h5" Class="mb-4">Вход</MudText>
+        <MudForm>
+            <MudTextField Label="Логин" @bind-Value="model.Email" Required="true" RequiredError="Введите почту" />
+            <MudTextField Label="Пароль" @bind-Value="model.Password" Required="true" RequiredError="Введите пароль" InputType="InputType.Password" />
+            <MudButton OnClick="LoginHandle" Variant="Variant.Filled" Color="Color.Primary" Class="mt-4" FullWidth>Войти</MudButton>
+        </MudForm>
+        @if (ShowError)
+        {
+            <MudAlert Severity="MudBlazor.Severity.Error" Style="margin-top: 10px;">@ErrorMessage</MudAlert>
+        }
+    </MudCardContent>
+</MudCard>
+
+@code {
+    private bool ShowError { get; set; } = false;
+    private string ErrorMessage { get; set; } = string.Empty;
+
+    private AuthRequest model = new();
+
+    private async Task LoginHandle()
+    {
+        ShowError = false;
+
+        var result = await HttpService.PostAsync<AuthResponse>("/api/v1/identity/register", model, true);
+
+        if (result.Success)
+        {
+            TokenProvider.SetToken(result.Data.AccessToken);
+
+            Nav.NavigateTo("/");
+        }
+        else
+        {
+            Console.WriteLine(result.ErrorMessage);
+        }
+    }
+}

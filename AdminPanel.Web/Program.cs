@@ -2,6 +2,7 @@ using AdminPanel.Application;
 using AdminPanel.Web.Common.Extensions;
 using AdminPanel.Web.Common.Middlewares;
 using Infrastructure.Persistance;
+using Microsoft.AspNetCore.Http.Features;
 using Services.Services.JwtService.Extensions;
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -15,6 +16,19 @@ builder.Services.AddAdminApplicationPersistence(builder.Configuration);
 builder.Services.AddSwaggerServices();
 builder.Services.AddJwtServices(builder.Configuration);
 builder.Services.AddAuthorizationAuthetication();
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 999_000_000;
+});
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 

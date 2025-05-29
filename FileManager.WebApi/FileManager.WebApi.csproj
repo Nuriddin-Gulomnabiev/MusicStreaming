@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\icons\" />
-    <Folder Include="wwwroot\tracks\" />
+    <Folder Include="wwwroot\covers\" />
   </ItemGroup>
 
 </Project>
