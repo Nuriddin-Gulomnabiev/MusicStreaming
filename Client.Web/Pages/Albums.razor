@@ -3,6 +3,7 @@
 @attribute [Authorize]
 
 @using Client.Web.Services.ApiHttpService.Models.ModelResponse
+@using static Client.Web.Pages.AlbumComponent
 @inject ApiHttpService HttpService
 @inject NavigationManager Navigation
 
@@ -17,63 +18,14 @@
     }
     else if (albums is not null)
     {
-        <MudGrid>
-            @foreach (var album in albums)
-            {
-                <MudItem xs="12" sm="6" md="4" lg="3">
-                    <MudPaper Class="album-card transition-all hover:scale-105 hover:shadow-xl"
-                              Elevation="1"
-                              onclick="@(() => GoToAlbum(album.Code))">
-                        <div class="album-cover" style="background-color:@GetRandomColor(album.Code)">
-                            🎧
-                        </div>
-                        <MudText Typo="Typo.subtitle1" Class="mt-3 font-semibold">@album.Name</MudText>
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">
-                            @string.Join(", ", album.Artists.Values)
-                        </MudText>
-                        <MudText Typo="Typo.caption">
-                            @album.ReleaseDate.ToString("yyyy")
-                            • @album.TrackCount треков
-                        </MudText>
-                    </MudPaper>
-                </MudItem>
-            }
-        </MudGrid>
+
+        <AlbumComponent Albums="albums" />
     }
     else
     {
         <MudText Color="Color.Error">Не удалось загрузить альбомы</MudText>
     }
 </div>
-
-<style>
-    .album-card {
-        text-align: center;
-        border-radius: 20px;
-        padding: 24px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-        .album-card:hover {
-            background-color: #f5f5f5;
-        }
-
-    .album-cover {
-        margin: 0 auto;
-        width: 180px;
-        height: 180px;
-        border-radius: 10px;
-        background-color: #90caf9;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 36px;
-        color: white;
-        font-weight: bold;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-</style>
 
 @code {
     private List<AlbumModel> albums;
@@ -89,32 +41,5 @@
             Console.WriteLine(response.ErrorMessage);
 
         isLoading = false;
-    }
-
-    private void GoToAlbum(int code)
-    {
-        Navigation.NavigateTo($"/album/{code}");
-    }
-
-    public class AlbumModel
-    {
-        public int Code { get; set; }
-        public string Name { get; set; }
-        public DateTime ReleaseDate { get; set; }
-        public Dictionary<int, string> Artists { get; set; } = new();
-        public int TrackCount { get; set; }
-        public double Duration { get; set; }
-    }
-
-    private string GetRandomColor(int seed)
-    {
-        var colors = new[]
-        {
-            "#EF5350", "#AB47BC", "#5C6BC0", "#29B6F6",
-            "#66BB6A", "#FFCA28", "#FF7043", "#8D6E63",
-            "#78909C", "#EC407A"
-        };
-
-        return colors[seed % colors.Length];
     }
 }
