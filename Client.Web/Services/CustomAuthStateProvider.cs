@@ -17,10 +17,10 @@ namespace Client.Web.Services
             var identity = string.IsNullOrWhiteSpace(_tokenProvider.AccessToken)
                 ? new ClaimsIdentity()
                 : new ClaimsIdentity(
-                [
+                new List<Claim>() {
                     new Claim(ClaimTypes.Name, "User"),
                     new Claim("access_token", _tokenProvider.AccessToken)
-                ], "jwt");
+                }, "jwt");
 
             var user = new ClaimsPrincipal(identity);
             return Task.FromResult(new AuthenticationState(user));
