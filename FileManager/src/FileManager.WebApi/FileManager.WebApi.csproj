@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Persistance\Infrastructure.Persistance.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\icons\" />
     <Folder Include="wwwroot\tracks\" />
   </ItemGroup>

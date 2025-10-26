@@ -22,10 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdminPanel.Application\AdminPanel.Application.csproj" />
-    <ProjectReference Include="..\Client.Application\Client.Application.csproj" />
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\FileManager.Application\FileManager.Application.csproj" />
+    <ProjectReference Include="..\..\AdminPanel\src\AdminPanel.Application\AdminPanel.Application.csproj" />
+    <ProjectReference Include="..\..\Client\src\Client.Application\Client.Application.csproj" />
+    <ProjectReference Include="..\..\FileManager\src\FileManager.Application\FileManager.Application.csproj" />
   </ItemGroup>
 
 </Project>

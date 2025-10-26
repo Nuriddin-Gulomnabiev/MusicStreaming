@@ -24,13 +24,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdminPanel.Application\AdminPanel.Application.csproj" />
-    <ProjectReference Include="..\Infrastructure.Persistance\Infrastructure.Persistance.csproj" />
-    <ProjectReference Include="..\Services\Services.csproj" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <ProjectReference Include="..\..\..\Common\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\..\Common\Services\Services.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Infrastructure.Persistance\Infrastructure.Persistance.csproj" />
+    <ProjectReference Include="..\AdminPanel.Application\AdminPanel.Application.csproj" />
   </ItemGroup>
 
 </Project>
