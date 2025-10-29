@@ -1,0 +1,75 @@
+services:
+  adminpanel:
+    build:
+      context: .
+      dockerfile: AdminPanel/src/AdminPanel.Web/dockerfile
+      target: runtime
+    container_name: adminpanel
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__PostgreSqlConnection=Server=db;Database=music_streaming;User Id=postgres;Password=P!kn!k123;
+      - FileManager__url=http://filemanager:80
+    depends_on:
+      - db
+    ports:
+      - "5001:80"
+    networks: 
+      - ms_net
+
+  client:
+    build:
+      context: .
+      dockerfile: Client/src/Client.WebApi/dockerfile
+      target: runtime
+    container_name: client
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__PostgreSqlConnection=Server=db;Database=music_streaming;User Id=postgres;Password=P!kn!k123;
+      - FileManager__url=http://filemanager:80
+    depends_on:
+      - db
+    ports:
+      - "5002:80"
+    networks: 
+      - ms_net
+
+  filemanager:
+    build:
+      context: .
+      dockerfile: FileManager/src/FileManager.WebApi/dockerfile
+      target: runtime
+    container_name: filemanager
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__PostgreSqlConnection=Server=db;Database=music_streaming;User Id=postgres;Password=P!kn!k123;
+    depends_on:
+      - db
+    ports:
+      - "5003:80"
+    networks:
+      - "ms_net"
+
+  db:
+    image: postgres:14
+    container_name: ms_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: P!kn!k123
+      POSTGRES_DB: music_streaming
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - ms_net
+
+volumes:
+  pgdata:
+  
+networks:
+  ms_net:
+    driver: bridge

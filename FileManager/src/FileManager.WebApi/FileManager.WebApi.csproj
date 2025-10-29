@@ -15,4 +15,10 @@
     <Folder Include="wwwroot\tracks\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\Infrastructure.Persistance\Infrastructure.Persistance.csproj" />
+    <ProjectReference Include="..\FileManager.Application\FileManager.Application.csproj" />
+  </ItemGroup>
+
 </Project>
