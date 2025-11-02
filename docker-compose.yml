@@ -2,7 +2,7 @@ services:
   adminpanel:
     build:
       context: .
-      dockerfile: AdminPanel/src/AdminPanel.Web/dockerfile
+      dockerfile: AdminPanel/src/AdminPanel.WebApi/dockerfile
       target: runtime
     container_name: adminpanel
     environment:

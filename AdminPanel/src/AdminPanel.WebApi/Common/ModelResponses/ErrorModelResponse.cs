@@ -1,8 +1,8 @@
-﻿using Domain.Helper;
+﻿using Domain.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace AdminPanel.Web.Common.ModelResponses
+namespace AdminPanel.WebApi.Common.ModelResponses
 {
     public class ErrorModelResponse : IActionResult
     {

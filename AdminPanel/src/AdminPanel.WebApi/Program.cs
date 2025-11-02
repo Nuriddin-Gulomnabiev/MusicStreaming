@@ -1,6 +1,6 @@
 using AdminPanel.Application;
-using AdminPanel.Web.Common.Extensions;
-using AdminPanel.Web.Common.Middlewares;
+using AdminPanel.WebApi.Common.Extensions;
+using AdminPanel.WebApi.Common.Middlewares;
 using Infrastructure.Persistance;
 using Infrastructure.Persistance.Contexts;
 using Microsoft.EntityFrameworkCore;

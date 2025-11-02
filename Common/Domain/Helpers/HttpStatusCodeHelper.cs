@@ -1,7 +1,7 @@
 ﻿using Domain.Enums.ErrorCodes;
 using System.Net;
 
-namespace Domain.Helper
+namespace Domain.Helpers
 {
     public static class HttpStatusCodeHelper
     {

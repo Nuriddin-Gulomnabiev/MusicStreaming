@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AdminPanel.Web.Controllers
+namespace AdminPanel.WebApi.Controllers
 {
     [Route("api/v{version:apiVersion}/admins")]
     public class AdminsController : BaseController

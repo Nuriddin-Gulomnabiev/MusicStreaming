@@ -5,7 +5,7 @@ using AdminPanel.Application.Features.Genres.Queries.GetGenre;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AdminPanel.Web.Controllers
+namespace AdminPanel.WebApi.Controllers
 {
     [Route("api/v{version:apiVersion}/genres")]
     public class GenresController : BaseController

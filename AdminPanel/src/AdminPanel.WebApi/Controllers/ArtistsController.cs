@@ -6,7 +6,7 @@ using AdminPanel.Application.Features.Artists.Queries.GetArtist;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AdminPanel.Web.Controllers
+namespace AdminPanel.WebApi.Controllers
 {
     [Route("api/v{version:apiVersion}/artists")]
     public class ArtistsController : BaseController

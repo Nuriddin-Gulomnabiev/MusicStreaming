@@ -1,6 +1,6 @@
 ﻿using AdminPanel.Application.Common.Helpers;
 using AdminPanel.Application.Common.Interfaces;
-using AdminPanel.Web.Common.Attributes;
+using AdminPanel.WebApi.Common.Attributes;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Services.Services.IdentifiedService;
 using Services.Services.JwtService.Exceptions;
 
-namespace AdminPanel.Web.Common.Filters
+namespace AdminPanel.WebApi.Common.Filters
 {
     public class AuthenticationFilter : IAuthorizationFilter
     {

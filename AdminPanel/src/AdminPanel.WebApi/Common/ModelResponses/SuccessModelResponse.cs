@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace AdminPanel.Web.Common.ModelResponses
+namespace AdminPanel.WebApi.Common.ModelResponses
 {
     public class SuccessModelResponse : IActionResult
     {

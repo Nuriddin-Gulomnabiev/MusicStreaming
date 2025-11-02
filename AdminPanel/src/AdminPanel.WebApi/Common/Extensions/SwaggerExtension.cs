@@ -1,10 +1,10 @@
-﻿using AdminPanel.Web.Common.Middlewares;
+﻿using AdminPanel.WebApi.Common.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.OpenApi.Models;
 
-namespace AdminPanel.Web.Common.Extensions
+namespace AdminPanel.WebApi.Common.Extensions
 {
     public static class SwaggerExtension
     {

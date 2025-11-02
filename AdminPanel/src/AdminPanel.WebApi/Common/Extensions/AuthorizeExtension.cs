@@ -4,7 +4,7 @@ using Services.Services.JwtService.Exceptions;
 using Services.Services.JwtService.Helpers;
 using System.Text;
 
-namespace AdminPanel.Web.Common.Extensions
+namespace AdminPanel.WebApi.Common.Extensions
 {
     public static class AuthorizeExtension
     {

@@ -1,11 +1,11 @@
-﻿using AdminPanel.Web.Common.ModelResponses;
+﻿using AdminPanel.WebApi.Common.ModelResponses;
 using Domain.Common;
 using Domain.Enums.ErrorCodes;
 using Domain.Exceptions;
-using Domain.Helper;
+using Domain.Helpers;
 using Newtonsoft.Json;
 
-namespace AdminPanel.Web.Common.Middlewares
+namespace AdminPanel.WebApi.Common.Middlewares
 {
     public class ErrorHandlerMiddleware
     {

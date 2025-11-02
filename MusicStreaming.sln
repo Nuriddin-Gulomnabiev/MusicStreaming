@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8DB07113-4BE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPanel.Application", "AdminPanel\src\AdminPanel.Application\AdminPanel.Application.csproj", "{2F7FF5DA-1302-0693-5F62-538DCE6D8898}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPanel.Web", "AdminPanel\src\AdminPanel.Web\AdminPanel.Web.csproj", "{67B5D01B-D7C7-F871-5D5E-D0E02B1A0853}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPanel.WebApi", "AdminPanel\src\AdminPanel.WebApi\AdminPanel.WebApi.csproj", "{67B5D01B-D7C7-F871-5D5E-D0E02B1A0853}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Application", "Client\src\Client.Application\Client.Application.csproj", "{4AF36736-B635-FBC9-E41E-C0D83C1B9343}"
 EndProject

@@ -5,7 +5,7 @@ using AdminPanel.Application.Features.Albums.Queries.GetAllAlbums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AdminPanel.Web.Controllers
+namespace AdminPanel.WebApi.Controllers
 {
     [Route("api/v{version:apiVersion}/albums")]
     public class AlbumsController : BaseController

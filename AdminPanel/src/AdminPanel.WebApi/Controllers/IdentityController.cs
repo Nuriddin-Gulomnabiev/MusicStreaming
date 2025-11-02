@@ -1,11 +1,11 @@
 ﻿using AdminPanel.Application.Features.Identity.Commands.Login;
 using AdminPanel.Application.Features.Identity.Commands.RefreshToken;
-using AdminPanel.Web.Common.Attributes;
+using AdminPanel.WebApi.Common.Attributes;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AdminPanel.Web.Controllers
+namespace AdminPanel.WebApi.Controllers
 {
     [Route("api/v{version:apiVersion}/identity")]
     public class IdentityController : BaseController

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text;
 
-namespace AdminPanel.Web.Common.Middlewares
+namespace AdminPanel.WebApi.Common.Middlewares
 {
     public class SwaggerAuthMiddleware
     {
