@@ -1,8 +1,6 @@
 ﻿using Domain.Entities.Tracks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Numerics;
-using System.Reflection.PortableExecutable;
 using static Infrastructure.Persistance.Configurations.Genres.GenreConfiguration;
 using static Infrastructure.Persistance.Configurations.Tracks.TrackConfiguration;
 

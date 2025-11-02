@@ -13,21 +13,21 @@ namespace Client.Application.Common.Interfaces
 {
     public interface IClientApplicationDbContext
     {
-        public DbSet<Admin> Admins { get; set; }
-        public DbSet<Album> Albums { get; set; }
-        public DbSet<Artist> Artists { get; set; }
-        public DbSet<ArtistAlbum> ArtistAlbums { get; set; }
-        public DbSet<ArtistTrack> ArtistTracks { get; set; }
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<Track> Tracks { get; set; }
-        public DbSet<TrackGenre> TrackGenres { get; set; }
-        public DbSet<Session> Sessions { get; set; }
-        public DbSet<Playlist> Playlists { get; set; }
-        public DbSet<PlaylistTrack> PlaylistTracks { get; set; }
+        DbSet<Admin> Admins { get; set; }
+        DbSet<Album> Albums { get; set; }
+        DbSet<Artist> Artists { get; set; }
+        DbSet<ArtistAlbum> ArtistAlbums { get; set; }
+        DbSet<ArtistTrack> ArtistTracks { get; set; }
+        DbSet<Genre> Genres { get; set; }
+        DbSet<Track> Tracks { get; set; }
+        DbSet<TrackGenre> TrackGenres { get; set; }
+        DbSet<Session> Sessions { get; set; }
+        DbSet<Playlist> Playlists { get; set; }
+        DbSet<PlaylistTrack> PlaylistTracks { get; set; }
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
-        public void Attach<T>(T entity, CancellationToken cancellationToken = default) where T : BaseEntity;
+        void Attach<T>(T entity, CancellationToken cancellationToken = default) where T : BaseEntity;
 
         Task<IEnumerable<T>> QueryListAsync<T>(string sql, CancellationToken cancellationToken = default) where T : class;
 

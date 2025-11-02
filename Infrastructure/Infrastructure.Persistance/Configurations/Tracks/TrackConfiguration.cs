@@ -1,8 +1,6 @@
 ﻿using Domain.Entities.Tracks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Numerics;
-using System.Reflection.PortableExecutable;
 using static Infrastructure.Persistance.Configurations.Albums.AlbumConfiguration;
 
 namespace Infrastructure.Persistance.Configurations.Tracks
@@ -246,7 +244,7 @@ namespace Infrastructure.Persistance.Configurations.Tracks
                 new Track { Id = DivideTrackIdEnum.BibiaBeYeYe, AlbumId = AlbumIdEnum.Divide, Name = "BibiaBeYeYe", Duration = 2.16m, IsActive = true },
                 new Track { Id = DivideTrackIdEnum.NancyMulligan, AlbumId = AlbumIdEnum.Divide, Name = "NancyMulligan", Duration = 2.16m, IsActive = true },
                 new Track { Id = DivideTrackIdEnum.SaveMyself, AlbumId = AlbumIdEnum.Divide, Name = "SaveMyself", Duration = 2.16m, IsActive = true }
-            #endregion
+                #endregion
             );
         }
 

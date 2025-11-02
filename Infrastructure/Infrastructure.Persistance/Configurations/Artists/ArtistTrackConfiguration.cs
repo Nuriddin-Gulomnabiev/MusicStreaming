@@ -1,8 +1,6 @@
 ﻿using Domain.Entities.Artists;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Numerics;
-using System.Reflection.PortableExecutable;
 using static Infrastructure.Persistance.Configurations.Artists.ArtistConfiguration;
 using static Infrastructure.Persistance.Configurations.Tracks.TrackConfiguration;
 
@@ -115,7 +113,7 @@ namespace Infrastructure.Persistance.Configurations.Artists
                 new ArtistTrack { TrackId = LOP5TrackIdEnum.Amen, ArtistId = ArtistsIdEnum.PierreBourne, Id = new Guid("0b9350a2-5db7-4215-8e3e-8f87e40e3527") },
                 new ArtistTrack { TrackId = LOP5TrackIdEnum.Groceries, ArtistId = ArtistsIdEnum.PierreBourne, Id = new Guid("df7520f7-0f08-43e2-8c0c-bf71e2a1b9bb") },
                 new ArtistTrack { TrackId = LOP5TrackIdEnum.Butterfly, ArtistId = ArtistsIdEnum.PierreBourne, Id = new Guid("cd1b577a-b8e4-4f06-bde2-942b5ef09f92") },
-                #endregion
+            #endregion
             #region _1989
                 new ArtistTrack { TrackId = _1989TrackIdEnum.WelcomeToNewYork, ArtistId = ArtistsIdEnum.TaylorSwift, Id = new Guid("9841b6ce-c264-4edc-ad4c-31cc366c09a4") },
                 new ArtistTrack { TrackId = _1989TrackIdEnum.BlankSpace, ArtistId = ArtistsIdEnum.TaylorSwift, Id = new Guid("68502be5-7b28-4fe8-9a71-f6cb9b816706") },
