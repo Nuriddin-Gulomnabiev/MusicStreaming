@@ -8,3 +8,6 @@ obj
 **/node_modules
 **/wwwroot/lib
 **/.docker
+
+.idea/
+*.iml
